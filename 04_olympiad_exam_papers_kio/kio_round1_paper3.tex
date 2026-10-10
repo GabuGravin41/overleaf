@@ -1,0 +1,567 @@
+% ============================================================
+%  Kenya Informatics Olympiad -- Round 1, Paper 3
+%  Compile normally for student paper.
+%  Compile with   \def\withanswers{}   for marking scheme.
+% ============================================================
+\newif\ifanswers
+\answersfalse
+\ifdefined\withanswers\answerstrue\fi
+
+\usepackage[margin=2.2cm, headheight=14pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{titlesec}
+\usepackage[most]{tcolorbox}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{kioblack}{HTML}{1B1B1B}
+\definecolor{kiored}{HTML}{B22222}
+\definecolor{kiogreen}{HTML}{006B3F}
+\definecolor{kiogrey}{HTML}{F2F2F2}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{Kenya Informatics Olympiad 2026}}
+\fancyhead[R]{\small Round 1, Paper 3\ifanswers\ --- Marking Scheme\fi}
+\fancyfoot[C]{\small Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\titleformat{\section}{\large\bfseries\color{kiogreen}}{}{0pt}{}
+  [\vspace{-0.6em}\color{kiogreen}\rule{\linewidth}{0.8pt}]
+\titlespacing*{\section}{0pt}{1.6em}{0.9em}
+
+\newcounter{prob}
+\newenvironment{problem}[1]
+  {\refstepcounter{prob}\par\medskip
+   \noindent{\bfseries\large \theprob.}\hfill\textit{[#1 marks]}\par
+   \nopagebreak\smallskip}
+  {\par\medskip}
+
+\newcommand{\answerline}[1][Answer]{%
+  \par\nopagebreak\smallskip\nopagebreak
+  \noindent\textbf{#1:}\ \hrulefill\par}
+
+\newenvironment{parts}
+  {\begin{enumerate}[label=(\alph*), leftmargin=2em, itemsep=0.35em]}
+  {\end{enumerate}}
+
+\newcommand{\mcq}[5]{%
+  \par\nopagebreak\smallskip\noindent
+  \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllll@{}}
+  \textbf{(A)}~#1 & \textbf{(B)}~#2 & \textbf{(C)}~#3 &
+  \textbf{(D)}~#4 & \textbf{(E)}~#5
+  \end{tabular*}\par}
+
+\newenvironment{mcqlong}
+  {\begin{enumerate}[label=\textbf{(\Alph*)},leftmargin=2.4em,itemsep=0pt]}
+  {\end{enumerate}}
+
+\newtcolorbox{example}{colback=white,colframe=kiogreen!60,boxrule=0.4pt,
+  arc=2pt,left=5pt,right=5pt,top=3pt,bottom=3pt,
+  title=\textbf{Example},fonttitle=\small\bfseries,coltitle=white,
+  colbacktitle=kiogreen!70}
+
+\newcommand{\task}{\par\smallskip\noindent\textbf{Your task.}
+  Describe an efficient algorithm for this problem.
+  Explain the key idea, justify why it is correct, and state its
+  time complexity. You do not need to write code.\par}
+
+\newtcolorbox{solution}[1][]{enhanced,breakable,colback=kiogrey,
+  colframe=kiogreen,boxrule=0.5pt,arc=2pt,left=6pt,right=6pt,
+  top=4pt,bottom=4pt,fonttitle=\bfseries,title={#1}}
+
+\begin{document}
+
+% ---- Cover ----
+\begin{center}
+  {\color{kioblack}\rule{\linewidth}{3pt}}\\[-2.2pt]
+  {\color{kiored}\rule{\linewidth}{3pt}}\\[-2.2pt]
+  {\color{kiogreen}\rule{\linewidth}{3pt}}\\[1.2em]
+  {\LARGE\bfseries Kenya Informatics Olympiad 2026}\\[0.5em]
+  {\Large Round 1, Paper 3\ifanswers\ --- Marking Scheme\else\ --- Problem Paper\fi}\\[1em]
+  {\color{kiogreen}\rule{\linewidth}{3pt}}\\[-2.2pt]
+  {\color{kiored}\rule{\linewidth}{3pt}}\\[-2.2pt]
+  {\color{kioblack}\rule{\linewidth}{3pt}}
+\end{center}
+
+\ifanswers\else
+\vspace{0.6em}
+\noindent
+\begin{tabular}{@{}p{0.48\linewidth}p{0.48\linewidth}@{}}
+Name: \hrulefill & School: \hrulefill \\[0.8em]
+County: \hrulefill & Candidate No.: \hrulefill
+\end{tabular}
+\fi
+
+\subsection*{Instructions}
+\begin{enumerate}[leftmargin=2em,itemsep=0.2em]
+  \item Time allowed: \textbf{3 hours}.
+  \item The paper has \textbf{20 problems} in three sections,
+        worth \textbf{100 marks} in total.
+  \item \textbf{Section A} (Problems 1--7): multiple choice.
+        Write one letter (A--E) in the answer grid. No penalty for wrong answers.
+  \item \textbf{Section B} (Problems 8--14): written answers.
+        Show your working; working earns partial credit.
+  \item \textbf{Section C} (Problems 15--20): algorithm descriptions.
+        Write clear steps or pseudocode, argue correctness, and give the
+        running time. No code required.
+  \item Calculators and electronic devices are \textbf{not} allowed.
+\end{enumerate}
+
+% ==============================================================
+\section*{Section A \quad Multiple Choice \hfill\normalsize (7 problems, 2 marks each)}
+% ==============================================================
+
+\ifanswers\else
+\noindent\textbf{Answer grid.}
+\begin{center}
+\renewcommand{\arraystretch}{1.8}
+\begin{tabular}{|c|*{7}{>{\centering\arraybackslash}p{1.1cm}|}}
+\hline
+\textbf{Problem} & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
+\textbf{Answer}  &   &   &   &   &   &   &   \\ \hline
+\end{tabular}
+\end{center}
+\fi
+
+% ---- A1 ----
+\begin{problem}{2}
+On a certain island every inhabitant is either a \emph{truth-teller}
+(always tells the truth) or a \emph{liar} (always lies). You meet three
+islanders A, B and C.
+
+\begin{itemize}[nosep]
+  \item A says: ``We are all liars.''
+  \item B says: ``Exactly one of us three is a truth-teller.''
+\end{itemize}
+
+Which of the following is a consistent assignment?
+\begin{mcqlong}
+  \item A is a truth-teller, B is a liar, C is a liar.
+  \item A is a liar, B is a truth-teller, C is a liar.
+  \item A is a liar, B is a liar, C is a truth-teller.
+  \item A is a truth-teller, B is a truth-teller, C is a liar.
+  \item No consistent assignment exists.
+\end{mcqlong}
+\end{problem}
+
+% ---- A2 ----
+\begin{problem}{2}
+What is the missing number in the sequence below?
+\[
+2,\quad 3,\quad 5,\quad 7,\quad 11,\quad 13,\quad ?,\quad 19,\quad 23
+\]
+\mcq{14}{15}{16}{17}{18}
+\end{problem}
+
+% ---- A3 ----
+\begin{problem}{2}
+A message is encrypted using a \emph{Caesar cipher}: each letter is
+replaced by the letter 3 places later in the alphabet, wrapping around
+(so \texttt{X}$\to$\texttt{A}, \texttt{Y}$\to$\texttt{B},
+\texttt{Z}$\to$\texttt{C}). The encrypted message is \texttt{NHQBD}.
+What is the original message?
+\mcq{CAIRO}{KENYA}{GHANA}{NAIRO}{JAPAN}
+\end{problem}
+
+% ---- A4 ----
+\begin{problem}{2}
+A shopkeeper has coins worth 50, 20, 10, 5 and 1 shillings.
+A customer must pay exactly 87 shillings and wants to use the
+\textbf{fewest} possible coins. How many coins are needed?
+\mcq{4}{5}{6}{7}{8}
+\end{problem}
+
+% ---- A5 ----
+\begin{problem}{2}
+How many squares of \emph{all} sizes are contained in a $4 \times 4$ grid
+of unit squares?
+\mcq{16}{25}{30}{36}{40}
+\end{problem}
+
+% ---- A6 ----
+\begin{problem}{2}
+At a party of 10 people, each person shakes hands with exactly 3 others.
+What is the total number of handshakes?
+\mcq{10}{12}{15}{20}{30}
+\end{problem}
+
+% ---- A7 ----
+\begin{problem}{2}
+What is the decimal (base-10) value of the binary (base-2) number
+$1101101$?
+\mcq{99}{101}{105}{109}{115}
+\end{problem}
+
+% ==============================================================
+\section*{Section B \quad Written Answers \hfill\normalsize (7 problems, 36 marks)}
+% ==============================================================
+
+% ---- B8 ----
+\begin{problem}{5}
+The \emph{Pigeonhole Principle} states: if $n$ items are placed into
+$k < n$ containers, at least one container must hold more than one item.
+\begin{parts}
+  \item A bag contains red, blue and green marbles. How many must you draw
+        (without looking) to guarantee at least two of the same colour?
+        Justify your answer. \hfill [1]
+  \item A group of 367 people are in a room. Must at least two of them
+        share a birthday? Explain. \hfill [2]
+  \item A drawer contains 12 red socks and 12 blue socks.
+        \begin{enumerate}[label=(\roman*),nosep,leftmargin=1.5em]
+          \item How many socks must you draw to guarantee a matching pair?
+          \item How many must you draw to guarantee \emph{both} a matching
+                red pair and a matching blue pair?
+        \end{enumerate}
+        \hfill [2]
+\end{parts}
+\answerline
+\end{problem}
+
+% ---- B9 ----
+\begin{problem}{5}
+\begin{parts}
+  \item How many 3-digit numbers can be formed from the digits
+        $\{1, 2, 3, 4, 5\}$ with no digit repeated? \hfill [1]
+  \item How many of these are even? \hfill [2]
+  \item How many are divisible by 5? \hfill [1]
+  \item How many are greater than 300? \hfill [1]
+\end{parts}
+\answerline
+\end{problem}
+
+% ---- B10 ----
+\begin{problem}{5}
+A grain of rice is placed on square~1 of a chessboard, 2 grains on
+square~2, 4 on square~3, and so on, doubling each time.
+\begin{parts}
+  \item Write an expression for the total number of grains on all
+        64 squares. \hfill [1]
+  \item If one grain weighs 25\,mg, express the total weight in kilograms
+        in scientific notation. \hfill [2]
+  \item A ball is dropped from a height of 10\,m and bounces to
+        $\tfrac{3}{5}$ of its previous height each time it hits the ground.
+        What is the total distance it travels? \hfill [2]
+\end{parts}
+\answerline
+\end{problem}
+
+% ---- B11 ----
+\begin{problem}{5}
+\begin{parts}
+  \item What is the remainder when $2^{100}$ is divided by 7? \hfill [2]
+  \item What is the units digit of $7^{2026}$? \hfill [2]
+  \item Is $2024!$ divisible by $2025 = 3^4 \times 5^2$? Justify briefly.
+        \hfill [1]
+\end{parts}
+\answerline
+\end{problem}
+
+% ---- B12 ----
+\begin{problem}{5}
+\begin{parts}
+  \item Convert the decimal number 45 to binary. \hfill [1]
+  \item Add the binary numbers $10110$ and $1101$, showing your working
+        in binary. \hfill [2]
+  \item What is the largest unsigned integer that can be stored in 8~bits?
+        \hfill [1]
+  \item An 8-bit signed integer uses the leftmost bit as a sign bit
+        (0 = positive, 1 = negative). What is the range of integers it
+        can represent? \hfill [1]
+\end{parts}
+\answerline
+\end{problem}
+
+% ---- B13 ----
+\begin{problem}{5}
+Define the sequence $a_1 = 1$, $a_2 = 2$, and $a_n = a_{n-1} + a_{n-2}$
+for $n \ge 3$.
+\begin{parts}
+  \item Write out the first 10 terms. \hfill [1]
+  \item Show that every third term (i.e.\ $a_3, a_6, a_9, \ldots$) is odd
+        and every term $a_n$ with $n \equiv 2 \pmod{3}$ is even. \hfill [2]
+  \item Find the remainder when $a_{20}$ is divided by 4. \hfill [2]
+\end{parts}
+\answerline
+\end{problem}
+
+% ---- B14 ----
+\begin{problem}{6}
+Alice and Bob play a game with a single pile of 21 stones. Players
+alternate turns; Alice goes first. On each turn, a player takes 1, 2 or 3
+stones. The player who takes the \emph{last} stone wins.
+\begin{parts}
+  \item If it is your turn and there are exactly 4 stones left, can you
+        guarantee a win? Explain. \hfill [1]
+  \item Describe Alice's winning strategy for 21 stones. What is her
+        first move, and what rule does she follow afterwards? \hfill [3]
+  \item For which starting pile sizes from 1 to 20 does the \emph{second}
+        player win with optimal play? \hfill [2]
+\end{parts}
+\answerline
+\end{problem}
+
+% ==============================================================
+\section*{Section C \quad Algorithm Design \hfill\normalsize (6 problems, 50 marks)}
+% ==============================================================
+
+\noindent For each problem, \textbf{describe an algorithm} --- not a program.
+A full answer explains the key idea, lists the steps, argues correctness, and states the
+running time.
+
+% ---- C15 ----
+\begin{problem}{7}
+Sort an array of $n$ integers into non-decreasing order.
+
+\smallskip\noindent\textbf{Constraints.} $1 \le n \le 10^6$.
+
+\begin{example}
+Input: $[5,2,8,1,9,3]$. Output: $[1,2,3,5,8,9]$.
+\end{example}
+\task
+\noindent\textit{Hint: Consider a \emph{divide-and-conquer} approach.}
+\end{problem}
+
+% ---- C16 ----
+\begin{problem}{8}
+Given an array $a$ of $n$ integers and a target $T$, find two
+\emph{distinct} indices $i \ne j$ such that $a_i + a_j = T$.
+If no such pair exists, output \texttt{NONE}.
+
+\smallskip\noindent\textbf{Constraints.} $2 \le n \le 10^5$,
+$-10^9 \le a_i, T \le 10^9$.
+
+\begin{example}
+$a = [2, 7, 11, 15]$, $T = 9$. Output: \texttt{0 1}
+(since $a_0 + a_1 = 9$).
+\end{example}
+\task
+\end{problem}
+
+% ---- C17 ----
+\begin{problem}{8}
+Given a string of brackets containing only
+\texttt{(}, \texttt{)}, \texttt{[}, \texttt{]}, \texttt{\{}, \texttt{\}},
+determine whether the brackets are \emph{balanced}: every opening bracket
+has a corresponding closing bracket of the same type, and they nest
+properly.
+
+\smallskip\noindent\textbf{Constraints.} $1 \le |s| \le 10^5$.
+
+\begin{example}
+\texttt{([\{\}])} $\to$ \texttt{YES}.\quad
+\texttt{([)]} $\to$ \texttt{NO}.\quad
+\texttt{(((} $\to$ \texttt{NO}.
+\end{example}
+\task
+\end{problem}
+
+% ---- C18 ----
+\begin{problem}{9}
+Find all prime numbers up to a given integer $n$.
+
+\smallskip\noindent\textbf{Constraints.} $1 \le n \le 10^7$.
+
+\begin{example}
+$n = 20$: primes are $2, 3, 5, 7, 11, 13, 17, 19$.
+\end{example}
+\task
+\noindent\textit{Hint: A prime $p > \sqrt{n}$ cannot have any composite
+multiple $\le n$ not already crossed off by a smaller prime.}
+\end{problem}
+
+% ---- C19 ----
+\begin{problem}{9}
+You have $n$ tasks, each labelled $1$ to $n$. Some tasks have
+\emph{prerequisites}: task $u$ must be completed before task $v$
+(written $u \to v$). Determine if all tasks can be completed without
+violating any prerequisite, and if so, output a valid ordering.
+
+\smallskip\noindent\textbf{Constraints.} $1 \le n \le 10^5$;
+up to $2 \times 10^5$ prerequisite pairs.
+
+\begin{example}
+$n = 4$; prerequisites: $1 \to 2$, $1 \to 3$, $3 \to 4$.
+Valid ordering: $1, 3, 4, 2$ (or $1, 2, 3, 4$).
+If instead $1 \to 2$ and $2 \to 1$ are both given, output \texttt{IMPOSSIBLE}.
+\end{example}
+\task
+\end{problem}
+
+% ---- C20 ----
+\begin{problem}{9}
+Given two strings $s$ (length $m$) and $t$ (length $n$), find the length
+of their \textbf{longest common subsequence} (LCS). A \emph{common
+subsequence} is a sequence of characters that appears in both strings in
+the same relative order (but not necessarily consecutively).
+
+\smallskip\noindent\textbf{Constraints.} $1 \le m, n \le 1000$.
+
+\begin{example}
+$s = \texttt{ABCBDAB}$, $t = \texttt{BDCAB}$. LCS length $= 4$
+(e.g.\ \texttt{BCAB}).
+\end{example}
+\task
+\end{problem}
+
+\begin{center}
+\vspace{1em}
+{\color{kiogreen}\rule{0.3\linewidth}{0.8pt}}\quad
+\textsc{End of Paper}\quad
+{\color{kiogreen}\rule{0.3\linewidth}{0.8pt}}
+\end{center}
+
+% ==============================================================
+%  MARKING SCHEME
+% ==============================================================
+\ifanswers
+\newpage
+\section*{Marking Scheme --- Paper 3}
+
+\subsection*{Section A}
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|c|*{7}{>{\centering\arraybackslash}p{1.1cm}|}}
+\hline
+\textbf{Problem} & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
+\textbf{Answer}  & B & D & B & C & C & C & D \\ \hline
+\end{tabular}
+\end{center}
+
+\begin{solution}[1. (B) A=liar, B=truth-teller, C=liar]
+A cannot be a truth-teller (``we are all liars'' would be a true statement, but then not all are liars --- contradiction). So A is a liar. If B is a truth-teller: ``exactly one is a truth-teller'' is true, with A=liar and C=liar. Consistent. If B is a liar: zero truth-tellers is one valid model (A,B,C all liars); but then B's statement is false ✓. However (B) is the \emph{only} option that is always consistent and matches the unique solution to all constraints simultaneously.
+\end{solution}
+
+\begin{solution}[2. (D) 17]
+The sequence is the prime numbers: 2, 3, 5, 7, 11, 13, \textbf{17}, 19, 23, \ldots
+\end{solution}
+
+\begin{solution}[3. (B) KENYA]
+Decrypt by shifting each letter back 3: N$\to$K, H$\to$E, Q$\to$N, B$\to$Y, D$\to$A.
+\end{solution}
+
+\begin{solution}[4. (C) 6 coins]
+Greedy: $87 = 50 + 20 + 10 + 5 + 1 + 1$.
+Six coins; no fewer is possible since $50 + 20 + 10 + 5 + 2 = 87$ requires a 2-shilling coin not available.
+\end{solution}
+
+\begin{solution}[5. (C) 30]
+$1\times1$: 16; $2\times2$: 9; $3\times3$: 4; $4\times4$: 1. Total $= 30$.
+\end{solution}
+
+\begin{solution}[6. (C) 15]
+Each handshake involves 2 people; total ``hand-extensions'' $= 10 \times 3 = 30$; handshakes $= 30/2 = 15$.
+\end{solution}
+
+\begin{solution}[7. (D) 109]
+$1101101_2 = 64+32+0+8+4+0+1 = 109$.
+\end{solution}
+
+\subsection*{Section B}
+
+\begin{solution}[8. Pigeonhole]
+\textbf{(a)} 4. Three colours; by pigeonhole, 4 draws guarantee two of the same colour.
+\textbf{(b)} Yes. There are at most 366 distinct birthdays; with 367 people at least two must share one.
+\textbf{(c)(i)} 3 draws (two colours, need 3 to guarantee a pair).
+\textbf{(c)(ii)} 14 draws: worst case is all 12 of one colour plus 2 of the other = 14, which gives at least 2 of each colour.
+\end{solution}
+
+\begin{solution}[9. Combinatorics]
+\textbf{(a)} $5 \times 4 \times 3 = 60$.
+\textbf{(b)} Last digit must be 2 or 4 (2 choices); remaining 2 positions from 4 remaining digits: $4 \times 3 = 12$. Total: $2 \times 12 = \mathbf{24}$.
+\textbf{(c)} Last digit must be 5 (1 choice); $4 \times 3 = 12$. Total: $\mathbf{12}$.
+\textbf{(d)} First digit $\in \{3,4,5\}$ (3 choices); $4 \times 3 = 12$. Total: $\mathbf{36}$.
+\end{solution}
+
+\begin{solution}[10. Geometric series]
+\textbf{(a)} $1 + 2 + 4 + \cdots + 2^{63} = 2^{64} - 1$.
+\textbf{(b)} $(2^{64}-1) \times 25\,\text{mg} \approx 1.844\times10^{19} \times 2.5\times10^{-5}\,\text{kg} \approx 4.61 \times 10^{14}\,\text{kg}$.
+\textbf{(c)} Total distance: $10 + 2\bigl(6 + 6\times\tfrac{3}{5} + \cdots\bigr) = 10 + 2\times\tfrac{6}{1-3/5} = 10 + 30 = \mathbf{40}\,\text{m}$.
+\end{solution}
+
+\begin{solution}[11. Modular arithmetic]
+\textbf{(a)} $2^3 = 8 \equiv 1 \pmod7$; cycle length 3. $100 = 33\times3+1$, so $2^{100} \equiv 2^1 = \mathbf{2} \pmod7$.
+\textbf{(b)} Last digits of powers of 7 cycle with period 4: 7,9,3,1,7,\ldots $2026 \bmod 4 = 2$, so units digit $= \mathbf{9}$.
+\textbf{(c)} $2025 = 3^4 \times 5^2$. $2024!$ contains factors 3, 9, 27, 81, 405, \ldots and 5, 25, \ldots so $2025 \mid 2024!$. \textbf{Yes}.
+\end{solution}
+
+\begin{solution}[12. Binary]
+\textbf{(a)} $45 = 32+8+4+1 = \mathbf{101101}_2$.
+\textbf{(b)} $10110_2 + 01101_2 = 100011_2$ (i.e.\ $22+13=35$).
+\textbf{(c)} $2^8 - 1 = \mathbf{255}$.
+\textbf{(d)} Signed 8-bit: $-128$ to $127$.
+\end{solution}
+
+\begin{solution}[13. Fibonacci-like sequence]
+\textbf{(a)} 1, 2, 3, 5, 8, 13, 21, 34, 55, 89.
+\textbf{(b)} Parity pattern (mod 2): O, E, O, O, E, O, O, E, O, O, \ldots Period 3: (O,E,O). $a_n$ is even iff $3 \mid n-2$ iff $n \equiv 2 \pmod 3$; $a_n$ is odd for $n \equiv 0$ or $1 \pmod 3$.
+\textbf{(c)} Compute $a_n \bmod 4$: 1,2,3,1,0,1,1,2,3,1,0,1,\ldots Period 6. $20 \bmod 6 = 2$. $a_{20} \equiv a_2 = \mathbf{2} \pmod4$.
+\end{solution}
+
+\begin{solution}[14. Stone game]
+\textbf{(a)} No. Whatever you take ($k \in \{1,2,3\}$), your opponent takes $4-k$ and wins.
+\textbf{(b)} Alice's first move: take \textbf{1} stone (leaving 20, a multiple of 4). After each of Bob's moves taking $k$ stones, Alice takes $4-k$. This preserves the invariant that after Alice's turn the pile is a multiple of 4, until Bob faces 0 stones.
+\textbf{(c)} Starting sizes where the second player wins: multiples of 4 in $\{1,\ldots,20\}$, i.e.\ $\mathbf{4, 8, 12, 16, 20}$ (five values).
+\end{solution}
+
+\subsection*{Section C}
+
+\begin{solution}[15. Merge sort --- $O(n \log n)$]
+\textbf{Key idea [2].} Divide the array in half, sort each half recursively, then merge the two sorted halves in linear time.
+\textbf{Algorithm [3].} Base case: an array of size $\le 1$ is already sorted. Recursive step: split into left and right halves; call recursively on each; merge by maintaining two pointers, always copying the smaller front element into the output.
+\textbf{Correctness [1].} After merging two sorted sequences the result is sorted; induction on the size gives correctness.
+\textbf{Complexity [1].} Recurrence $T(n)=2T(n/2)+O(n)$; by the Master Theorem, $T(n) = O(n \log n)$.
+\end{solution}
+
+\begin{solution}[16. Two-sum with hash map --- $O(n)$]
+\textbf{Key idea [2].} For each element $a_i$, the required partner is $T - a_i$. A hash map gives $O(1)$ look-up for whether the partner has already been seen.
+\textbf{Algorithm [3].} Initialise an empty map. For $i = 1, \ldots, n$: if $T - a_i$ is in the map, output the stored index and $i$, and stop. Otherwise insert $(a_i \mapsto i)$ into the map. If the loop ends, output \texttt{NONE}.
+\textbf{Correctness [2].} Every pair is considered exactly once (the second element found checks for the first). Distinct indices are guaranteed since we only query before inserting.
+\textbf{Complexity [1].} $O(n)$ expected with a hash map.
+\end{solution}
+
+\begin{solution}[17. Balanced brackets with stack --- $O(n)$]
+\textbf{Key idea [2].} Use a stack to track unmatched opening brackets. A closing bracket must match the most recent unmatched opening bracket.
+\textbf{Algorithm [3].} For each character $c$: if $c$ is an opening bracket, push it. If $c$ is a closing bracket: if the stack is empty or the top does not match $c$, output \texttt{NO} and stop; otherwise pop the top. After processing all characters, output \texttt{YES} if the stack is empty, else \texttt{NO}.
+\textbf{Correctness [2].} The stack always holds the sequence of unmatched opening brackets in order; a closing bracket can only validly match the innermost one.
+\textbf{Complexity [1].} Each character is pushed and popped at most once: $O(n)$.
+\end{solution}
+
+\begin{solution}[18. Sieve of Eratosthenes --- $O(n \log \log n)$]
+\textbf{Key idea [2].} Mark all multiples of each prime as composite. Any remaining unmarked number is prime.
+\textbf{Algorithm [3].} Create a boolean array \texttt{is\_prime}[2\ldots n], all initially \texttt{true}. For $p = 2, 3, \ldots, \lfloor\sqrt{n}\rfloor$: if \texttt{is\_prime}[$p$], mark \texttt{is\_prime}[$p^2$], \texttt{is\_prime}[$p^2+p$], \ldots as \texttt{false}. Report all indices $p$ with \texttt{is\_prime}[$p$] = \texttt{true}.
+\textbf{Correctness [2].} We only start marking from $p^2$ because all smaller multiples $k \cdot p$ with $k < p$ were already marked by a prime $\le k < p$. A number survives iff it has no prime factor $\le \sqrt{n}$, i.e.\ iff it is prime.
+\textbf{Complexity [1].} Work done $= \sum_{p \le \sqrt{n}} n/p = O(n \log \log n)$.
+\end{solution}
+
+\begin{solution}[19. Topological sort (Kahn's algorithm) --- $O(n + m)$]
+\textbf{Key idea [2].} A valid ordering (topological sort) exists iff the prerequisite graph has no cycle. Process tasks with no remaining prerequisites first.
+\textbf{Algorithm [3].} Compute the in-degree (number of prerequisites) for each task. Enqueue all tasks with in-degree 0. While the queue is non-empty: dequeue task $u$, add it to the output. For each task $v$ that depends on $u$: decrement $v$'s in-degree; if it reaches 0, enqueue $v$. After the loop, if the output contains all $n$ tasks, it is a valid ordering; otherwise output \texttt{IMPOSSIBLE} (a cycle exists).
+\textbf{Correctness [2].} Any task with in-degree 0 can safely go first; removing it cannot create a new cycle. If no task ever reaches in-degree 0, a cycle prevents completion.
+\textbf{Complexity [1].} Each task and prerequisite edge is processed once: $O(n+m)$.
+\end{solution}
+
+\begin{solution}[20. Longest common subsequence DP --- $O(mn)$]
+\textbf{Key idea [2].} Define $dp[i][j]$ = length of the LCS of the first $i$ characters of $s$ and the first $j$ characters of $t$. The value depends only on whether $s[i] = t[j]$ and on smaller subproblems.
+\textbf{Recurrence [3].}
+\[
+dp[i][j] =
+\begin{cases}
+0 & i=0 \text{ or } j=0, \\
+dp[i-1][j-1]+1 & s[i]=t[j], \\
+\max(dp[i-1][j],\; dp[i][j-1]) & s[i]\ne t[j].
+\end{cases}
+\]
+\textbf{Correctness [2].} If the last characters match, they are in the LCS; otherwise at least one of them is absent and we take the better subproblem. The recurrence covers all cases.
+\textbf{Complexity [1].} Fill an $m\times n$ table: $O(mn)$ time and space (space reducible to $O(\min(m,n))$ with two rows).
+\end{solution}
+\fi
+
+\end{document}

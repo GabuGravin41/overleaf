@@ -1,0 +1,1163 @@
+% ============================================================
+%  module_02_cell_biochem.tex  —  IBO Biology Platform
+%  Module 2: Cell Biology and Biochemistry
+%
+%  STANDALONE: compile this file directly on Overleaf.
+%  Upload together with: preamble.tex + the four .jpg images.
+%  Compiler: pdfLaTeX. Root: module_02_cell_biochem.tex
+% ============================================================
+
+\documentclass[12pt, a4paper, oneside]{report}
+\input{preamble}
+
+\begin{document}
+
+% ---------- Title block ----------
+\begin{titlepage}
+  \centering
+  \vspace*{4cm}
+  {\sffamily\fontsize{13}{16}\selectfont\color{accent} IBO Biology Platform}\\[0.6em]
+  {\rule{0.4\textwidth}{0.4pt}}\\[0.6em]
+  {\sffamily\fontsize{22}{28}\selectfont\bfseries Module 2}\\[0.4em]
+  {\sffamily\fontsize{16}{20}\selectfont\bfseries\color{accent}
+    Cell Biology and Biochemistry}\\[1.2em]
+  {\small\color{gray}
+    Enzyme kinetics \textbullet\ Inhibition \textbullet\
+    Bioenergetics \textbullet\ Oxidative phosphorylation \textbullet\
+    Metabolic control \textbullet\ Signal transduction}\\[0.6em]
+  {\rule{0.4\textwidth}{0.4pt}}\\[0.5em]
+  {\small\color{gray} \today}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============================================================
+%  Chapter begins here
+% ============================================================
+
+\chapter{Cell Biology and Biochemistry}
+\label{ch:cell_biochem}
+
+\begin{tcolorbox}[colback=probback, colframe=accent, boxrule=0.5pt, arc=1pt,
+  fonttitle=\bfseries\sffamily\small, coltitle=white, colbacktitle=accent,
+  title={Module Overview}, top=4pt, bottom=4pt, left=6pt, right=6pt]
+  \textbf{Topics:} Enzyme kinetics and inhibition;
+  bioenergetics and ATP hydrolysis free energy;
+  the electron transport chain and chemiosmosis;
+  F$_1$F$_0$ ATP synthase stoichiometry;
+  metabolic flux control; signal transduction kinetics.\\[3pt]
+  \textbf{Prerequisites:} Thermodynamics ($\dG$, equilibrium);
+  basic kinetics (rate laws, steady state); Module~1.\\[3pt]
+  \textbf{Problem set:} 10 problems, \stars{2}--\stars{5}.
+\end{tcolorbox}
+
+% ============================================================
+\section{Enzyme kinetics}
+% ============================================================
+
+\subsection{The catalytic problem}
+
+Enzymes accelerate reactions by factors of $10^6$--$10^{20}$ relative to
+the uncatalysed rate. They do this without altering the equilibrium
+position — they lower the activation energy $\Delta G^\ddagger$ by
+stabilising the transition state. The central question is: how does
+reaction rate depend on substrate concentration?
+
+\begin{historicalnote}{Michaelis and Menten (1913); Briggs and Haldane (1925)}
+  Leonor Michaelis and Maud Menten studied invertase (sucrose hydrolysis)
+  in 1913, establishing the hyperbolic dependence of rate on substrate
+  concentration and defining $K_M$ under the rapid-equilibrium assumption
+  ($k_2 \ll k_{-1}$, so $K_M = K_d$). George Briggs and J.B.S. Haldane
+  (1925) generalised the derivation using the steady-state assumption for
+  [ES], removing the restriction on rate constants. The result is the
+  same equation, but with a different physical meaning for $K_M$.
+\end{historicalnote}
+
+\subsection{Derivation of the Michaelis-Menten equation}
+
+The minimal mechanism:
+\begin{equation}
+  \mathrm{E} + \mathrm{S}
+    \underset{k_{-1}}{\overset{k_1}{\rightleftharpoons}}
+  \mathrm{ES}
+    \overset{k_\text{cat}}{\longrightarrow}
+  \mathrm{E} + \mathrm{P}.
+  \label{eq:mmechanism}
+\end{equation}
+
+\textbf{Assumptions.}
+\begin{enumerate}
+  \item $[\mathrm{S}] \gg [\mathrm{E}]_0$ (total enzyme concentration),
+        so $[\mathrm{S}]$ is approximately constant (not depleted by ES
+        formation).
+  \item The reaction is measured at initial velocity $v_0$, before
+        significant product accumulates, so the reverse reaction
+        $\mathrm{P} \to \mathrm{ES}$ is negligible.
+  \item The steady-state assumption: $\od{[\mathrm{ES}]}{t} \approx 0$.
+\end{enumerate}
+
+\textbf{Derivation.}
+Rate of ES formation: $k_1[\mathrm{E}][\mathrm{S}]$.\\
+Rate of ES disappearance: $(k_{-1} + k_\text{cat})[\mathrm{ES}]$.\\
+Steady state:
+\[
+  k_1[\mathrm{E}][\mathrm{S}] = (k_{-1} + k_\text{cat})[\mathrm{ES}].
+\]
+Conservation of total enzyme: $[\mathrm{E}]_0 = [\mathrm{E}] + [\mathrm{ES}]$,
+so $[\mathrm{E}] = [\mathrm{E}]_0 - [\mathrm{ES}]$. Substituting:
+\[
+  k_1([\mathrm{E}]_0 - [\mathrm{ES}])[\mathrm{S}]
+    = (k_{-1} + k_\text{cat})[\mathrm{ES}].
+\]
+Define $K_M \equiv (k_{-1} + k_\text{cat})/k_1$. Solving for [ES]:
+\[
+  [\mathrm{ES}] = \frac{[\mathrm{E}]_0[\mathrm{S}]}{[\mathrm{S}] + K_M}.
+\]
+The reaction velocity $v = k_\text{cat}[\mathrm{ES}]$, and the maximum
+velocity $V_{\max} = k_\text{cat}[\mathrm{E}]_0$ (all enzyme in ES form).
+Therefore:
+
+\begin{equation}
+  \boxed{v = \frac{V_{\max}[\mathrm{S}]}{[\mathrm{S}] + K_M}}
+  \label{eq:mm}
+\end{equation}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{michaelis_menten_kinetics_1786956238664.jpg}
+  \caption{Left: the Michaelis-Menten reaction scheme and the
+           hyperbolic $v$ vs.\ $[\mathrm{S}]$ curve. $K_M$ is
+           the substrate concentration giving $v = V_{\max}/2$.
+           Right: Lineweaver-Burk double-reciprocal transformation
+           ($1/v$ vs.\ $1/[\mathrm{S}]$) linearises the data for
+           determination of $V_{\max}$ and $K_M$ from intercepts.}
+  \label{fig:mm}
+\end{figure}
+
+\subsection{Interpreting $K_M$ and $V_{\max}$}
+
+At $[\mathrm{S}] = K_M$: $v = V_{\max}/2$ by inspection of
+equation~\eqref{eq:mm}. So $K_M$ is operationally the substrate
+concentration at half-maximal velocity. Mechanistically:
+\[
+  K_M = \frac{k_{-1} + k_\text{cat}}{k_1}.
+\]
+$K_M$ equals the true dissociation constant $K_d = k_{-1}/k_1$ only
+when $k_\text{cat} \ll k_{-1}$ (rapid-equilibrium limit, the original
+Michaelis assumption). In general, $K_M \geq K_d$.
+
+$V_{\max} = k_\text{cat}[\mathrm{E}]_0$ depends on enzyme concentration,
+so it is not an intrinsic property. $k_\text{cat}$ is intrinsic —
+the first-order rate constant for ES breakdown, with units s$^{-1}$.
+Typical $k_\text{cat}$ values range from $<1$~s$^{-1}$ (slow
+isomerases) to $\sim10^7$~s$^{-1}$ (carbonic anhydrase).
+
+\subsection{Catalytic efficiency and the diffusion limit}
+
+The ratio $k_\text{cat}/K_M$ is the apparent second-order rate constant
+for the reaction $\mathrm{E} + \mathrm{S} \to \mathrm{E} + \mathrm{P}$
+at low substrate concentrations ($[\mathrm{S}] \ll K_M$):
+\[
+  v \approx \frac{k_\text{cat}}{K_M}[\mathrm{E}][\mathrm{S}]
+  \quad \text{when } [\mathrm{S}] \ll K_M.
+\]
+$k_\text{cat}/K_M$ is bounded above by the diffusion-limited encounter
+rate, $\sim 10^8$--$10^9$~M$^{-1}$s$^{-1}$. Enzymes at or near this
+limit are called \textbf{catalytically perfect}: every encounter with
+substrate leads to product. Examples include triosephosphate isomerase
+($k_\text{cat}/K_M \approx 2\times10^8$~M$^{-1}$s$^{-1}$) and
+acetylcholinesterase ($\approx 1.5\times10^8$~M$^{-1}$s$^{-1}$).
+
+% ============================================================
+\section{Enzyme inhibition}
+% ============================================================
+
+\subsection{Competitive inhibition}
+
+A competitive inhibitor I binds only free enzyme E (not ES), at a site
+that prevents substrate binding (often the active site):
+\[
+  \mathrm{E} + \mathrm{I} \underset{K_i}{\rightleftharpoons} \mathrm{EI},
+  \qquad K_i = \frac{[\mathrm{E}][\mathrm{I}]}{[\mathrm{EI}]}.
+\]
+The enzyme is now partitioned between E, ES, and EI. The total enzyme
+conservation becomes:
+$[\mathrm{E}]_0 = [\mathrm{E}] + [\mathrm{ES}] + [\mathrm{EI}]$.
+Using $[\mathrm{EI}] = [\mathrm{E}][\mathrm{I}]/K_i$, the steady-state
+derivation gives:
+\begin{equation}
+  v = \frac{V_{\max}[\mathrm{S}]}{[\mathrm{S}] + K_M^\text{app}},
+  \qquad
+  K_M^\text{app} = K_M\!\left(1 + \frac{[\mathrm{I}]}{K_i}\right).
+  \label{eq:competitive}
+\end{equation}
+$V_{\max}$ is unchanged (sufficient substrate outcompetes I). $K_M$ is
+increased by the factor $(1 + [\mathrm{I}]/K_i)$. On a Lineweaver-Burk
+plot: lines with different $[\mathrm{I}]$ intersect on the $y$-axis
+(same $1/V_{\max}$, different slopes).
+
+\subsection{Uncompetitive inhibition}
+
+An uncompetitive inhibitor binds only ES (not free E):
+\[
+  \mathrm{ES} + \mathrm{I} \underset{K_i'}{\rightleftharpoons} \mathrm{ESI}.
+\]
+This removes ES from the productive pathway, pulling the E+S equilibrium
+toward ES formation and paradoxically lowering the apparent $K_M$:
+\begin{equation}
+  V_{\max}^\text{app} = \frac{V_{\max}}{1 + [\mathrm{I}]/K_i'},
+  \qquad
+  K_M^\text{app} = \frac{K_M}{1 + [\mathrm{I}]/K_i'}.
+  \label{eq:uncompetitive}
+\end{equation}
+Both $K_M^\text{app}$ and $V_{\max}^\text{app}$ decrease by the same
+factor $\alpha' = 1 + [\mathrm{I}]/K_i'$. On a Lineweaver-Burk plot,
+lines are parallel (same slope, different intercepts).
+
+\subsection{Mixed inhibition}
+
+A mixed inhibitor binds both E and ES, with distinct affinities $K_i$
+and $K_i'$. The general result:
+\begin{equation}
+  v = \frac{V_{\max}[\mathrm{S}]}{\alpha K_M + \alpha'[\mathrm{S}]},
+  \qquad
+  \alpha = 1 + \frac{[\mathrm{I}]}{K_i},
+  \quad
+  \alpha' = 1 + \frac{[\mathrm{I}]}{K_i'}.
+  \label{eq:mixed}
+\end{equation}
+When $\alpha = \alpha'$ (equal affinities for E and ES), this is
+\textbf{noncompetitive} inhibition: $K_M$ is unchanged but $V_{\max}$
+decreases. Lineweaver-Burk lines intersect on the $x$-axis.
+
+% ============================================================
+\section{Bioenergetics}
+% ============================================================
+
+\subsection{Free energy of ATP hydrolysis}
+
+The standard free energy of ATP hydrolysis at pH 7, 25$^\circ$C,
+$[\mathrm{Mg}^{2+}] = 1$~mM:
+\[
+  \mathrm{ATP} + \mathrm{H}_2\mathrm{O}
+  \longrightarrow \mathrm{ADP} + \mathrm{P}_i,
+  \qquad \dG^{\circ'} = -30.5~\text{kJ~mol}^{-1}.
+\]
+The actual free energy under cellular conditions:
+\begin{equation}
+  \dG = \dG^{\circ'} + RT\ln\frac{[\mathrm{ADP}][\mathrm{P}_i]}
+        {[\mathrm{ATP}]}.
+  \label{eq:dgatp}
+\end{equation}
+Typical mammalian cytoplasm: $[\mathrm{ATP}] \approx 5$~mM,
+$[\mathrm{ADP}] \approx 0.5$~mM, $[\mathrm{P}_i] \approx 5$~mM.
+At $T = 310$~K, $R = 8.314$~J~mol$^{-1}$~K$^{-1}$:
+\[
+  \dG = -30\,500 + 8.314 \times 310 \times
+        \ln\!\left(\frac{0.5\times10^{-3} \times 5\times10^{-3}}
+                        {5\times10^{-3}}\right).
+\]
+\[
+  = -30\,500 + 2577 \times \ln(5\times10^{-4})
+  = -30\,500 + 2577 \times (-7.60)
+  \approx -50\text{ to }-54~\text{kJ~mol}^{-1}.
+\]
+This is $\approx 20$--22~$k_\mathrm{B}T$ per ATP hydrolysis — the actual
+free energy available to drive cellular work.
+
+\subsection{Coupled reactions}
+
+A thermodynamically unfavourable reaction ($\dG_1 > 0$) can proceed if
+coupled to ATP hydrolysis such that the overall $\dG_\text{total} < 0$:
+\[
+  \dG_\text{total} = \dG_1 + \dG_\text{ATP} < 0.
+\]
+The mechanism of coupling is never direct energy transfer — it is the
+common sharing of a chemical intermediate. For example, in hexokinase,
+glucose is phosphorylated using the $\gamma$-phosphate of ATP, producing
+glucose-6-phosphate as a shared intermediate. The reaction:
+\[
+  \text{Glucose} + \text{ATP} \longrightarrow
+  \text{Glucose-6-P} + \text{ADP},
+  \quad \dG^{\circ'} = -16.7~\text{kJ~mol}^{-1}.
+\]
+
+\subsection{Phosphoryl transfer potential}
+
+Free energies of hydrolysis for biologically common phosphorylated
+compounds span a wide range. Selected values at pH~7, 25$^\circ$C:
+
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+Compound & $\dG^{\circ'}$ (kJ~mol$^{-1}$) \\
+\midrule
+Phosphoenolpyruvate (PEP) & $-61.9$ \\
+1,3-bisphosphoglycerate  & $-49.3$ \\
+ATP                      & $-30.5$ \\
+Glucose-1-phosphate      & $-20.9$ \\
+Glucose-6-phosphate      & $-13.8$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+ATP sits at an intermediate position, enabling it to accept phosphate
+from high-energy donors (PEP, 1,3-BPG) and donate phosphate to
+lower-energy acceptors (glucose, glycerol). This is the chemical basis
+of ATP as the universal free energy currency.
+
+% ============================================================
+\section{Oxidative phosphorylation}
+% ============================================================
+
+\subsection{The electron transport chain}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\textwidth]{electron_transport_chain_1786956256474.jpg}
+  \caption{The mitochondrial electron transport chain. Complexes
+           I--IV transfer electrons from NADH and FADH$_2$ to O$_2$,
+           pumping protons into the intermembrane space. The resulting
+           electrochemical gradient drives ATP synthase (Complex~V).
+           Ubiquinone (Q) and cytochrome~$c$ (cyt~$c$) are mobile
+           electron carriers.}
+  \label{fig:etc}
+\end{figure}
+
+Electrons from NADH and FADH$_2$ pass through four protein complexes
+embedded in the inner mitochondrial membrane:
+
+\begin{enumerate}
+  \item \textbf{Complex I} (NADH dehydrogenase, 44 subunits in humans):
+        $\mathrm{NADH} \to \mathrm{NAD}^+ + \mathrm{H}^+ + 2e^-$.
+        Electrons reduce ubiquinone (Q) to ubiquinol (QH$_2$).
+        4~H$^+$ pumped per 2~electrons.
+  \item \textbf{Complex II} (succinate dehydrogenase): oxidises
+        succinate to fumarate, reducing Q to QH$_2$.
+        \textbf{No proton pumping.}
+  \item \textbf{Complex III} (cytochrome $bc_1$): QH$_2$ is oxidised,
+        electrons pass via the Q-cycle to cytochrome~$c$.
+        4~H$^+$ pumped per 2~electrons (Q-cycle mechanism).
+  \item \textbf{Complex IV} (cytochrome $c$ oxidase): four electrons
+        from cytochrome~$c$ reduce O$_2$ to 2~H$_2$O.
+        4~H$^+$ pumped per 4~electrons (2~H$^+$ per pair).
+\end{enumerate}
+
+Proton stoichiometry per NADH: $4 + 4 + 2 = 10$~H$^+$.\\
+Per FADH$_2$ (bypasses Complex I): $4 + 2 = 6$~H$^+$.
+
+\begin{historicalnote}{Peter Mitchell and the chemiosmotic hypothesis (1961, Nobel 1978)}
+  In 1961, Peter Mitchell proposed that the free energy of electron
+  transfer is stored as an electrochemical proton gradient across the
+  inner mitochondrial membrane, rather than as a direct chemical
+  intermediate. This was highly controversial: the biochemical
+  community expected a phosphorylated intermediate analogous to
+  glycolysis. Mitchell's hypothesis was confirmed by the 1970s through
+  reconstitution experiments showing that artificially imposed proton
+  gradients drive ATP synthesis in isolated membrane vesicles.
+  He received the Nobel Prize in Chemistry in 1978.
+\end{historicalnote}
+
+\subsection{The proton motive force}
+
+The proton motive force (PMF), in units of volts, is:
+\begin{equation}
+  \Delta p = \Delta\psi - \frac{2.303\,RT}{F}\,\Delta\mathrm{pH},
+  \label{eq:pmf}
+\end{equation}
+where $\Delta\psi$ is the electrical potential difference (matrix minus
+intermembrane space, typically $-150$ to $-180$~mV in active
+mitochondria) and $\Delta\mathrm{pH} = \mathrm{pH}_\text{matrix} -
+\mathrm{pH}_\text{IMS} \approx +0.5$ to $+1.0$ units. At 310~K:
+\[
+  \frac{2.303\,RT}{F} = \frac{2.303 \times 8.314 \times 310}{96{,}485}
+  = 61.5~\text{mV per pH unit.}
+\]
+With $\Delta\psi = -180$~mV and $\Delta\mathrm{pH} = 0.7$:
+\[
+  \Delta p = -180 - 61.5\times 0.7 = -180 - 43 = -223~\text{mV}.
+\]
+The free energy required to move one proton from the IMS to the matrix
+against this gradient:
+\begin{equation}
+  \dG_\text{H}^+ = F\,\Delta p = 96{,}485 \times (-0.223)
+  = -21.5~\text{kJ~mol}^{-1}.
+  \label{eq:dgh}
+\end{equation}
+
+\subsection{F$_1$F$_0$ ATP synthase: rotary mechanism}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.60\textwidth]{atp_synthase_f1f0_1786956248513.jpg}
+  \caption{F$_1$F$_0$ ATP synthase. The F$_0$ domain (membrane-embedded
+           $c$-ring and $a$-subunit) converts the proton flow into rotation
+           of the $\gamma$ subunit. The F$_1$ domain ($\alpha_3\beta_3$
+           hexamer) operates three catalytic $\beta$ sites in the
+           conformational states Open~(O), Loose~(L), and Tight~(T),
+           cycling sequentially as $\gamma$ rotates. Each 360$^\circ$
+           rotation synthesises three ATP molecules.}
+  \label{fig:atpsynthase}
+\end{figure}
+
+The F$_0$ motor is driven by proton flow through the $a$-$c$ interface.
+Each proton captured by a $c$-subunit carboxylate (Asp$_{61}$ in
+\Ecoli) causes the $c$-ring to advance by one subunit. A complete
+revolution requires as many protons as there are $c$-subunits.
+The $c$-ring stoichiometry varies: 8 in bovine and human mitochondria,
+10 in yeast, 14--15 in plant chloroplasts.
+
+\subsection{ATP synthesis stoichiometry}
+
+Each full $\gamma$ rotation synthesises 3~ATP (one per $\beta$ subunit
+per 360$^\circ$). With $c = 8$~subunits (mammalian):
+\[
+  \text{H}^+/\text{ATP} = \frac{c}{3} = \frac{8}{3} \approx 2.67.
+\]
+One additional proton is consumed per ATP for phosphate import
+(the phosphate carrier co-transports H$^+$), giving an effective
+$\text{H}^+/\text{ATP} \approx 3.67$.
+
+Using 10~H$^+$ from NADH oxidation:
+\[
+  \text{ATP per NADH} = \frac{10}{3.67} \approx 2.73.
+\]
+For FADH$_2$ (6~H$^+$): ATP per FADH$_2 \approx 1.64$.
+
+\textbf{P/O ratios} (ATP per oxygen atom reduced):
+\begin{itemize}
+  \item NADH: $\approx 2.5$~ATP (traditional textbook value: 3)
+  \item FADH$_2$: $\approx 1.5$~ATP (traditional: 2)
+  \item Glucose (complete oxidation): $\approx 30$--32 ATP (traditional: 36--38)
+\end{itemize}
+The discrepancy from older values arises because the traditional
+values assumed an integer P/O ratio and ignored the proton cost of
+the phosphate carrier.
+
+% ============================================================
+\section{Metabolic flux control}
+% ============================================================
+
+\subsection{Flux control coefficients}
+
+Metabolic control analysis (MCA), developed by Kacser and Burns (1973)
+and Heinrich and Rapoport (1974), provides a rigorous framework for
+asking: how does a perturbation to one enzyme activity affect the
+steady-state flux through a pathway?
+
+The \textbf{flux control coefficient} of enzyme $i$ on pathway flux $J$:
+\begin{equation}
+  C_i^J = \frac{\partial J/J}{\partial E_i/E_i}
+        = \frac{\partial \ln J}{\partial \ln E_i},
+  \label{eq:fcc}
+\end{equation}
+the fractional change in flux per fractional change in enzyme activity.
+
+The \textbf{summation theorem}:
+\begin{equation}
+  \sum_i C_i^J = 1.
+  \label{eq:summation}
+\end{equation}
+This means flux control is shared among all enzymes in the pathway.
+No single enzyme must carry $C_i^J = 1$; in practice, most enzymes
+in a linear pathway have $C_i^J \ll 1$ and control is distributed.
+
+\subsection{Why the rate-limiting step is a simplification}
+
+The classical notion of a single rate-limiting step corresponds to the
+special case where one enzyme has $C_i^J \approx 1$ and all others
+$\approx 0$. Experimentally, this is rare. In glycolysis, for example,
+phosphofructokinase-1 (PFK-1) has the largest control coefficient
+($C \approx 0.3$--$0.6$ depending on conditions), but other steps
+share the remaining control. Statements like ``hexokinase limits
+glycolysis'' are context-dependent approximations.
+
+% ============================================================
+\section{Signal transduction}
+% ============================================================
+
+\subsection{Receptor-ligand binding}
+
+For a simple receptor $R$ binding ligand $L$:
+\[
+  \mathrm{R} + \mathrm{L} \rightleftharpoons \mathrm{RL},
+  \qquad \Kd = \frac{[\mathrm{R}][\mathrm{L}]}{[\mathrm{RL}]}.
+\]
+Fractional occupancy:
+\[
+  \theta = \frac{[\mathrm{L}]}{[\mathrm{L}] + \Kd}.
+\]
+The dose-response relation is hyperbolic with EC$_{50} = \Kd$ for
+simple 1:1 binding. For systems where receptor occupancy must
+cross a threshold to trigger a response, the steepness of the
+response matters as much as the EC$_{50}$.
+
+\subsection{Signal amplification}
+
+Each step in a signaling cascade can amplify the signal. An RTK
+phosphorylated on $n$ tyrosines can recruit $n$ adaptor molecules;
+each adaptor can activate $m$ Ras molecules; each active Ras activates
+one Raf kinase that phosphorylates many MEK molecules; each MEK
+phosphorylates many ERK molecules. The cascade provides signal
+amplification and noise filtering.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.60\textwidth]{mapk_signaling_cascade_1786956266628.jpg}
+  \caption{The RTK-Ras-MAPK signaling cascade. EGF binding induces
+           RTK dimerisation and autophosphorylation. The adaptor complex
+           Grb2-SOS activates Ras (GDP $\to$ GTP). Ras-GTP activates
+           the three-kinase Raf-MEK-ERK module. ERK enters the nucleus
+           and phosphorylates transcription factors. Negative feedback
+           from ERK to SOS attenuates the signal.}
+  \label{fig:mapk}
+\end{figure}
+
+\subsection{Ultrasensitivity and switch-like responses}
+
+Many signaling responses are switch-like: they are OFF below a
+threshold and ON above it. This arises from:
+\begin{enumerate}
+  \item \textbf{Cooperativity} (Hill coefficient $n > 1$): as derived
+        in Module~1 for the Hill equation.
+  \item \textbf{Zeroth-order ultrasensitivity} (Goldbeter-Koshland,
+        1981): if kinase and phosphatase both operate near saturation
+        ($[\text{substrate}] \gg K_M$), small changes in kinase/phosphatase
+        ratio produce large all-or-none changes in phosphorylation.
+  \item \textbf{Dual phosphorylation}: two sequential phosphorylation
+        events required for activation (e.g., MEK requires
+        phospho-Thr and phospho-Ser) generate ultrasensitivity
+        equivalent to $n \approx 2$.
+\end{enumerate}
+
+The \textbf{Goldbeter-Koshland function} for a substrate phosphorylated
+by a kinase $V_1$ and dephosphorylated by a phosphatase $V_2$, both
+operating near saturation:
+\begin{equation}
+  \mathrm{W}^\ast = \frac{V_1/V_2 - 1 + \sqrt{(V_1/V_2 - 1)^2 + 4(V_1/V_2)K_2/K_1}}
+                         {2(1 - K_2/K_1)},
+  \label{eq:gk}
+\end{equation}
+where $W^\ast$ is the fraction phosphorylated, $K_1 = K_M^\text{kinase}$,
+$K_2 = K_M^\text{phosphatase}$. When both $K_1, K_2 \to 0$
+(zeroth-order regime), $W^\ast$ switches from 0 to 1 at $V_1 = V_2$
+with infinite steepness.
+
+% ============================================================
+\section{Code lab: enzyme kinetics simulation}
+% ============================================================
+
+\begin{codelab}{Michaelis-Menten kinetics with competitive, uncompetitive, and mixed inhibition}
+  Computes $v$ vs.\ $[\mathrm{S}]$ and the Lineweaver-Burk transformation
+  for three inhibitor types, and fits simulated data to recover $K_M$
+  and $V_{\max}$.
+\end{codelab}
+
+\begin{lstlisting}[language=Python,
+  caption={Enzyme kinetics simulation (Python 3, NumPy, Matplotlib).},
+  label={lst:enzkinetics}]
+import numpy as np
+import matplotlib.pyplot as plt
+
+# -------------------------------------------------------
+# Enzyme parameters
+# -------------------------------------------------------
+Vmax = 100.0    # umol/min/mg
+Km   = 0.5      # mM
+I    = 1.0      # mM inhibitor concentration
+Ki   = 0.3      # mM  -- inhibits free E
+Kip  = 0.6      # mM  -- inhibits ES (uncompetitive / mixed component)
+
+S = np.linspace(0.01, 10.0, 500)  # mM
+
+def mm_rate(S, Vmax, Km):
+    return Vmax * S / (S + Km)
+
+def competitive(S, Vmax, Km, I, Ki):
+    """K_M apparent increases; V_max unchanged."""
+    Km_app = Km * (1 + I/Ki)
+    return Vmax * S / (S + Km_app)
+
+def uncompetitive(S, Vmax, Km, I, Kip):
+    """Both K_M and V_max decrease by same factor."""
+    alpha = 1 + I/Kip
+    return (Vmax/alpha) * S / (S + Km/alpha)
+
+def mixed(S, Vmax, Km, I, Ki, Kip):
+    """General case: alpha affects K_M, alpha' affects V_max."""
+    alpha  = 1 + I/Ki
+    alphap = 1 + I/Kip
+    return Vmax * S / (alphap * S + alpha * Km)
+
+v_none  = mm_rate(S, Vmax, Km)
+v_comp  = competitive(S, Vmax, Km, I, Ki)
+v_uncomp = uncompetitive(S, Vmax, Km, I, Kip)
+v_mixed = mixed(S, Vmax, Km, I, Ki, Kip)
+
+# -------------------------------------------------------
+# Plot 1: v vs [S]
+# -------------------------------------------------------
+fig, axes = plt.subplots(1, 2, figsize=(13, 5))
+
+ax = axes[0]
+ax.plot(S, v_none,   'k-',   lw=2.0, label='No inhibitor')
+ax.plot(S, v_comp,   'b--',  lw=1.8, label='Competitive')
+ax.plot(S, v_uncomp, 'r-.',  lw=1.8, label='Uncompetitive')
+ax.plot(S, v_mixed,  'g:',   lw=2.0, label='Mixed')
+ax.axhline(Vmax,     color='gray', ls=':', lw=1)
+ax.set_xlabel('[S] (mM)')
+ax.set_ylabel('v (umol/min/mg)')
+ax.set_title('Michaelis-Menten with inhibition')
+ax.legend()
+ax.grid(True, alpha=0.3)
+
+# -------------------------------------------------------
+# Plot 2: Lineweaver-Burk (1/v vs 1/[S])
+# -------------------------------------------------------
+S_lb  = S[S > 0.1]   # avoid 1/S -> infinity
+ax = axes[1]
+for v, label, ls in [(v_none[S>0.1],  'No inhibitor', 'k-'),
+                     (v_comp[S>0.1],   'Competitive',  'b--'),
+                     (v_uncomp[S>0.1], 'Uncompetitive','r-.'),
+                     (v_mixed[S>0.1],  'Mixed',        'g:')]:
+    ax.plot(1/S_lb, 1/v, ls, lw=1.8, label=label)
+ax.set_xlim(-4, 12)
+ax.set_ylim(-0.01, 0.08)
+ax.axhline(0, color='gray', lw=0.5)
+ax.axvline(0, color='gray', lw=0.5)
+ax.set_xlabel('1/[S] (mM$^{-1}$)')
+ax.set_ylabel('1/v')
+ax.set_title('Lineweaver-Burk plot')
+ax.legend(fontsize=9)
+ax.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.savefig('enzyme_inhibition.pdf', dpi=150)
+plt.show()
+
+# -------------------------------------------------------
+# Print apparent kinetic parameters for each inhibitor type
+# -------------------------------------------------------
+alpha   = 1 + I/Ki
+alphap  = 1 + I/Kip
+print(f"\nNo inhibitor:    Km = {Km:.2f} mM,  Vmax = {Vmax:.1f}")
+print(f"Competitive:     Km = {Km*alpha:.2f} mM,  Vmax = {Vmax:.1f}")
+print(f"Uncompetitive:   Km = {Km/alphap:.2f} mM,  Vmax = {Vmax/alphap:.1f}")
+print(f"Mixed:           Km = {Km*alpha/alphap:.2f} mM,  Vmax = {Vmax/alphap:.1f}")
+\end{lstlisting}
+
+\textbf{Results.}
+\begin{itemize}
+  \item Competitive inhibition: $K_M^\text{app} = 0.5(1 + 1/0.3) = 2.17$~mM;
+        $V_{\max}$ unchanged at 100.
+  \item Uncompetitive: $K_M^\text{app} = 0.5/(1 + 1/0.6) = 0.18$~mM;
+        $V_{\max}^\text{app} = 100/(1 + 1/0.6) = 37.5$.
+  \item Mixed: $K_M^\text{app} = 0.5\alpha/\alpha' = 0.81$~mM;
+        $V_{\max}^\text{app} = 100/\alpha' = 37.5$.
+\end{itemize}
+
+% ============================================================
+%  PROBLEM SET
+% ============================================================
+\newpage
+\section{Problem set: Module 2}
+
+\noindent Attempt all problems. Show all working.
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{2}\enspace\disciplinetag{Enzyme Kinetics}\enspace
+  Michaelis-Menten from initial rate data}
+
+  An enzyme at $[\mathrm{E}]_0 = 5$~nM gives the following
+  initial velocities:
+
+  \begin{center}
+  \begin{tabular}{cc}
+  \toprule
+  $[\mathrm{S}]$ (mM) & $v$ ($\mu$M~min$^{-1}$) \\
+  \midrule
+  0.1  & 1.37 \\
+  0.5  & 4.55 \\
+  1.0  & 6.25 \\
+  2.0  & 7.69 \\
+  5.0  & 8.93 \\
+  \bottomrule
+  \end{tabular}
+  \end{center}
+
+  \begin{enumerate}
+    \item Plot $1/v$ vs $1/[\mathrm{S}]$ and determine $V_{\max}$ and
+          $K_M$ from the intercepts.
+    \item Calculate $k_\text{cat}$ and the catalytic efficiency
+          $k_\text{cat}/K_M$.
+    \item Is this enzyme catalytically perfect? Justify with reference
+          to the diffusion limit.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Lineweaver-Burk. Invert the data:
+
+  \begin{center}
+  \begin{tabular}{cc}
+  \toprule
+  $1/[\mathrm{S}]$ (mM$^{-1}$) & $1/v$ ($\mu$M$^{-1}$~min) \\
+  \midrule
+  10.0 & 0.730 \\
+   2.0 & 0.220 \\
+   1.0 & 0.160 \\
+   0.5 & 0.130 \\
+   0.2 & 0.112 \\
+  \bottomrule
+  \end{tabular}
+  \end{center}
+
+  A linear fit gives $y$-intercept $= 1/V_{\max} = 0.100$, so
+  $V_{\max} = 10.0~\mu$M~min$^{-1}$.
+  Slope $= K_M/V_{\max} = 0.063$~mM~$\mu$M$^{-1}$~min, so
+  $K_M = 0.063 \times 10.0 = 0.63$~mM.
+
+  \textbf{(b)} $k_\text{cat} = V_{\max}/[\mathrm{E}]_0 =
+  10.0~\mu\text{M~min}^{-1} / 5~\text{nM} =
+  10^{-5}/5\times10^{-9}~\text{s}^{-1}/60 = 33.3$~s$^{-1}$.\\
+  $k_\text{cat}/K_M = 33.3 / (0.63\times10^{-3}) = 5.3\times10^4$~M$^{-1}$s$^{-1}$.
+
+  \textbf{(c)} No. The diffusion limit is $\sim10^8$--$10^9$~M$^{-1}$s$^{-1}$.
+  This enzyme is approximately $10^4$-fold below the diffusion limit,
+  so it is not catalytically perfect.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Inhibition}\enspace
+  Identifying inhibitor type from kinetic data}
+
+  An enzyme has $V_{\max} = 80~\mu$M~min$^{-1}$ and
+  $K_M = 0.4$~mM. In the presence of inhibitor at $[\mathrm{I}] = 2$~mM:
+  $V_{\max}^\text{app} = 80~\mu$M~min$^{-1}$, $K_M^\text{app} = 1.2$~mM.
+
+  \begin{enumerate}
+    \item Identify the type of inhibition.
+    \item Calculate $K_i$.
+    \item An alternative inhibitor at the same 2~mM gives
+          $V_{\max}^\text{app} = 40$ and $K_M^\text{app} = 0.2$~mM.
+          What type is this, and what is $K_i'$?
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} $V_{\max}$ is unchanged but $K_M$ increases: this is
+  \textbf{competitive} inhibition.
+
+  \textbf{(b)} $K_M^\text{app} = K_M(1 + [\mathrm{I}]/K_i)$:
+  \[
+    1.2 = 0.4\left(1 + \frac{2}{K_i}\right)
+    \implies 1 + 2/K_i = 3 \implies K_i = 1.0~\text{mM}.
+  \]
+
+  \textbf{(c)} Both $V_{\max}$ and $K_M$ decrease by the same factor
+  $(80 \to 40$ and $0.4 \to 0.2$, both halved): this is
+  \textbf{uncompetitive} inhibition.\\
+  $\alpha' = 1 + [\mathrm{I}]/K_i' = V_{\max}/V_{\max}^\text{app} = 80/40 = 2$:
+  \[
+    K_i' = \frac{2.0}{2 - 1} = 2.0~\text{mM}.
+  \]
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Bioenergetics}\enspace
+  In vivo ATP hydrolysis free energy}
+
+  At 37$^\circ$C in a hepatocyte: $[\mathrm{ATP}] = 3.5$~mM,
+  $[\mathrm{ADP}] = 1.5$~mM, $[\mathrm{P}_i] = 4.0$~mM.
+  Use $\dG^{\circ'} = -30.5$~kJ~mol$^{-1}$,
+  $R = 8.314$~J~mol$^{-1}$~K$^{-1}$.
+
+  \begin{enumerate}
+    \item Calculate $\dG$ for ATP hydrolysis under these conditions.
+    \item How many $k_\mathrm{B}T$ does this correspond to? ($k_\mathrm{B}T
+          = RT/N_A = RT$ per molecule $\approx 2.58$~kJ~mol$^{-1}$ at 37$^\circ$C.)
+    \item The plasma membrane Na$^+$/K$^+$ ATPase moves 3~Na$^+$
+          out and 2~K$^+$ in per ATP hydrolysed. Against a
+          $\Delta\psi = -70$~mV membrane potential, estimate whether
+          this is thermodynamically feasible.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)}
+  \[
+    \dG = -30{,}500 + 8.314 \times 310
+          \times \ln\!\left(\frac{1.5\times10^{-3}\times4.0\times10^{-3}}
+                                  {3.5\times10^{-3}}\right).
+  \]
+  \[
+    = -30{,}500 + 2577 \times \ln(1.71\times10^{-3})
+    = -30{,}500 + 2577 \times (-6.37)
+    = -30{,}500 - 16{,}410 \approx -46.9~\text{kJ~mol}^{-1}.
+  \]
+
+  \textbf{(b)} $-46.9 / 2.58 = 18.2~k_\mathrm{B}T$.
+
+  \textbf{(c)} The free energy cost of moving one ion against a membrane
+  potential $\Delta\psi$ is $\dG_\text{elec} = zF\Delta\psi$ per mole.
+  Moving 3~Na$^+$ outward (against $\Delta\psi = -70$~mV, so moving
+  positive charge out costs energy):
+  \[
+    \dG_\text{Na} = 3 \times 96{,}485 \times 0.070 = +20.3~\text{kJ~mol}^{-1}.
+  \]
+  Moving 2~K$^+$ inward (K$^+$ enters, negative membrane potential
+  provides driving force, but the concentration gradient and
+  electrochemical potential must be considered; approximate as
+  $\approx +6$~kJ~mol$^{-1}$ net cost for 2~K$^+$).
+  Total ion transport cost $\approx 26$~kJ~mol$^{-1}$.
+  ATP hydrolysis provides $-46.9$~kJ~mol$^{-1} > 26$~kJ~mol$^{-1}$:
+  thermodynamically feasible with $\sim 20$~kJ~mol$^{-1}$ to spare.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Oxidative Phosphorylation}\enspace
+  Proton motive force calculation}
+
+  Mitochondria in an actively respiring cell maintain $\Delta\psi =
+  -175$~mV and $\Delta\mathrm{pH} = 0.8$ (matrix more alkaline).
+
+  \begin{enumerate}
+    \item Calculate the PMF at 37$^\circ$C.
+    \item Calculate the free energy per proton translocated from IMS
+          to matrix.
+    \item Using a $c$-ring stoichiometry of 8 subunits and accounting
+          for the phosphate carrier (1 additional H$^+$/ATP), calculate
+          the maximum number of ATP synthesised per NADH oxidised.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)}
+  \[
+    \Delta p = -175 - 61.5 \times 0.8 = -175 - 49.2 = -224.2~\text{mV}.
+  \]
+
+  \textbf{(b)}
+  \[
+    \dG_{\text{H}^+} = F \times \Delta p = 96{,}485 \times (-0.2242)
+    = -21.6~\text{kJ~mol}^{-1}.
+  \]
+
+  \textbf{(c)} NADH oxidation via Complexes I, III, IV pumps 10~H$^+$.
+  H$^+$ per ATP (c-ring): $8/3 = 2.67$. Plus 1 for phosphate carrier:
+  $2.67 + 1 = 3.67$~H$^+$ per ATP.
+  \[
+    \text{ATP/NADH} = \frac{10}{3.67} = 2.72.
+  \]
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Bioenergetics}\enspace
+  Thermodynamic coupling: active transport}
+
+  The sodium-glucose cotransporter SGLT1 imports 2~Na$^+$ and
+  1 glucose per cycle. The sodium electrochemical gradient provides
+  the driving force.
+
+  Given: intracellular $[\mathrm{Na}^+]_i = 12$~mM, extracellular
+  $[\mathrm{Na}^+]_o = 145$~mM, $\Delta\psi = -70$~mV, $T = 310$~K.
+  Extracellular glucose $= 5$~mM; intracellular glucose $= 0.1$~mM.
+
+  \begin{enumerate}
+    \item Calculate the free energy of importing 2~Na$^+$ from outside
+          to inside (concentration term + electrical term).
+    \item Calculate the free energy required to import 1 glucose
+          against its concentration gradient.
+    \item Is the cotransport thermodynamically feasible?
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Free energy per mole of Na$^+$ transported inward:
+  \[
+    \dG_{\text{Na}^+} = RT\ln\frac{[\text{Na}^+]_i}{[\text{Na}^+]_o}
+                        + zF\Delta\psi.
+  \]
+  \[
+    = 8.314\times310\times\ln\frac{12}{145}
+      + 1\times96{,}485\times(-0.070)
+  \]
+  \[
+    = 2577\times(-2.49) - 6{,}754 = -6{,}416 - 6{,}754 = -13{,}170~\text{J~mol}^{-1}
+    = -13.2~\text{kJ~mol}^{-1}.
+  \]
+  For 2~Na$^+$: $\dG = 2 \times (-13.2) = -26.4$~kJ~mol$^{-1}$.
+
+  \textbf{(b)} Glucose import against its gradient (uncharged, $z=0$):
+  \[
+    \dG_\text{glucose} = RT\ln\frac{0.1}{5} = 2577\times\ln(0.02)
+    = 2577\times(-3.91) = -10{,}076~\text{J~mol}^{-1}.
+  \]
+  This is negative (glucose is being imported down its gradient from
+  5~mM to 0.1~mM), so no energy is required — wait, glucose moves
+  from outside ($5$~mM) to inside ($0.1$~mM): \textbf{downhill}.
+  Let us reconsider: $\dG = RT\ln([\text{in}]/[\text{out}]) =
+  RT\ln(0.1/5) = -10.1$~kJ~mol$^{-1}$. Glucose import is spontaneous.
+
+  \textbf{(c)} Total $\dG = -26.4 + (-10.1) = -36.5$~kJ~mol$^{-1} < 0$.
+  Both Na$^+$ and glucose move downhill electrochemically, so
+  transport is spontaneous. (SGLT1 operates against glucose gradient
+  in the absorptive epithelium; the assumption here of higher
+  extracellular glucose shows the driving force is entirely from Na$^+$.)
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{4}\enspace\disciplinetag{Enzyme Kinetics}\enspace
+  Enzyme efficiency and transition-state theory}
+
+  The activation energy for the uncatalysed hydrolysis of
+  phosphodiester bonds is $\dG^\ddagger_\text{uncat} = 130$~kJ~mol$^{-1}$.
+  Ribonuclease A lowers this to $\dG^\ddagger_\text{cat} = 55$~kJ~mol$^{-1}$.
+
+  \begin{enumerate}
+    \item Calculate the rate enhancement
+          $k_\text{cat}/k_\text{uncat}$ at 310~K using the
+          Arrhenius approximation
+          $k \propto \exp(-\dG^\ddagger/RT)$.
+    \item Transition-state stabilisation $= \dG^\ddagger_\text{uncat}
+          - \dG^\ddagger_\text{cat}$. Convert to $k_\mathrm{B}T$ units.
+    \item The uncatalysed rate constant is $k_\text{uncat} = 6\times10^{-6}$~s$^{-1}$
+          and $k_\text{cat} = 1\times10^3$~s$^{-1}$ for ribonuclease A.
+          Calculate $k_\text{cat}/K_M$ given $K_M = 1\times10^{-3}$~M
+          and compare with the diffusion limit.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)}
+  \[
+    \frac{k_\text{cat}}{k_\text{uncat}}
+    = \exp\!\left(\frac{\dG^\ddagger_\text{uncat} - \dG^\ddagger_\text{cat}}{RT}\right)
+    = \exp\!\left(\frac{(130-55)\times10^3}{8.314\times310}\right)
+    = e^{29.1} \approx 4.5\times10^{12}.
+  \]
+
+  \textbf{(b)} Stabilisation $= 75$~kJ~mol$^{-1}$.
+  In $k_\mathrm{B}T$ units: $75{,}000/2577 = 29.1~k_\mathrm{B}T$.
+
+  \textbf{(c)}
+  \[
+    k_\text{cat}/K_M = 10^3 / 10^{-3} = 10^6~\text{M}^{-1}\text{s}^{-1}.
+  \]
+  Below the diffusion limit ($10^8$--$10^9$~M$^{-1}$s$^{-1}$)
+  by $\sim$100--1000-fold. Ribonuclease A is not catalytically perfect.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Metabolic Control}\enspace
+  Flux control coefficients and the summation theorem}
+
+  A linear pathway $A \to B \to C \to D$ has three enzymes $E_1$,
+  $E_2$, $E_3$ with measured flux control coefficients
+  $C_1^J = 0.6$ and $C_2^J = 0.3$.
+
+  \begin{enumerate}
+    \item What is $C_3^J$?
+    \item Enzyme activity $E_1$ is increased by 50\% using a genetic
+          approach. Predict the new flux, given initial $J_0 = 100$
+          (arbitrary units). State any assumption.
+    \item A drug inhibits $E_2$ by 20\%. Estimate the fractional
+          change in flux.
+    \item Why does the enzyme with the highest control coefficient
+          not necessarily correspond to the enzyme with the lowest
+          activity in the pathway?
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Summation theorem: $\sum C_i^J = 1$.
+  \[
+    C_3^J = 1 - 0.6 - 0.3 = 0.1.
+  \]
+
+  \textbf{(b)} By definition of $C_1^J = (\partial J/J)/(\partial E_1/E_1)$,
+  for small perturbations:
+  \[
+    \frac{\delta J}{J} \approx C_1^J \cdot \frac{\delta E_1}{E_1}
+    = 0.6 \times 0.5 = 0.30.
+  \]
+  New flux: $J \approx 100 \times 1.30 = 130$. Assumption: linear
+  regime (perturbation is small relative to the system's nonlinearity).
+  A 50\% increase may push beyond the linear regime.
+
+  \textbf{(c)} Inhibiting $E_2$ by 20\%:
+  \[
+    \frac{\delta J}{J} = C_2^J \cdot \frac{\delta E_2}{E_2}
+    = 0.3 \times (-0.20) = -0.06.
+  \]
+  Flux decreases by approximately 6\%.
+
+  \textbf{(d)} Flux control coefficient depends on the kinetic
+  parameters of the enzyme \emph{in context} (concentrations of
+  substrates and products relative to $K_M$), not on the enzyme's
+  absolute activity. An enzyme at saturation ($[\mathrm{S}] \gg K_M$)
+  has near-zero control coefficient regardless of its $V_{\max}$
+  because increasing its activity further does not change the rate
+  through the saturated enzyme.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Signal Transduction}\enspace
+  Dose-response and receptor occupancy}
+
+  An RTK has $\Kd = 2$~nM for its ligand EGF. The downstream MAPK
+  response requires $\geq 50\%$ receptor occupancy for activation.
+
+  \begin{enumerate}
+    \item What EGF concentration achieves 50\% receptor occupancy?
+    \item A tumour mutation constitutively dimerises the RTK, reducing
+          the effective $\Kd$ to 0.05~nM. At a physiological EGF
+          concentration of 1~nM, what is the receptor occupancy for
+          wild-type vs.\ mutant?
+    \item The MAPK cascade has 3 sequential phosphorylation steps
+          (Raf, MEK, ERK), each with Hill coefficient $n=1$ and
+          EC$_{50} = 0.5$ of its upstream input. If Raf activation
+          is $\theta_\text{Raf} = 0.5$, calculate ERK activation.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} For $\theta = 0.5$: $[\mathrm{EGF}] = \Kd = 2$~nM.
+
+  \textbf{(b)} Wild-type ($\Kd = 2$~nM, $[\mathrm{EGF}] = 1$~nM):
+  \[
+    \theta_\text{WT} = \frac{1}{1+2} = 0.33.
+  \]
+  Mutant ($\Kd = 0.05$~nM):
+  \[
+    \theta_\text{mut} = \frac{1}{1 + 0.05} = 0.95.
+  \]
+  Wild-type receptor is 33\% occupied (below the 50\% threshold);
+  mutant is 95\% occupied — constitutively active.
+
+  \textbf{(c)} Each cascade step compresses the dynamic range.
+  With EC$_{50} = 0.5$ of input signal and $n=1$:
+  MEK input $= \theta_\text{Raf} = 0.5$, so
+  $\theta_\text{MEK} = 0.5/(0.5 + 0.5) = 0.5$.
+  ERK input $= 0.5$: $\theta_\text{ERK} = 0.5$.
+  With $n=1$ and symmetric EC$_{50}$, the cascade does not amplify at
+  this operating point. Amplification requires $n>1$ or asymmetric
+  EC$_{50}$.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{4}\enspace\disciplinetag{Oxidative Phosphorylation}
+  \enspace\disciplinetag{Bioenergetics}\enspace
+  ATP yield from glucose}
+
+  Complete oxidation of one glucose molecule produces:
+  10 NADH, 2 FADH$_2$, and 2 substrate-level ATP (from glycolysis
+  and the TCA cycle). Use P/O ratios of 2.5 (NADH) and 1.5 (FADH$_2$).
+
+  \begin{enumerate}
+    \item Calculate the total ATP yield per glucose.
+    \item The standard free energy of glucose oxidation:
+          $\dG^{\circ'} = -2870$~kJ~mol$^{-1}$.
+          Assuming $|\dG_\text{ATP}| = 50$~kJ~mol$^{-1}$ per ATP
+          under cellular conditions, calculate the thermodynamic
+          efficiency of oxidative phosphorylation.
+    \item Under anaerobic conditions, only glycolysis operates
+          (net 2 ATP per glucose). Calculate the ratio of aerobic
+          to anaerobic ATP yield and the corresponding
+          thermodynamic efficiency of fermentation, noting
+          that $\dG^{\circ'}(\text{glucose} \to 2 \text{ lactate})
+          = -196$~kJ~mol$^{-1}$.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)}
+  \[
+    \text{ATP} = 10 \times 2.5 + 2 \times 1.5 + 2 = 25 + 3 + 2 = 30~\text{ATP}.
+  \]
+
+  \textbf{(b)} Free energy captured:
+  $30 \times 50 = 1500$~kJ~mol$^{-1}$.\\
+  Efficiency: $\eta = 1500/2870 = 52\%$.
+
+  \textbf{(c)} Aerobic/anaerobic ratio: $30/2 = 15$.\\
+  Fermentation efficiency: $(2 \times 50)/196 = 100/196 = 51\%$.
+  Note: the efficiency appears comparable, but the \emph{power} output
+  (ATP rate) of aerobic respiration is $\sim$15-fold higher.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{5}\enspace\disciplinetag{Signal Transduction}
+  \enspace\disciplinetag{Enzyme Kinetics}\enspace\disciplinetag{Bioenergetics}\enspace
+  Oncogenic mutation: energetic and signaling consequences}
+
+  A somatic mutation in Ras (G12V) locks it in the GTP-bound active
+  state by impairing intrinsic GTPase activity. Wild-type Ras
+  hydrolyses GTP with $k_\text{cat} = 0.02$~min$^{-1}$; the G12V
+  mutant has $k_\text{cat} = 0.0002$~min$^{-1}$.
+
+  \begin{enumerate}
+    \item Calculate the mean lifetime of the active Ras-GTP state
+          for wild-type and G12V at the single-molecule level.
+    \item GAP (GTPase-activating protein) accelerates wild-type GTP
+          hydrolysis by $10^5$-fold but is ineffective on G12V
+          (mutation blocks the GAP-stabilised transition state).
+          What is the wild-type $k_\text{cat}$ in the presence of GAP?
+    \item Constitutively active Ras continuously drives the MAPK
+          cascade. If ERK phosphorylation requires a sustained
+          stimulus to activate transcription and each ERK-P molecule
+          has a mean lifetime of $\tau = 3$~min (phosphatase action),
+          and if 500 ERK molecules per cell must be phosphorylated
+          simultaneously for threshold activation, estimate the
+          minimum Ras-GTP concentration required given
+          $k_\text{ERK,phos} = 0.1$~min$^{-1}$~molecule$^{-1}$~Ras.
+    \item GTP hydrolysis consumes one GTP per Ras activation cycle.
+          At a cytoplasmic $[\text{GTP}] = 0.5$~mM and
+          $\dG_\text{GTP} = -51$~kJ~mol$^{-1}$, and assuming
+          $10^6$ Ras molecules per cell actively cycling at $v = k_\text{cat,GAP}$,
+          estimate the power dissipated by Ras-GAP catalysed GTP
+          hydrolysis per cell (in fW).
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Mean lifetime = $1/k_\text{cat}$ (for first-order decay).\\
+  Wild-type: $\tau_\text{WT} = 1/0.02~\text{min}^{-1} = 50$~min.\\
+  G12V: $\tau_{G12V} = 1/0.0002 = 5000$~min $\approx$ 3.5~days.
+  G12V Ras is effectively constitutively active on a cellular timescale.
+
+  \textbf{(b)} GAP-stimulated $k_\text{cat}$:
+  $0.02 \times 10^5 = 2000$~min$^{-1} \approx 33$~s$^{-1}$.
+
+  \textbf{(c)} At steady state, the phosphorylation rate equals the
+  dephosphorylation rate. If [Ras-GTP] molecules drive ERK phosphorylation
+  at $k_\text{phos}$ per Ras:
+  \[
+    \frac{d[\text{ERK-P}]}{dt} = k_\text{phos} \times [\text{Ras-GTP}]
+    - \frac{[\text{ERK-P}]}{\tau} = 0
+  \]
+  at steady state. Setting $[\text{ERK-P}] = 500$ molecules:
+  \[
+    [\text{Ras-GTP}] = \frac{[\text{ERK-P}]}{k_\text{phos}\times\tau}
+    = \frac{500}{0.1 \times 3} = 1667~\text{molecules/cell}.
+  \]
+
+  \textbf{(d)} Hydrolysis rate per cell:
+  \[
+    \text{Rate} = 10^6 \times k_\text{cat,GAP} = 10^6 \times 2000~\text{min}^{-1}
+    = 2\times10^9~\text{GTP~min}^{-1} = 3.33\times10^7~\text{s}^{-1}.
+  \]
+  Convert to moles per second: $3.33\times10^7 / 6.022\times10^{23}
+  = 5.5\times10^{-17}$~mol~s$^{-1}$.\\
+  Power $= \dot{n} \times |\dG| = 5.5\times10^{-17} \times 51{,}000
+  = 2.8\times10^{-12}$~W $= 2.8$~pW per cell.
+  This is a significant fraction of the estimated total cell power
+  ($\sim1$--10~pW for a resting cell).
+\end{solution}
+
+% ============================================================
+%  END OF MODULE 2
+% ============================================================
+
+\end{document}

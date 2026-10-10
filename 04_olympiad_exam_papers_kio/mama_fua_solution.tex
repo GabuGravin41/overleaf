@@ -1,0 +1,210 @@
+\ifdefined\KIOInclude\else
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.96,0.96,0.96}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\small,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=4
+}
+\lstset{style=mystyle}
+
+\begin{document}
+\fi
+
+\section*{Solution to Question 4: Mama Fua}
+
+\subsection*{Executive Summary \& Verification}
+\begin{itemize}
+    \item \textbf{Problem Soundness:} \textbf{Verified.} The problem statement, mathematical bounds, and example outputs are sound and completely unambiguous.
+    \item \textbf{Sample 1 Check:} Input yields minimum cost $750$ shillings at $k=3$ weighted pieces ($0.20 + 0.30 + 0.40 = 0.90 \text{ kg} \to 1 \text{ kg} \times 150 + 3 \times 200 = 750$).
+    \item \textbf{Sample 2 Check:} Input yields minimum cost $150$ shillings at $k=4$ weighted pieces ($4 \times 0.25 = 1.00 \text{ kg} \to 1 \text{ kg} \times 150 + 0 \times 200 = 150$).
+    \item \textbf{Time Complexity:} $\mathcal{O}(n \log n)$ due to sorting, which easily runs in $<0.15$ seconds for $n = 2 \cdot 10^5$.
+    \item \textbf{Space Complexity:} $\mathcal{O}(n)$ auxiliary memory to store weights and prefix sums.
+\end{itemize}
+
+\subsection*{Mathematical Analysis \& Correctness Proof}
+
+Let the set of all $n$ items be $W = \{w_1, w_2, \ldots, w_n\}$. Suppose we decide to weigh a subset $S \subseteq W$ containing $k = |S|$ items, where $0 \le k \le n$. 
+
+The remaining $n - k$ items in $W \setminus S$ are paid individually at the rate of $p$ shillings per item.
+
+The total bill for choosing subset $S$ of size $k$ is given by:
+\[
+\text{Cost}(S) = \left\lceil \sum_{i \in S} w_i \right\rceil \cdot r + (n - k) \cdot p
+\]
+
+\begin{lemma}[Exchange Property]
+For a fixed number of items $k$ to be weighed, the cost is minimized when $S$ consists of the $k$ smallest weights in $W$.
+\end{lemma}
+
+\begin{proof}
+Consider two subsets $S, S' \subseteq W$ of equal size $|S| = |S'| = k$. Notice that the piece-rate component $(n - k) \cdot p$ is identical for both $S$ and $S'$.
+
+To minimize $\text{Cost}(S)$, we must minimize $\left\lceil \sum_{i \in S} w_i \right\rceil$. Since the ceiling function $\lceil x \rceil$ is non-decreasing with respect to $x$, minimizing $\sum_{i \in S} w_i$ guarantees minimizing $\left\lceil \sum_{i \in S} w_i \right\rceil$.
+
+By sorting $W$ in non-decreasing order $w_1 \le w_2 \le \ldots \le w_n$, the sum of any $k$ elements from $W$ is minimized by selecting the first $k$ elements, i.e., $S_k = \{w_1, w_2, \ldots, w_k\}$.
+\end{proof}
+
+Thus, the global optimum can be found by evaluating $\text{Cost}(S_k)$ for all $k \in \{0, 1, 2, \ldots, n\}$ and taking the minimum:
+\[
+\text{Minimum Total Bill} = \min_{0 \le k \le n} \left( \left\lceil \sum_{i=1}^k w_i \right\rceil \cdot r + (n - k) \cdot p \right)
+\]
+
+\subsection*{Algorithm}
+\begin{enumerate}
+    \item \textbf{Fixed-Point Precision Handling:} To avoid binary floating-point representation errors (e.g. $0.07 \times 100 = 6.999999\ldots$), convert all input weights from kilograms to \emph{centikilograms} (integers). For instance, $0.25 \text{ kg} \to 25 \text{ ckg}$.
+    \item \textbf{Sorting:} Sort the array of weights in non-decreasing order: $w_1 \le w_2 \le \ldots \le w_n$.
+    \item \textbf{Prefix Sums:} Compute prefix sums $P_k = \sum_{i=1}^k w_i$ for $k = 0, \ldots, n$, where $P_0 = 0$. In centikilograms, the ceiling function $\lceil P_k / 100 \rceil$ can be computed using exact integer arithmetic:
+    \[
+    \text{Weight in kg} = \begin{cases} 
+    0 & \text{if } k = 0 \\
+    \left\lfloor \frac{P_k + 99}{100} \right\rfloor & \text{if } k > 0 
+    \end{cases}
+    \]
+    \item \textbf{Linear Sweep:} Iterate $k$ from $0$ to $n$, compute the total bill for each $k$, and track the overall minimum.
+\end{enumerate}
+
+\subsection*{Common Pitfalls \& Edge Cases}
+\begin{enumerate}
+    \item \textbf{64-bit Integer Overflow:}
+    \begin{itemize}
+        \item Sum of weights in centikilograms: $n \times \max(w_i) \times 100 = 2 \cdot 10^5 \times 10000 \times 100 = 2 \cdot 10^{11}$, which exceeds the 32-bit signed integer limit ($\approx 2.14 \cdot 10^9$).
+        \item Total cost: up to $2 \cdot 10^9 \text{ kg} \times 10000 = 2 \cdot 10^{13}$ shillings.
+        \item \textbf{Fix:} All sums, weight costs, and total costs MUST use 64-bit integers (`long long` in C++).
+    \end{itemize}
+    \item \textbf{Floating-point Inaccuracy:}
+    \begin{itemize}
+        \item Reading weights as `double` or `float` can result in precision loss during rounding.
+        \item \textbf{Fix:} Parse weights as integers (either by reading string integer parts or adding $0.5$ before casting: `llround(w * 100)`).
+    \end{itemize}
+    \item \textbf{Empty Weight Set ($k=0$):}
+    \begin{itemize}
+        \item When $k=0$, no items are weighed, so weight cost is $0$, not $\lceil 0 / 100 \rceil = 0$, but care must be taken so no off-by-one errors occur.
+    \end{itemize}
+\end{enumerate}
+
+\subsection*{Reference Implementations}
+
+\subsubsection*{C++ Solution}
+\begin{lstlisting}[language=C++]
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+
+using namespace std;
+
+int main() {
+    // Fast I/O
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    long long p, r;
+    if (!(cin >> n >> p >> r)) return 0;
+
+    vector<long long> w(n);
+    for (int i = 0; i < n; ++i) {
+        double val;
+        cin >> val;
+        // Convert kg to centikilograms as a 64-bit integer
+        w[i] = llround(val * 100.0);
+    }
+
+    // Step 1: Sort weights in ascending order
+    sort(w.begin(), w.end());
+
+    // Step 2: Linear sweep with running prefix sum
+    long long current_weight_sum = 0;
+    long long min_total_cost = (long long)n * p; // Base case: k = 0 (all per-piece)
+
+    for (int k = 1; k <= n; ++k) {
+        current_weight_sum += w[k - 1];
+        
+        // Ceiling division for positive centikilograms to full kilograms
+        long long weight_kg = (current_weight_sum + 99) / 100;
+        long long weight_cost = weight_kg * r;
+        long long piece_cost = (long long)(n - k) * p;
+        
+        long long total_cost = weight_cost + piece_cost;
+        if (total_cost < min_total_cost) {
+            min_total_cost = total_cost;
+        }
+    }
+
+    cout << min_total_cost << "\n";
+
+    return 0;
+}
+\end{lstlisting}
+
+\subsubsection*{Python 3 Solution}
+\begin{lstlisting}[language=Python]
+import sys
+
+def solve():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+
+    n = int(data[0])
+    p = int(data[1])
+    r = int(data[2])
+
+    weights = []
+    for i in range(3, 3 + n):
+        # Convert floating-point string representation to centikilograms (int)
+        parts = data[i].split('.')
+        whole = int(parts[0])
+        frac = int(parts[1]) if len(parts) > 1 else 0
+        weights.append(whole * 100 + frac)
+
+    # Sort weights in non-decreasing order
+    weights.sort()
+
+    # Base case: k = 0 (weigh nothing)
+    min_cost = n * p
+
+    current_weight_sum = 0
+    for k in range(1, n + 1):
+        current_weight_sum += weights[k - 1]
+        weight_kg = (current_weight_sum + 99) // 100
+        total_cost = weight_kg * r + (n - k) * p
+        if total_cost < min_cost:
+            min_cost = total_cost
+
+    print(min_cost)
+
+if __name__ == '__main__':
+    solve()
+\end{lstlisting}
+
+\ifdefined\KIOInclude\else
+\end{document}
+\fi

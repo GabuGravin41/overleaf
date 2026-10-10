@@ -1,0 +1,300 @@
+% ============================================================
+%  preamble.tex  —  IBO Biology Platform
+%  Minimal academic style. pdfLaTeX compatible.
+% ============================================================
+
+% --- Page geometry ---
+\usepackage[a4paper,
+            top=2.5cm, bottom=2.8cm,
+            left=3cm, right=2.5cm]{geometry}
+
+% --- Typography ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{setspace}
+\setstretch{1.12}
+
+% --- Mathematics ---
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{siunitx}
+\sisetup{per-mode=symbol}
+
+% --- Chemistry ---
+\usepackage[version=4]{mhchem}
+
+% --- Graphics ---
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+% --- Floats and captions ---
+\usepackage{float}
+\usepackage{caption}
+\captionsetup{font=small, labelfont=bf, labelsep=period, width=0.92\textwidth}
+
+% --- Tables ---
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+
+% --- Lists ---
+\usepackage{enumitem}
+\setlist[enumerate,1]{label=\textbf{(\alph*)}, itemsep=2pt}
+\setlist[enumerate,2]{label=\roman*.,  itemsep=1pt}
+\setlist[itemize]{itemsep=2pt}
+
+% --- Framed environments (for solutions, notes) ---
+\usepackage{mdframed}
+
+% --- Colour palette: one accent, otherwise near-black ---
+\definecolor{accent}{HTML}{1A2E4A}    % dark navy
+\definecolor{probback}{HTML}{F5F6F7}  % near-white box background
+\definecolor{stargold}{HTML}{A07820}  % muted gold
+\definecolor{rulecol}{HTML}{AAAAAA}   % light rule colour
+\definecolor{codebg}{HTML}{F8F8F8}
+\definecolor{codeframe}{HTML}{CCCCCC}
+\definecolor{codekw}{HTML}{00397A}
+\definecolor{codestr}{HTML}{B83200}
+\definecolor{codecomment}{HTML}{4A7A4A}
+\definecolor{codenumber}{HTML}{999999}
+
+% --- Hyperlinks ---
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks = true,
+    linkcolor  = accent,
+    citecolor  = accent,
+    urlcolor   = accent,
+    pdftitle   = {IBO Biology Platform},
+}
+
+% --- Code listings ---
+\usepackage{listings}
+\usepackage{lstautogobble}
+
+\lstdefinestyle{python}{
+    language          = Python,
+    backgroundcolor   = \color{codebg},
+    basicstyle        = \ttfamily\small,
+    keywordstyle      = \color{codekw}\bfseries,
+    stringstyle       = \color{codestr},
+    commentstyle      = \color{codecomment}\itshape,
+    numberstyle       = \tiny\color{codenumber},
+    numbers           = left,
+    stepnumber        = 1,
+    numbersep         = 8pt,
+    frame             = single,
+    framesep          = 4pt,
+    rulecolor         = \color{codeframe},
+    breaklines        = true,
+    showstringspaces  = false,
+    tabsize           = 4,
+    captionpos        = b,
+    autogobble        = true,
+    morekeywords      = {as, with, None, True, False,
+                         np, plt, odeint, linspace, exp, log, pi, array},
+}
+\lstset{style=python}
+
+% --- tcolorbox (problems only) ---
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable, skins}
+
+% Problem box: clean, numbered, minimal
+\newtcolorbox[auto counter, number within=section]{problem}[1]{%
+    breakable,
+    enhanced,
+    colback    = probback,
+    colframe   = accent,
+    boxrule    = 0.5pt,
+    arc        = 1pt,
+    fonttitle  = \bfseries\sffamily\small,
+    coltitle   = white,
+    colbacktitle = accent,
+    title      = {Problem~\thetcbcounter.\enspace #1},
+    attach boxed title to top left={yshift=-1.5mm, xshift=3mm},
+    boxed title style={arc=1pt, boxrule=0pt},
+    top        = 5pt, bottom = 5pt,
+    left       = 6pt, right  = 6pt,
+}
+
+% Solution: simple left-rule indent, no background
+\newenvironment{solution}{%
+    \begin{mdframed}[
+        linewidth    = 1.5pt,
+        linecolor    = accent!40,
+        topline      = false,
+        rightline    = false,
+        bottomline   = false,
+        leftmargin   = 4pt,
+        innerleftmargin = 10pt,
+        innertopmargin  = 4pt,
+        innerbottommargin = 4pt,
+        backgroundcolor = white,
+    ]%
+    \noindent\textit{Solution.}\enspace\ignorespaces
+}{%
+    \end{mdframed}%
+}
+
+% Historical note: small italic, thin left rule
+\newenvironment{historicalnote}[1]{%
+    \begin{mdframed}[
+        linewidth    = 2pt,
+        linecolor    = rulecol,
+        topline      = false,
+        rightline    = false,
+        bottomline   = false,
+        leftmargin   = 4pt,
+        innerleftmargin = 10pt,
+        innertopmargin  = 3pt,
+        innerbottommargin = 3pt,
+        backgroundcolor = white,
+    ]%
+    {\small\sffamily\bfseries Historical note: #1}\\[3pt]%
+    \small\itshape\ignorespaces
+}{%
+    \end{mdframed}%
+}
+
+% Definition: bold label, thin left rule
+\newenvironment{definition}[1]{%
+    \begin{mdframed}[
+        linewidth    = 1.5pt,
+        linecolor    = accent!60,
+        topline      = false,
+        rightline    = false,
+        bottomline   = false,
+        leftmargin   = 4pt,
+        innerleftmargin = 10pt,
+        innertopmargin  = 3pt,
+        innerbottommargin = 3pt,
+        backgroundcolor = white,
+    ]%
+    \noindent\textbf{Definition (#1).}\enspace\ignorespaces
+}{%
+    \end{mdframed}%
+}
+
+% Key remark: just bold inline label, no box
+\newenvironment{keyinsight}{%
+    \par\medskip\noindent\textbf{Remark.}\enspace\ignorespaces
+}{\par\medskip}
+
+% Model limitations: just bold inline label
+\newenvironment{limitation}{%
+    \par\medskip\noindent\textbf{Limitations of this model.}\enspace\ignorespaces
+}{\par\medskip}
+
+% Summary: simple ruled block
+\newenvironment{summary}{%
+    \begin{mdframed}[
+        linewidth = 0.5pt, linecolor = accent!50,
+        leftmargin = 0pt, innerleftmargin = 8pt,
+        innertopmargin = 6pt, innerbottommargin = 6pt,
+        backgroundcolor = probback,
+    ]%
+    \noindent\textbf{Summary.}\enspace\ignorespaces
+}{%
+    \end{mdframed}%
+}
+
+% Code lab: just a listing caption prefix
+\newenvironment{codelab}[1]{%
+    \par\medskip\noindent\textbf{Code.}\enspace\textit{#1}\par\smallskip
+}{\par}
+
+% ============================================================
+%  Difficulty stars — plain \ifnum, no loops
+% ============================================================
+\usepackage{pifont}
+
+\newcommand{\starfilled}{{\color{stargold}\ding{72}}}
+\newcommand{\starempty} {{\color{stargold!40}\ding{73}}}
+
+\newcommand{\stars}[1]{%
+  \ifnum#1>0\starfilled\else\starempty\fi
+  \ifnum#1>1\starfilled\else\starempty\fi
+  \ifnum#1>2\starfilled\else\starempty\fi
+  \ifnum#1>3\starfilled\else\starempty\fi
+  \ifnum#1>4\starfilled\else\starempty\fi
+}
+
+% ============================================================
+%  Discipline tags — plain \fcolorbox, safe everywhere
+% ============================================================
+\newcommand{\disciplinetag}[1]{%
+  {\setlength{\fboxsep}{2pt}\setlength{\fboxrule}{0.4pt}%
+   \fcolorbox{accent!50}{accent!8}{%
+     \textcolor{accent}{\sffamily\tiny\bfseries\vphantom{Ag}#1}}}%
+}
+
+% ============================================================
+%  Section / chapter headings — clean, minimal
+% ============================================================
+\usepackage{titlesec}
+
+\titleformat{\chapter}[block]
+  {\normalfont\LARGE\bfseries\sffamily\color{accent}}
+  {Module~\thechapter.}{0.6em}{}[\vspace{2pt}\rule{\textwidth}{0.4pt}]
+
+\titleformat{\section}
+  {\normalfont\large\bfseries\sffamily\color{accent}}
+  {\thesection}{0.7em}{}
+
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries\sffamily}
+  {\thesubsection}{0.6em}{}
+
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\itshape}
+  {}{0em}{}
+
+% ============================================================
+%  Header / footer — minimal
+% ============================================================
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[RO,LE]{\small\sffamily\thepage}
+\fancyhead[LO]{\small\sffamily\nouppercase{\rightmark}}
+\fancyhead[RE]{\small\sffamily\nouppercase{\leftmark}}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% ============================================================
+%  Maths macros
+% ============================================================
+\newcommand{\kB}{k_{\mathrm{B}}}
+\newcommand{\NA}{N_{\mathrm{A}}}
+\newcommand{\dG}{\Delta G}
+\newcommand{\ddG}{\Delta\Delta G}
+\newcommand{\dH}{\Delta H}
+\newcommand{\dS}{\Delta S}
+\newcommand{\Kd}{K_{\mathrm{d}}}
+\newcommand{\Ka}{K_{\mathrm{a}}}
+\newcommand{\Keq}{K_{\mathrm{eq}}}
+\newcommand{\vmax}{V_{\mathrm{max}}}
+\newcommand{\Km}{K_{\mathrm{m}}}
+\newcommand{\conc}[1]{[\mathrm{#1}]}
+\newcommand{\od}[2]{\frac{\mathrm{d}#1}{\mathrm{d}#2}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\abs}[1]{\left|#1\right|}
+
+% ============================================================
+%  Text abbreviations
+% ============================================================
+\newcommand{\Ecoli}{\textit{E.~coli}}
+\newcommand{\invitro}{\textit{in vitro}}
+\newcommand{\invivo}{\textit{in vivo}}
+\newcommand{\etal}{\textit{et al.}}
+
+% End of preamble.tex

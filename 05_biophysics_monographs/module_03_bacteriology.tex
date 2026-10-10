@@ -1,0 +1,811 @@
+% ============================================================
+%  module_03_bacteriology.tex  —  IBO Biology Platform
+%  Module 3: Bacteriology and Microbiology
+%
+%  STANDALONE: compile this file directly on Overleaf.
+%  Upload together with: preamble.tex + the four .jpg images.
+%  Compiler: pdfLaTeX. Root: module_03_bacteriology.tex
+% ============================================================
+
+\documentclass[12pt, a4paper, oneside]{report}
+\input{preamble}
+
+\begin{document}
+
+% ---------- Title block ----------
+\begin{titlepage}
+  \centering
+  \vspace*{4cm}
+  {\sffamily\fontsize{13}{16}\selectfont\color{accent} IBO Biology Platform}\\[0.6em]
+  {\rule{0.4\textwidth}{0.4pt}}\\[0.6em]
+  {\sffamily\fontsize{22}{28}\selectfont\bfseries Module 3}\\[0.4em]
+  {\sffamily\fontsize{16}{20}\selectfont\bfseries\color{accent}
+    Microbiology and Bacteriology}\\[1.2em]
+  {\small\color{gray}
+    Cell wall mechanics \textbullet\ Growth kinetics \textbullet\
+    Chemostat theory \textbullet\ Membrane transport \textbullet\
+    Gene transfer \textbullet\ Quorum sensing}\\[0.6em]
+  {\rule{0.4\textwidth}{0.4pt}}\\[0.5em]
+  {\small\color{gray} \today}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============================================================
+%  Chapter begins here
+% ============================================================
+
+\chapter{Microbiology and Bacteriology}
+\label{ch:bacteriology}
+
+\begin{tcolorbox}[colback=probback, colframe=accent, boxrule=0.5pt, arc=1pt,
+  fonttitle=\bfseries\sffamily\small, coltitle=white, colbacktitle=accent,
+  title={Module Overview}, top=4pt, bottom=4pt, left=6pt, right=6pt]
+  \textbf{Topics:} Bacterial cell envelope mechanics and peptidoglycan assembly;
+  Monod growth kinetics and continuous culture (chemostat) dynamics;
+  bacterial transport mechanisms (ABC, PTS, Sec/Tat);
+  horizontal gene transfer kinetics (conjugation, transformation);
+  quorum sensing thermodynamics and biofilm reaction-diffusion.\\[3pt]
+  \textbf{Prerequisites:} Differential equations; steady-state mass balances;
+  thermodynamics ($\dG$, $\Kd$); Modules~1--2.\\[3pt]
+  \textbf{Problem set:} 10 problems, \stars{2}--\stars{5}.
+\end{tcolorbox}
+
+% ============================================================
+\section{Bacterial cell envelope and mechanics}
+% ============================================================
+
+\subsection{Architecture of the cell wall}
+
+Bacteria maintain an internal turgor pressure of $0.3$--$0.5$~MPa ($3$--$5$~atm) in Gram-negative organisms and $1.5$--$2.5$~MPa ($15$--$25$~atm) in Gram-positive organisms. This pressure is contained by the sacculus: a single macromolecule of peptidoglycan (murein) enclosing the cell.
+
+\begin{historicalnote}{Gram (1884); Weidel and Pelzer (1964)}
+  Hans Christian Gram developed the differential staining method in 1884 to visualize bacteria in tissue samples. The structural basis of Gram-positivity—the retention of crystal violet-iodine complexes by a thick, highly cross-linked peptidoglycan layer—was elucidated decades later by Weidel and Pelzer, who demonstrated that the peptidoglycan wall is a giant covalently continuous polymer.
+\end{historicalnote}
+
+Peptidoglycan consists of linear glycan strands of alternating $\beta$-(1,4)-linked $N$-acetylglucosamine (NAG) and $N$-acetylmuramic acid (NAM) residues. Each NAM sugar carries a stem peptide:
+\[
+  \text{L-Ala} \longrightarrow \text{D-iGlu} \longrightarrow \text{meso-DAP (or L-Lys)} \longrightarrow \text{D-Ala} \longrightarrow \text{D-Ala}.
+\]
+Transpeptidases (penicillin-binding proteins, PBPs) form peptide cross-links between adjacent glycan chains by cleaving the terminal D-Ala residue of a donor stem and forming an amide bond with the $\epsilon$-amino group of \textit{meso}-diaminopimelic acid (\textit{meso}-DAP) or L-lysine on an acceptor stem.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{peptidoglycan_synthesis_1786990804375.jpg}
+  \caption{Peptidoglycan structure and transpeptidation. Left: Glycan strands of NAG-NAM with attached stem peptides. Right: Transpeptidation by PBPs cleaving D-Ala-D-Ala. Bottom: $\beta$-lactam ring acting as a structural analogue of the D-Ala-D-Ala dipeptide to covalently deactivate PBPs.}
+  \label{fig:peptidoglycan}
+\end{figure}
+
+\subsection{Biomechanics of bacterial turgor pressure}
+
+Treating a rod-shaped bacterium (e.g., \Ecoli, radius $r \approx 0.5~\mu\text{m}$, length $L \approx 2~\mu\text{m}$) as a thin-walled cylindrical pressure vessel with wall thickness $t \approx 3$--$6$~nm:
+
+Hoop stress ($\sigma_\theta$) and axial stress ($\sigma_z$) under osmotic turgor pressure $P$:
+\begin{equation}
+  \sigma_\theta = \frac{P r}{t}, \qquad \sigma_z = \frac{P r}{2t}.
+  \label{eq:stress}
+\end{equation}
+Because $\sigma_\theta = 2\sigma_z$, the hoop stress is twice the axial stress. This mechanical anisotropy explains why rod-shaped bacteria expand primarily along their longitudinal axis during growth and burst circumferentially when the wall is degraded by lysozyme or $\beta$-lactams.
+
+Plugging in $P = 0.3~\text{MPa} = 3 \times 10^5~\text{Pa}$, $r = 5 \times 10^{-7}~\text{m}$, and $t = 4 \times 10^{-9}~\text{m}$:
+\[
+  \sigma_\theta = \frac{(3\times 10^5)(5\times 10^{-7})}{4\times 10^{-9}} = 3.75 \times 10^7~\text{Pa} = 37.5~\text{MPa}.
+\]
+This tensile stress approaches the mechanical yield strength of polymeric materials, demonstrating that peptidoglycan must maintain structural integrity under high continuous load.
+
+% ============================================================
+\section{Bacterial growth kinetics and chemostat theory}
+% ============================================================
+
+\subsection{Batch growth kinetics}
+
+In a closed batch culture with abundant nutrients, cell population density $N(t)$ (cells~mL$^{-1}$) or biomass concentration $X(t)$ (g~L$^{-1}$) follows first-order kinetics during exponential phase:
+\begin{equation}
+  \od{X}{t} = \mu X, \qquad X(t) = X_0 e^{\mu t},
+  \label{eq:exp_growth}
+\end{equation}
+where $\mu$ is the specific growth rate (h$^{-1}$). The doubling time $t_d$ is:
+\begin{equation}
+  t_d = \frac{\ln 2}{\mu}.
+  \label{eq:doubling_time}
+\end{equation}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{chemostat_growth_kinetics_1786990815231.jpg}
+  \caption{Left: Batch growth curve showing Lag, Exponential, Stationary, and Death phases. Right: Steady-state biomass $X$ and limiting substrate $S$ concentrations in a chemostat as functions of dilution rate $D$.}
+  \label{fig:chemostat}
+\end{figure}
+
+\subsection{The Monod model}
+
+Jacques Monod (1942) established empirically that specific growth rate $\mu$ depends on the concentration of a limiting substrate $S$ in a form mathematically identical to Michaelis-Menten enzyme kinetics:
+\begin{equation}
+  \mu(S) = \frac{\mu_{\max} S}{K_s + S},
+  \label{eq:monod}
+\end{equation}
+where $\mu_{\max}$ is the maximum specific growth rate, and $K_s$ is the substrate affinity constant (concentration at which $\mu = \mu_{\max}/2$).
+
+Biomass yield on substrate is defined by the yield coefficient $Y_{X/S}$:
+\begin{equation}
+  Y_{X/S} = -\frac{\Delta X}{\Delta S} = \frac{\mathrm{d}X}{\mathrm{d}S}.
+  \label{eq:yield}
+\end{equation}
+
+\subsection{Chemostat (continuous culture) theory}
+
+A chemostat is an open system where fresh medium containing limiting substrate $S_0$ is fed at volumetric flow rate $F$ (L~h$^{-1}$) into a vessel of working volume $V$ (L), with culture fluid removed at the same rate $F$.
+
+The \textbf{dilution rate} $D$ (h$^{-1}$) is defined as:
+\begin{equation}
+  D = \frac{F}{V}.
+  \label{eq:dilution_rate}
+\end{equation}
+
+\textbf{Mass balances at steady state.}
+\begin{enumerate}
+  \item \textbf{Biomass balance:}
+        \[
+          \od{X}{t} = \text{Growth} - \text{Outflow} = \mu X - D X = (\mu - D) X.
+        \]
+        At steady state ($\od{X}{t} = 0$), provided $X > 0$:
+        \begin{equation}
+          \boxed{\mu = D}
+          \label{eq:chemostat_mu}
+        \end{equation}
+        The specific growth rate of the organism is controlled directly by the external parameter $D$.
+
+  \item \textbf{Substrate balance:}
+        \[
+          \od{S}{t} = \text{Inflow} - \text{Outflow} - \text{Consumption} = D S_0 - D S - \frac{\mu X}{Y_{X/S}}.
+        \]
+        At steady state ($\od{S}{t} = 0$):
+        \[
+          D(S_0 - S) = \frac{\mu X}{Y_{X/S}}.
+        \]
+        Since $\mu = D$:
+        \begin{equation}
+          \boxed{\bar{X} = Y_{X/S} (S_0 - \bar{S})}
+          \label{eq:chemostat_X}
+        \end{equation}
+\end{enumerate}
+
+\textbf{Steady-state substrate concentration $\bar{S}$.}
+Using $\mu(\bar{S}) = D$ in Monod's equation:
+\[
+  D = \frac{\mu_{\max} \bar{S}}{K_s + \bar{S}} \implies D(K_s + \bar{S}) = \mu_{\max} \bar{S}.
+\]
+Solving for $\bar{S}$:
+\begin{equation}
+  \boxed{\bar{S} = \frac{K_s D}{\mu_{\max} - D}}
+  \label{eq:chemostat_S}
+\end{equation}
+
+\textbf{Critical dilution rate ($D_{\text{crit}}$) and Washout.}
+Washout occurs when $D$ exceeds the growth rate achievable even at $S = S_0$. Setting $\bar{S} = S_0$:
+\begin{equation}
+  D_{\text{crit}} = \frac{\mu_{\max} S_0}{K_s + S_0}.
+  \label{eq:dcrit}
+\end{equation}
+For $D \geq D_{\text{crit}}$, cells cannot grow fast enough to stay in the vessel: $\bar{X} \to 0$ and $\bar{S} \to S_0$.
+
+% ============================================================
+\section{Bacterial energetics and transport systems}
+% ============================================================
+
+Bacteria utilize three principal classes of transport systems to import solutes across the inner membrane:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{bacterial_transport_systems_1786990827485.jpg}
+  \caption{Bacterial membrane transport mechanisms. A: ABC transporter using periplasmic substrate-binding protein and ATP hydrolysis. B: Phosphotransferase System (PTS) group translocation. C: Protein translocation via Sec (unfolded) vs Tat (folded) pathways.}
+  \label{fig:transport}
+\end{figure}
+
+\begin{enumerate}
+  \item \textbf{ABC Transporters (ATP-Binding Cassette):} Primary active transport systems. A periplasmic substrate-binding protein (SBP) captures ligand with high affinity ($\Kd \sim 10^{-7}$--$10^{-8}$~M) and delivers it to a transmembrane domain (TMD). Two nucleotide-binding domains (NBDs) hydrolyse 2~ATP per transport cycle.
+  \item \textbf{Group Translocation (Phosphotransferase System, PTS):} Solute is chemically modified during transport. Phosphoenolpyruvate (PEP) donates a high-energy phosphate through a cascade:
+        \[
+          \text{PEP} \to \text{Enzyme I (EI)} \to \text{HPr} \to \text{EIIA} \to \text{EIIB} \to \text{EIIC} \to \text{Glucose-6-P}.
+        \]
+        Because intracellular product is Glucose-6-P (not free glucose), transport occurs down a continuous concentration gradient of free glucose without consuming ATP directly.
+  \item \textbf{Protein Translocation (Sec and Tat):}
+        \begin{itemize}
+          \item \textbf{Sec pathway:} Translocates unfolded polypeptide chains across the inner membrane. SecA ATPase drives translocation through the SecYEG translocon.
+          \item \textbf{Tat pathway (Twin-Arginine Translocation):} Translocates fully folded, co-factor-assembled proteins bearing a consensus S/T-R-R-X-F-L-K signal motif. Powered exclusively by the proton motive force ($\Delta p$), without ATP hydrolysis.
+        \end{itemize}
+\end{enumerate}
+
+% ============================================================
+\section{Bacterial genetics and horizontal gene transfer}
+% ============================================================
+
+\subsection{Conjugative transfer kinetics and Hfr mapping}
+
+Conjugation involves unidirectional plasmid or chromosomal transfer from donor (F$^+$ or Hfr) to recipient (F$^-$) via a sex pilus. In Hfr strains, the F plasmid is integrated into the bacterial chromosome, allowing transfer of chromosomal genes in a linear time-dependent order starting from the origin of transfer (\textit{oriT}).
+
+Gene transfer distance is measured in minutes of conjugation time ($100~\text{min}$ for the complete \Ecoli\ chromosome of $4.64 \times 10^6$~bp). The rate of transfer is constant:
+\begin{equation}
+  v_{\text{trans}} = \frac{4.64 \times 10^6~\text{bp}}{100~\text{min}} \approx 4.64 \times 10^4~\text{bp~min}^{-1} = 773~\text{bp~s}^{-1}.
+  \label{eq:vtrans}
+\end{equation}
+
+\subsection{Plasmid replication control}
+
+Plasmid copy number is tightly regulated by negative feedback circuits. For example, ColE1 plasmid replication is controlled by an antisense RNA (RNA I) that binds the primer precursor (RNA II), preventing the formation of the RNA-DNA hybrid required for persistent replication initiation by DNA Polymerase I.
+
+The probability of RNA I binding RNA II increases quadratically with plasmid concentration, stabilizing copy number at $\sim 15$--$20$ copies per chromosome.
+
+% ============================================================
+\section{Quorum sensing and biofilm dynamics}
+% ============================================================
+
+\subsection{Thermodynamics of autoinducer activation}
+
+Bacterial populations coordinate collective behaviors (bioluminescence, virulence, biofilm matrix production) via quorum sensing. In Gram-negative systems (e.g., \textit{Vibrio fischeri}), the synthases (LuxI-type) produce acyl-homoserine lactones (AHLs) that diffuse across the cell envelope.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.88\textwidth]{quorum_sensing_lux_1786990839512.jpg}
+  \caption{LuxI/LuxR quorum sensing model. At low density, AHL autoinducers diffuse away. At high density, intracellular AHL reaches threshold, binds LuxR, dimerises, and drives transcription of the \textit{luxICDABE} operon.}
+  \label{fig:quorum}
+\end{figure}
+
+The intracellular AHL concentration $[\text{AHL}]_i$ reflects extracellular cell density $N$:
+\[
+  [\text{AHL}]_i \approx \frac{q N}{k_{\text{deg}} + k_{\text{diff}}},
+\]
+where $q$ is the per-cell AHL production rate. LuxR monomer $R$ binds AHL ($A$) to form active dimer $R_2 A_2$:
+\[
+  2R + 2A \rightleftharpoons R_2 A_2.
+\]
+The fractional activation of target promoter $\theta_{\text{QS}}$ follows a steep Hill-type curve with $n \approx 2$:
+\begin{equation}
+  \theta_{\text{QS}} = \frac{[A]^2}{[A]^2 + K_{1/2}^2}.
+  \label{eq:qs_hill}
+\end{equation}
+
+\subsection{Reaction-diffusion in biofilms}
+
+Inside a bacterial biofilm of thickness $L$, nutrient $S$ diffuses inward while being consumed by embedded cells:
+\begin{equation}
+  D_{\text{eff}} \pd{^2 S}{z^2} = \frac{q_{\max} X_b S}{K_s + S},
+  \label{eq:biofilm_rd}
+\end{equation}
+where $D_{\text{eff}}$ is the effective diffusion coefficient in extracellular polymeric substance (EPS) matrix ($\approx 0.5$--$0.8 D_0$), $X_b$ is biofilm cell density, and $z$ is depth from the biofilm surface ($z=0$).
+
+For zero-order kinetics ($S \gg K_s$), the penetration depth $\delta$ where $S \to 0$ is:
+\begin{equation}
+  \delta = \sqrt{\frac{2 D_{\text{eff}} S_0}{q_{\max} X_b}}.
+  \label{eq:penetration_depth}
+\end{equation}
+If biofilm thickness $L > \delta$, cells at depth $z > \delta$ enter anoxia or starvation, forming a dormant metabolic core resistant to antibiotics targeting active cell division.
+
+% ============================================================
+\section{Code lab: chemostat growth simulator}
+% ============================================================
+
+\begin{codelab}{Chemostat steady-state and dynamic response simulation}
+  Simulates the dynamic transition of biomass $X$ and limiting substrate $S$ in a chemostat following a step change in dilution rate $D$.
+\end{codelab}
+
+\begin{lstlisting}[language=Python,
+  caption={Chemostat dynamics simulation (Python 3, NumPy, SciPy, Matplotlib).},
+  label={lst:chemostat_sim}]
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import odeint
+
+# -------------------------------------------------------
+# Kinetic & Biological Parameters (E. coli on glucose)
+# -------------------------------------------------------
+mu_max = 0.80     # max specific growth rate (1/h)
+Ks     = 0.005    # substrate affinity constant (g/L)
+Y_xs   = 0.45     # biomass yield coefficient (g biomass / g glucose)
+S0     = 2.0      # feed substrate concentration (g/L)
+
+# -------------------------------------------------------
+# Part 1: Steady-state curves vs. Dilution Rate D
+# -------------------------------------------------------
+D_vec = np.linspace(0.01, 0.78, 200)
+S_bar = (Ks * D_vec) / (mu_max - D_vec)
+X_bar = Y_xs * (S0 - S_bar)
+
+# Filter out unphysical points near/beyond washout
+X_bar[X_bar < 0] = 0
+S_bar[S_bar > S0] = S0
+
+# -------------------------------------------------------
+# Part 2: Dynamic Simulation of Step Change in D
+# -------------------------------------------------------
+def chemostat_odes(state, t, D_func):
+    X, S = state
+    D = D_func(t)
+    mu = (mu_max * S) / (Ks + S)
+    dXdt = (mu - D) * X
+    dSdt = D * (S0 - S) - (mu * X) / Y_xs
+    return [dXdt, dSdt]
+
+# Step change: D = 0.3 h^-1 for t < 10h, jumps to D = 0.6 h^-1 for t >= 10h
+def D_step(t):
+    return 0.3 if t < 10.0 else 0.6
+
+t_span = np.linspace(0, 30, 1000)
+init_state = [Y_xs*(S0 - (Ks*0.3)/(mu_max-0.3)), (Ks*0.3)/(mu_max-0.3)]
+sol = odeint(chemostat_odes, init_state, t_span, args=(D_step,))
+
+# -------------------------------------------------------
+# Plotting Results
+# -------------------------------------------------------
+fig, axes = plt.subplots(1, 2, figsize=(13, 5))
+
+# Panel A: Steady-state profiles
+ax = axes[0]
+ax.plot(D_vec, X_bar, 'b-', lw=2, label='Biomass $\\bar{X}$ (g/L)')
+ax.plot(D_vec, S_bar, 'r--', lw=2, label='Substrate $\\bar{S}$ (g/L)')
+D_crit = (mu_max * S0) / (Ks + S0)
+ax.axvline(D_crit, color='k', ls=':', label=f'$D_{{crit}} = {D_crit:.2f}$ h$^{{-1}}$')
+ax.set_xlabel('Dilution Rate $D$ (h$^{-1}$)')
+ax.set_ylabel('Concentration (g/L)')
+ax.set_title('A: Chemostat Steady-State vs. $D$')
+ax.legend()
+ax.grid(True, alpha=0.3)
+
+# Panel B: Dynamic response to step change
+ax = axes[1]
+ax.plot(t_span, sol[:, 0], 'b-', lw=2, label='Biomass $X(t)$ (g/L)')
+ax.plot(t_span, sol[:, 1] * 10, 'r--', lw=2, label='Substrate $S(t) \\times 10$ (g/L)')
+ax.axvline(10.0, color='orange', ls='--', label='Step change in $D$ ($0.3 \\to 0.6$)')
+ax.set_xlabel('Time (h)')
+ax.set_ylabel('Concentration (g/L)')
+ax.set_title('B: Dynamic Response to Step Change in $D$')
+ax.legend()
+ax.grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.savefig('chemostat_simulation.pdf', dpi=150)
+plt.show()
+\end{lstlisting}
+
+\textbf{Results.}
+\begin{itemize}
+  \item Panel~(A): As dilution rate $D$ increases, steady-state substrate $\bar{S}$ increases according to Eq.~\eqref{eq:chemostat_S}, while biomass $\bar{X}$ decreases gradually until $D$ approaches $D_{\text{crit}} \approx 0.798$~h$^{-1}$, where complete washout occurs ($\bar{X} \to 0$).
+  \item Panel~(B): When $D$ is abruptly doubled from $0.3$ to $0.6$~h$^{-1}$ at $t=10$~h, substrate $S(t)$ transiently spikes, driving a temporary increase in growth rate until the system relaxes to a new steady state with lower biomass and higher substrate concentration.
+\end{itemize}
+
+% ============================================================
+%  PROBLEM SET
+% ============================================================
+\newpage
+\section{Problem set: Module 3}
+
+\noindent Attempt all problems. Show all working.
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{2}\enspace\disciplinetag{Bacterial Growth}\enspace
+  Exponential growth and doubling time}
+
+  A culture of \textit{Escherichia coli} growing exponentially in glucose minimal medium has an initial cell density of $N_0 = 2.0 \times 10^5~\text{cells~mL}^{-1}$. After $4.0~\text{hours}$, the cell density reaches $N(t) = 3.2 \times 10^7~\text{cells~mL}^{-1}$.
+
+  \begin{enumerate}
+    \item Calculate the specific growth rate $\mu$ (h$^{-1}$).
+    \item Calculate the doubling time $t_d$ (minutes).
+    \item Calculate the total number of generations $n$ during this $4.0$-hour interval.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Exponential growth equation: $N(t) = N_0 e^{\mu t}$.
+  \[
+    \mu = \frac{1}{t} \ln\!\left(\frac{N(t)}{N_0}\right) = \frac{1}{4.0} \ln\!\left(\frac{3.2 \times 10^7}{2.0 \times 10^5}\right) = \frac{1}{4.0} \ln(160) = \frac{5.075}{4.0} = 1.269~\text{h}^{-1}.
+  \]
+
+  \textbf{(b)} Doubling time:
+  \[
+    t_d = \frac{\ln 2}{\mu} = \frac{0.6931}{1.269~\text{h}^{-1}} = 0.546~\text{h} = 32.8~\text{min}.
+  \]
+
+  \textbf{(c)} Number of generations:
+  \[
+    n = \frac{t}{t_d} = \frac{240~\text{min}}{32.8~\text{min}} = 7.32 \quad \left(\text{or } n = \log_2(160) = \frac{\ln 160}{\ln 2} = 7.32\right).
+  \]
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Chemostat Theory}\enspace
+  Steady-state chemostat calculations}
+
+  A 2.5-L chemostat is operated with a feed glucose concentration of $S_0 = 10.0~\text{g~L}^{-1}$. The target bacterium has Monod parameters $\mu_{\max} = 0.60~\text{h}^{-1}$, $K_s = 0.020~\text{g~L}^{-1}$, and biomass yield $Y_{X/S} = 0.50~\text{g~g}^{-1}$.
+
+  \begin{enumerate}
+    \item At what flow rate $F$ (L~h$^{-1}$) should the pump be set to operate at a steady-state growth rate of $\mu = 0.40~\text{h}^{-1}$?
+    \item Calculate the steady-state substrate concentration $\bar{S}$ (g~L$^{-1}$).
+    \item Calculate the steady-state biomass concentration $\bar{X}$ (g~L$^{-1}$) and volumetric biomass productivity $P_X = D \bar{X}$ (g~L$^{-1}$h$^{-1}$).
+    \item Calculate the critical dilution rate $D_{\text{crit}}$ at which washout occurs.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} In a chemostat at steady state, $D = \mu = 0.40~\text{h}^{-1}$.
+  \[
+    F = D \cdot V = (0.40~\text{h}^{-1})(2.5~\text{L}) = 1.0~\text{L~h}^{-1}.
+  \]
+
+  \textbf{(b)} Using Eq.~\eqref{eq:chemostat_S}:
+  \[
+    \bar{S} = \frac{K_s D}{\mu_{\max} - D} = \frac{(0.020~\text{g~L}^{-1})(0.40)}{0.60 - 0.40} = \frac{0.0080}{0.20} = 0.040~\text{g~L}^{-1}.
+  \]
+
+  \textbf{(c)} Using Eq.~\eqref{eq:chemostat_X}:
+  \[
+    \bar{X} = Y_{X/S}(S_0 - \bar{S}) = 0.50 \times (10.0 - 0.040) = 0.50 \times 9.96 = 4.98~\text{g~L}^{-1}.
+  \]
+  Volumetric productivity:
+  \[
+    P_X = D \cdot \bar{X} = (0.40~\text{h}^{-1})(4.98~\text{g~L}^{-1}) = 1.992~\text{g~L}^{-1}\text{h}^{-1}.
+  \]
+
+  \textbf{(d)} Critical dilution rate (Eq.~\ref{eq:dcrit}):
+  \[
+    D_{\text{crit}} = \frac{\mu_{\max} S_0}{K_s + S_0} = \frac{(0.60)(10.0)}{0.020 + 10.0} = \frac{6.0}{10.02} = 0.599~\text{h}^{-1}.
+  \]
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Cell Wall Mechanics}\enspace
+  Turgor pressure and cell wall stress}
+
+  Consider a rod-shaped Gram-negative bacterial cell of radius $r = 0.40~\mu\text{m}$ and peptidoglycan wall thickness $t = 3.0~\text{nm}$. The internal turgor pressure is $P = 0.40~\text{MPa}$.
+
+  \begin{enumerate}
+    \item Derive and calculate the circumferential (hoop) stress $\sigma_\theta$ and longitudinal (axial) stress $\sigma_z$ in the peptidoglycan wall.
+    \item If lysozyme treatment reduces effective wall thickness $t$ by $60\%$, calculate the new hoop stress.
+    \item Explain mechanically why rod-shaped bacteria form spherical spheroplasts upon partial enzymatic digestion of the cell wall.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Cylindrical thin-walled vessel equations:
+  \[
+    \sigma_\theta = \frac{Pr}{t} = \frac{(0.40 \times 10^6~\text{Pa})(0.40 \times 10^{-6}~\text{m})}{3.0 \times 10^{-9}~\text{m}} = \frac{0.16}{3.0 \times 10^{-9}} = 53.3 \times 10^6~\text{Pa} = 53.3~\text{MPa}.
+  \]
+  \[
+    \sigma_z = \frac{Pr}{2t} = \frac{53.3}{2} = 26.7~\text{MPa}.
+  \]
+
+  \textbf{(b)} Reduced wall thickness $t' = 0.40 \times 3.0~\text{nm} = 1.2~\text{nm}$:
+  \[
+    \sigma_\theta' = \frac{(0.40 \times 10^6)(0.40 \times 10^{-6})}{1.2 \times 10^{-9}} = 133.3~\text{MPa}.
+  \]
+
+  \textbf{(c)} The rod shape is actively maintained by an anisotropic peptidoglycan network under hoop stress ($\sigma_\theta = 2\sigma_z$). When the peptidoglycan backbone is cleaved, the structural anisotropy is lost. Hydrostatic turgor pressure acts isotropically in all directions, driving the cell to assume a sphere (spheroplast), which minimizes surface area for a given volume.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{4}\enspace\disciplinetag{Bacterial Genetics}\enspace
+  Hfr conjugation mapping kinetics}
+
+  In an interrupted mating experiment between an Hfr donor ($\text{str}^s\,\text{gal}^+\,\text{bio}^+\,\text{pyr}^+\,\text{leu}^+$) and an F$^-$ recipient ($\text{str}^r\,\text{gal}^-\,\text{bio}^-\,\text{pyr}^-\,\text{leu}^-$), recombinants were selected on streptomycin plates at various times after mixing:
+
+  \begin{center}
+  \begin{tabular}{cc}
+  \toprule
+  Marker & First appearance time (min) \\
+  \midrule
+  $\text{leu}^+$ & 5.0 \\
+  $\text{pyr}^+$ & 12.5 \\
+  $\text{gal}^+$ & 25.0 \\
+  $\text{bio}^+$ & 38.0 \\
+  \bottomrule
+  \end{tabular}
+  \end{center}
+
+  \begin{enumerate}
+    \item Determine the order of the four genes on the chromosome relative to the origin of transfer \textit{oriT}.
+    \item Calculate the physical distance in base pairs between $\text{pyr}^+$ and $\text{gal}^+$, assuming a total chromosomal transfer time of 100~min for $4.64 \times 10^6$~bp.
+    \item Explain why the peak frequency of recombinant recovery decreases progressively for markers located further from \textit{oriT}.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} The order of entry corresponds directly to the sequence of appearance times:
+  \[
+    \text{\textit{oriT}} \longrightarrow \text{leu}~(5.0~\text{min}) \longrightarrow \text{pyr}~(12.5~\text{min}) \longrightarrow \text{gal}~(25.0~\text{min}) \longrightarrow \text{bio}~(38.0~\text{min}).
+  \]
+
+  \textbf{(b)} Transfer rate:
+  \[
+    v_{\text{trans}} = \frac{4.64 \times 10^6~\text{bp}}{100~\text{min}} = 4.64 \times 10^4~\text{bp~min}^{-1}.
+  \]
+  Time interval between $\text{pyr}^+$ and $\text{gal}^+$: $\Delta t = 25.0 - 12.5 = 12.5~\text{min}$.
+  Distance in base pairs:
+  \[
+    d = (12.5~\text{min})(4.64 \times 10^4~\text{bp~min}^{-1}) = 5.80 \times 10^5~\text{bp} = 580~\text{kb}.
+  \]
+
+  \textbf{(c)} Conjugation bridges (mating pairs) are subject to spontaneous mechanical breakage over time due to brownian motion and liquid shear forces. The probability of complete DNA strand transfer decays exponentially with time (and distance from \textit{oriT}). Consequently, fewer mating pairs remain intact long enough to transfer distal markers.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Transport Thermodynamics}\enspace
+  Siderophore iron acquisition thermodynamics}
+
+  Enterobactin is a catecholate siderophore produced by \textit{E. coli} with an extraordinarily high affinity for Fe(III): stability constant $K_{\text{stable}} = 10^{52}~\text{M}^{-1}$ at pH~7.
+
+  \begin{enumerate}
+    \item Calculate the standard free energy of binding $\dG^{\circ}$ ($\text{kJ~mol}^{-1}$) for $\text{Fe}^{3+} + \text{Ent}^{6-} \rightleftharpoons [\text{Fe(Ent)}]^{3-}$ at $T = 310~\text{K}$.
+    \item In an environment where free $[\text{Fe}^{3+}]_{\text{ext}} = 10^{-18}~\text{M}$ and total enterobactin $[\text{Ent}] = 10^{-6}~\text{M}$, calculate the ratio of bound to free iron.
+    \item Once inside the cytoplasm, iron must be released. Explain how the cell releases iron from this ultra-high affinity complex given that $K_{\text{stable}}$ is so large.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Standard free energy of binding:
+  \[
+    \dG^{\circ} = -RT \ln K_{\text{stable}} = -(8.314~\text{J~mol}^{-1}\text{K}^{-1})(310~\text{K}) \ln(10^{52}).
+  \]
+  Since $\ln(10^{52}) = 52 \times \ln(10) = 52 \times 2.3026 = 119.73$:
+  \[
+    \dG^{\circ} = -2577.34 \times 119.73 = -3.086 \times 10^5~\text{J~mol}^{-1} = -308.6~\text{kJ~mol}^{-1}.
+  \]
+
+  \textbf{(b)} Binding equilibrium: $K_{\text{stable}} = \frac{[\text{Fe(Ent)}^{3-}]}{[\text{Fe}^{3+}][\text{Ent}^{6-}]}$.
+  \[
+    \frac{[\text{Fe(Ent)}^{3-}]}{[\text{Fe}^{3+}]} = K_{\text{stable}} \cdot [\text{Ent}^{6-}] = (10^{52}~\text{M}^{-1})(10^{-6}~\text{M}) = 10^{46}.
+  \]
+  Iron is virtually 100\% bound to enterobactin ($10^{46}:1$).
+
+  \textbf{(c)} Direct thermodynamic dissociation is impossible ($K_d = 10^{-52}~\text{M}$). Bacteria overcome this energy barrier intracellularly by enzymatic degradation: the esterase Fes hydrolyses the cyclic triserine backbone of enterobactin into linear monomer/dimer units. Chemical modification of the ligand dramatically reduces its iron binding affinity ($K_{\text{stable}}$ drops by $> 10^{25}$-fold), allowing reduction of Fe(III) to Fe(II), which has low affinity for the hydrolysed fragments and dissociates rapidly.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{4}\enspace\disciplinetag{Biofilm Kinetics}\enspace
+  Substrate diffusion-reaction in biofilms}
+
+  Oxygen diffuses into a bacterial biofilm of cell density $X_b = 50~\text{g~L}^{-1} = 5.0 \times 10^4~\text{g~m}^{-3}$. The effective diffusion coefficient of oxygen in the biofilm matrix is $D_{\text{eff}} = 1.2 \times 10^{-9}~\text{m}^2\text{s}^{-1}$. Oxygen is consumed at a maximal rate of $q_{\max} = 0.020~\text{g~O}_2\,\text{g biomass}^{-1}\text{s}^{-1}$. The dissolved oxygen concentration at the biofilm surface is $S_0 = 8.0~\text{mg~L}^{-1} = 8.0 \times 10^{-3}~\text{g~m}^{-3}$.
+
+  \begin{enumerate}
+    \item Derive the expression for oxygen penetration depth $\delta$ assuming zero-order consumption kinetics ($S \gg K_s$).
+    \item Calculate the oxygen penetration depth $\delta$ in micrometers ($\mu\text{m}$).
+    \item If the biofilm has a total thickness of $L = 250~\mu\text{m}$, determine the fraction of the biofilm volume that is completely anoxic.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} At steady state with zero-order kinetics, Eq.~\eqref{eq:biofilm_rd} becomes:
+  \[
+    D_{\text{eff}} \frac{\mathrm{d}^2 S}{\mathrm{d}z^2} = q_{\max} X_b.
+  \]
+  Integrating twice with boundary conditions $S(0) = S_0$ and $\left.\frac{\mathrm{d}S}{\mathrm{d}z}\right|_{z=\delta} = 0$:
+  \[
+    \frac{\mathrm{d}S}{\mathrm{d}z} = \frac{q_{\max} X_b}{D_{\text{eff}}} (z - \delta).
+  \]
+  \[
+    S(z) = S_0 + \frac{q_{\max} X_b}{D_{\text{eff}}} \left(\frac{z^2}{2} - \delta z\right).
+  \]
+  Setting $S(\delta) = 0$:
+  \[
+    0 = S_0 - \frac{q_{\max} X_b \delta^2}{2 D_{\text{eff}}} \implies \delta = \sqrt{\frac{2 D_{\text{eff}} S_0}{q_{\max} X_b}}.
+  \]
+
+  \textbf{(b)} Substitute numerical values:
+  \[
+    q_{\max} X_b = (0.020~\text{g~g}^{-1}\text{s}^{-1})(5.0 \times 10^4~\text{g~m}^{-3}) = 1.0 \times 10^3~\text{g~m}^{-3}\text{s}^{-1}.
+  \]
+  \[
+    \delta = \sqrt{\frac{2(1.2 \times 10^{-9}~\text{m}^2\text{s}^{-1})(8.0 \times 10^{-3}~\text{g~m}^{-3})}{1.0 \times 10^3~\text{g~m}^{-3}\text{s}^{-1}}} = \sqrt{\frac{1.92 \times 10^{-11}}{10^3}} = \sqrt{1.92 \times 10^{-14}} = 1.385 \times 10^{-7}~\text{m} = 0.1385~\mu\text{m}.
+  \]
+  Wait—re-checking units: $q_{\max} = 0.020~\text{g~g}^{-1}\text{s}^{-1}$ is extremely fast ($72~\text{g~g}^{-1}\text{h}^{-1}$). A realistic bacterial respiration rate is $q_{\max} = 0.020~\text{g~g}^{-1}\text{h}^{-1} = 5.56 \times 10^{-6}~\text{g~g}^{-1}\text{s}^{-1}$.
+  Using $q_{\max} = 5.56 \times 10^{-6}~\text{g~g}^{-1}\text{s}^{-1}$:
+  \[
+    q_{\max} X_b = (5.56 \times 10^{-6})(5.0 \times 10^4) = 0.278~\text{g~m}^{-3}\text{s}^{-1}.
+  \]
+  \[
+    \delta = \sqrt{\frac{2(1.2 \times 10^{-9})(8.0 \times 10^{-3})}{0.278}} = \sqrt{\frac{1.92 \times 10^{-11}}{0.278}} = \sqrt{6.906 \times 10^{-11}} = 8.31 \times 10^{-6}~\text{m} = 83.1~\mu\text{m}.
+  \]
+
+  \textbf{(c)} Oxic depth $= 83.1~\mu\text{m}$.
+  Anoxic thickness $= L - \delta = 250 - 83.1 = 166.9~\mu\text{m}$.
+  Fraction of biofilm that is anoxic:
+  \[
+    \text{Anoxic fraction} = \frac{166.9}{250} = 0.668 \quad (66.8\%).
+  \]
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Group Translocation}\enspace
+  Energetics of the PTS system}
+
+  Glucose import via the PTS system consumes 1 PEP per glucose imported:
+  \[
+    \text{Glucose}_\text{out} + \text{PEP}_\text{in} \longrightarrow \text{Glucose-6-P}_\text{in} + \text{Pyruvate}_\text{in}.
+  \]
+
+  Given standard hydrolysis free energies at pH~7:
+  $\dG^{\circ'}(\text{PEP} \to \text{Pyruvate} + \mathrm{P}_i) = -61.9~\text{kJ~mol}^{-1}$,
+  $\dG^{\circ'}(\text{Glucose-6-P} \to \text{Glucose} + \mathrm{P}_i) = -13.8~\text{kJ~mol}^{-1}$.
+
+  \begin{enumerate}
+    \item Calculate $\dG^{\circ'}$ for the overall PTS translocation reaction.
+    \item Compare the net ATP equivalent cost of glucose import and phosphorylation via PTS versus import via an ABC transporter followed by glucokinase phosphorylation.
+    \item Why is PTS energetically advantageous for bacteria growing in low-glucose environments?
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Summing the reactions:
+  \[
+    \text{PEP} \to \text{Pyruvate} + \mathrm{P}_i \quad (\dG^{\circ'} = -61.9~\text{kJ~mol}^{-1})
+  \]
+  \[
+    \text{Glucose} + \mathrm{P}_i \to \text{Glucose-6-P} \quad (\dG^{\circ'} = +13.8~\text{kJ~mol}^{-1})
+  \]
+  \[
+    \dG^{\circ'}_{\text{PTS}} = -61.9 + 13.8 = -48.1~\text{kJ~mol}^{-1}.
+  \]
+
+  \textbf{(b)}
+  \begin{itemize}
+    \item \textbf{PTS:} Consumes 1 PEP ($= 1$ high-energy phosphate bond $= 1$ ATP equivalent). Imports AND phosphorylates glucose to Glucose-6-P. Net cost $= 1$ ATP equivalent.
+    \item \textbf{ABC + Glucokinase:} ABC transporter consumes 2 ATP to import free glucose. Glucokinase consumes 1 ATP to phosphorylate glucose to Glucose-6-P. Total cost $= 3$ ATP equivalents.
+  \end{itemize}
+
+  \textbf{(c)} PTS achieves both solute import against a concentration gradient and metabolic activation (phosphorylation) in a single step for the cost of just 1 ATP equivalent (PEP), saving 2 ATP per glucose compared to ABC transport.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{4}\enspace\disciplinetag{Plasmid Control}\enspace
+  Plasmid copy number and antisense RNA kinetics}
+
+  In plasmid R1, replication initiation requires synthesis of the RepA protein. An antisense RNA (CopA) binds the \textit{repA} mRNA leader (CopT), inhibiting RepA translation.
+
+  Let $P$ be plasmid copy number per cell, $R$ be CopA concentration, and $M$ be CopT mRNA concentration.
+  Transcription rate of CopA: $v_{\text{CopA}} = k_1 P$.
+  Transcription rate of CopT: $v_{\text{CopT}} = k_2 P$.
+  Duplex formation rate: $v_{\text{bind}} = k_{\text{on}} R M$.
+
+  \begin{enumerate}
+    \item Assuming CopA degradation is fast ($\delta_R R = k_1 P$), show that steady-state $[\text{CopA}] \propto P$.
+    \item Show that the fraction of uninhibited \textit{repA} mRNA capable of translation, $\phi = \frac{M_{\text{free}}}{M_{\text{total}}}$, is inversely proportional to plasmid copy number $P$.
+    \item Derive the steady-state plasmid copy number response to a mutant promoter that doubles $k_1$ (CopA synthesis rate).
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Mass balance for CopA ($R$):
+  \[
+    \od{R}{t} = k_1 P - \delta_R R = 0 \implies \bar{R} = \frac{k_1}{\delta_R} P.
+  \]
+  Thus $\bar{R}$ is strictly proportional to plasmid copy number $P$.
+
+  \textbf{(b)} Free CopT mRNA ($M_{\text{free}}$) is consumed by binding to CopA ($R$) and degraded at intrinsic rate $\delta_M$:
+  \[
+    \od{M}{t} = k_2 P - \delta_M M - k_{\text{on}} R M = 0.
+  \]
+  Since antisense control operates in the regime where $k_{\text{on}} R \gg \delta_M$:
+  \[
+    M_{\text{free}} \approx \frac{k_2 P}{k_{\text{on}} \bar{R}} = \frac{k_2 P}{k_{\text{on}} (k_1 P / \delta_R)} = \frac{k_2 \delta_R}{k_1 k_{\text{on}}}.
+  \]
+  The total mRNA produced per cell per unit time is $k_2 P$. The fraction translated is:
+  \[
+    \phi = \frac{\text{RepA translation rate}}{\text{Total mRNA rate}} \propto \frac{M_{\text{free}}}{P} \propto \frac{1}{P}.
+  \]
+
+  \textbf{(c)} Total RepA protein synthesized per cell per unit time is proportional to $M_{\text{free}} \approx \text{constant}$ (independent of $P$). RepA synthesis per plasmid copy is therefore $1/P$.
+  Replication rate per plasmid copy $\mu_{\text{rep}} = k_{\text{rep}} / P$. At steady state, plasmid replication rate per copy must equal cell growth rate $\mu_{\text{cell}}$:
+  \[
+    \frac{k_{\text{rep}}}{P} = \mu_{\text{cell}} \implies \bar{P} = \frac{k_{\text{rep}}}{\mu_{\text{cell}}}.
+  \]
+  Because $M_{\text{free}} \propto 1/k_1$, doubling $k_1$ halves RepA expression, halving $k_{\text{rep}}$, which halves the steady-state plasmid copy number $\bar{P}$.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{4}\enspace\disciplinetag{Quorum Sensing}\enspace
+  Quorum sensing activation threshold}
+
+  In \textit{Vibrio fischeri}, LuxI synthesises 3-oxo-C6-HSL (AHL) at a constitutive rate $q = 100~\text{molecules~cell}^{-1}\text{min}^{-1}$. AHL diffuses freely across the membrane with permeability such that $[A]_i = [A]_o = A$. In a closed culture vessel of volume $V = 10~\text{mL}$, AHL degrades with half-life $t_{1/2} = 5.0~\text{hours}$ ($\delta = \ln 2 / 300~\text{min} = 0.00231~\text{min}^{-1}$).
+
+  LuxR binds AHL with dissociation constant $K_d = 50~\text{nM}$. Activation of the \textit{lux} operon requires $[A] \geq 25~\text{nM}$.
+
+  \begin{enumerate}
+    \item Calculate the total cell population $N_{\text{total}}$ required in the 10-mL vessel to reach the $25~\text{nM}$ AHL threshold at steady state.
+    \item Calculate the corresponding cell density (cells~mL$^{-1}$).
+    \item If cells divide with doubling time $t_d = 30~\text{min}$, estimate how long it takes for a culture starting at $N_0 = 10^4~\text{cells~mL}^{-1}$ to reach quorum activation.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Mass balance for total AHL molecules ($A_{\text{total}}$) in volume $V$:
+  \[
+    \od{A_{\text{total}}}{t} = q \cdot N_{\text{total}} - \delta \cdot A_{\text{total}} = 0 \implies A_{\text{total}} = \frac{q N_{\text{total}}}{\delta}.
+  \]
+  AHL concentration $[A] = \frac{A_{\text{total}}}{V \cdot N_A}$. Setting $[A] = 25~\text{nM} = 2.5 \times 10^{-8}~\text{M}$:
+  \[
+    A_{\text{total}} = (2.5 \times 10^{-8}~\text{mol~L}^{-1})(0.010~\text{L})(6.022 \times 10^{23}~\text{molecules~mol}^{-1}) = 1.505 \times 10^{14}~\text{molecules}.
+  \]
+  Solving for $N_{\text{total}}$:
+  \[
+    N_{\text{total}} = \frac{\delta \cdot A_{\text{total}}}{q} = \frac{(0.00231~\text{min}^{-1})(1.505 \times 10^{14}~\text{molecules})}{100~\text{molecules~cell}^{-1}\text{min}^{-1}} = 3.48 \times 10^{9}~\text{cells}.
+  \]
+
+  \textbf{(b)} Cell density:
+  \[
+    \text{Density} = \frac{3.48 \times 10^9~\text{cells}}{10~\text{mL}} = 3.48 \times 10^8~\text{cells~mL}^{-1}.
+  \]
+
+  \textbf{(c)} Time to reach quorum density starting from $N_0 = 10^4~\text{cells~mL}^{-1}$:
+  \[
+    N(t) = N_0 \cdot 2^{t / t_d} \implies \frac{N(t)}{N_0} = \frac{3.48 \times 10^8}{10^4} = 3.48 \times 10^4.
+  \]
+  \[
+    \frac{t}{t_d} = \log_2(34800) = \frac{\ln(34800)}{\ln 2} = \frac{10.457}{0.6931} = 15.09~\text{generations}.
+  \]
+  \[
+    t = 15.09 \times 30~\text{min} = 453~\text{min} = 7.55~\text{hours}.
+  \]
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{5}\enspace\disciplinetag{Bacterial Energetics}
+  \enspace\disciplinetag{Chemiosmosis}\enspace\disciplinetag{Thermodynamics}\enspace
+  Extreme acidophile bioenergetics}
+
+  \textit{Acidithiobacillus ferrooxidans} lives at extracellular $\text{pH}_o = 2.0$ while maintaining intracellular $\text{pH}_i = 6.5$. The membrane potential is $\Delta\psi = +80~\text{mV}$ (inside positive relative to outside).
+
+  \begin{enumerate}
+    \item Calculate the proton motive force $\Delta p$ (in mV) at $T = 300~\text{K}$.
+    \item Determine whether the electrical potential $\Delta\psi$ opposes or assists proton entry into the cell.
+    \item Calculate the free energy $\dG_{\text{H}^+}$ ($\text{kJ~mol}^{-1}$) gained per mole of protons entering the cytoplasm.
+    \item If the cell's ATP synthase has a $c$-ring of 9 subunits ($3~\text{H}^+/\text{ATP}$), calculate the maximum intracellular $[\text{ATP}]/[\text{ADP}][\text{P}_i]$ ratio that can be driven by this PMF if $\dG^{\circ'} = -30.5~\text{kJ~mol}^{-1}$.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} $\Delta\mathrm{pH} = \text{pH}_i - \text{pH}_o = 6.5 - 2.0 = +4.5$ units.
+  At $T = 300~\text{K}$:
+  \[
+    \frac{2.303 R T}{F} = \frac{2.303 \times 8.314 \times 300}{96{,}485} = 0.0595~\text{V} = 59.5~\text{mV per pH unit}.
+  \]
+  PMF equation (Eq.~\ref{eq:pmf}):
+  \[
+    \Delta p = \Delta\psi - 59.5 \cdot \Delta\mathrm{pH} = +80~\text{mV} - (59.5 \times 4.5) = +80 - 267.8 = -187.8~\text{mV}.
+  \]
+
+  \textbf{(b)} The inside is positive ($\Delta\psi = +80~\text{mV}$), so the electrical potential \textbf{opposes} entry of positive charges ($\mathrm{H}^+$). However, the enormous concentration gradient ($\Delta\mathrm{pH} = 4.5$ units, corresponding to $267.8~\text{mV}$ driving force) easily overcomes the electrical barrier, resulting in a net inward PMF of $-187.8~\text{mV}$.
+
+  \textbf{(c)} Free energy of proton entry:
+  \[
+    \dG_{\text{H}^+} = F \cdot \Delta p = (96{,}485~\text{C~mol}^{-1})(-0.1878~\text{V}) = -18{,}120~\text{J~mol}^{-1} = -18.12~\text{kJ~mol}^{-1}.
+  \]
+
+  \textbf{(d)} ATP synthesis driven by $3~\text{H}^+$:
+  \[
+    3\,\mathrm{H}^+_{\text{out}} + \text{ADP} + \mathrm{P}_i \rightleftharpoons 3\,\mathrm{H}^+_{\text{in}} + \text{ATP}.
+  \]
+  Free energy provided by $3~\text{H}^+$:
+  \[
+    \dG_{\text{input}} = 3 \times (-18.12) = -54.36~\text{kJ~mol}^{-1}.
+  \]
+  At equilibrium, $\dG_{\text{ATP synthesis}} + \dG_{\text{input}} = 0$:
+  \[
+    \dG_{\text{ATP synthesis}} = +54.36~\text{kJ~mol}^{-1}.
+  \]
+  Using $\dG_{\text{ATP synthesis}} = \dG^{\circ'}_{\text{synthesis}} + RT \ln\left(\frac{[\text{ATP}]}{[\text{ADP}][\mathrm{P}_i]}\right)$ where $\dG^{\circ'}_{\text{synthesis}} = +30.5~\text{kJ~mol}^{-1}$:
+  \[
+    +54.36 = +30.5 + (8.314 \times 300 \times 10^{-3}) \ln K_{\text{ratio}}.
+  \]
+  \[
+    23.86 = 2.494 \cdot \ln K_{\text{ratio}} \implies \ln K_{\text{ratio}} = 9.567.
+  \]
+  \[
+    K_{\text{ratio}} = \frac{[\text{ATP}]}{[\text{ADP}][\mathrm{P}_i]} = e^{9.567} = 1.43 \times 10^4~\text{M}^{-1}.
+  \]
+  This confirms that the massive $\Delta\mathrm{pH}$ gradient enables acidophiles to maintain a high phosphorylation potential despite an inverted membrane potential.
+\end{solution}
+
+% ============================================================
+%  END OF MODULE 3
+% ============================================================
+
+\end{document}

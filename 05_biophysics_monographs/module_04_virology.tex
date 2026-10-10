@@ -1,0 +1,715 @@
+% ============================================================
+%  module_04_virology.tex  —  IBO Biology Platform
+%  Module 4: Virology and Immunology
+%
+%  STANDALONE: compile this file directly on Overleaf.
+%  Upload together with: preamble.tex + the four .jpg images.
+%  Compiler: pdfLaTeX. Root: module_04_virology.tex
+% ============================================================
+
+\documentclass[12pt, a4paper, oneside]{report}
+\input{preamble}
+
+\begin{document}
+
+% ---------- Title block ----------
+\begin{titlepage}
+  \centering
+  \vspace*{4cm}
+  {\sffamily\fontsize{13}{16}\selectfont\color{accent} IBO Biology Platform}\\[0.6em]
+  {\rule{0.4\textwidth}{0.4pt}}\\[0.6em]
+  {\sffamily\fontsize{22}{28}\selectfont\bfseries Module 4}\\[0.4em]
+  {\sffamily\fontsize{16}{20}\selectfont\bfseries\color{accent}
+    Virology and Immunology}\\[1.2em]
+  {\small\color{gray}
+    Capsid geometry \textbullet\ Membrane fusion biophysics \textbullet\
+    Replication kinetics \textbullet\ Innate sensing \textbullet\
+    Antibody affinity kinetics}\\[0.6em]
+  {\rule{0.4\textwidth}{0.4pt}}\\[0.5em]
+  {\small\color{gray} \today}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============================================================
+%  Chapter begins here
+% ============================================================
+
+\chapter{Virology and Immunology}
+\label{ch:virology}
+
+\begin{tcolorbox}[colback=probback, colframe=accent, boxrule=0.5pt, arc=1pt,
+  fonttitle=\bfseries\sffamily\small, coltitle=white, colbacktitle=accent,
+  title={Module Overview}, top=4pt, bottom=4pt, left=6pt, right=6pt]
+  \textbf{Topics:} Caspar-Klug theory of icosahedral capsids;
+  biophysics of viral membrane fusion;
+  Luria-Delbrück fluctuation analysis and viral replication kinetics;
+  cGAS-STING and Type~I interferon innate immune signaling;
+  V(D)J recombination combinatorics and SPR antibody-antigen kinetics.\\[3pt]
+  \textbf{Prerequisites:} Differential equations; combinatorics;
+  thermodynamics ($\dG$, $\Kd$); Modules~1--3.\\[3pt]
+  \textbf{Problem set:} 10 problems, \stars{2}--\stars{5}.
+\end{tcolorbox}
+
+% ============================================================
+\section{Viral capsid geometry and thermodynamics}
+% ============================================================
+
+\subsection{Caspar-Klug theory of icosahedral capsids}
+
+Viruses encapsulate their genomes within protective protein shells called capsids. To enclose maximum volume with minimum genetic coding cost, spherical viruses utilize icosahedral symmetry (20 equilateral triangular faces, 12 5-fold vertices, 30 2-fold edges, and 20 3-fold axes).
+
+\begin{historicalnote}{Caspar and Klug (1962)}
+  Donald Caspar and Aaron Klug formulated the theory of quasi-equivalence to explain how capsids composed of more than 60 identical protein subunits can form stable icosahedral shells. They proved that identical protein subunits can occupy non-identical (quasi-equivalent) conformational environments on a hexagonal lattice mapped onto an icosahedron.
+\end{historicalnote}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{capsid_caspar_klug_geometry_1786990997288.jpg}
+  \caption{Caspar-Klug theory of icosahedral capsids. Left: Icosahedral symmetry axes. Middle: Hexagonal lattice coordinates $(h,k)$ defining the triangulation number $T$. Right: Comparison of $T=1$ (60 subunits) vs $T=3$ (180 subunits) capsids.}
+  \label{fig:capsid}
+\end{figure}
+
+The \textbf{triangulation number} $T$ is defined by integer step coordinates $(h, k)$ along the principal axes of a 2D hexagonal lattice from one 5-fold vertex to an adjacent 5-fold vertex:
+\begin{equation}
+  T = h^2 + hk + k^2, \qquad h, k \in \mathbb{Z}_{\ge 0}.
+  \label{eq:tnumber}
+\end{equation}
+
+Allowed values of $T$ include $T = 1, 3, 4, 7, 9, 12, 13, 16, 19, 21, 25, 27, 28, \dots$
+
+The structural parameters of a $T$-number capsid are:
+\begin{itemize}
+  \item Total protein subunits $= 60 \, T$.
+  \item Number of pentamers $= 12$ (always exactly 12 at the 5-fold vertices).
+  \item Number of hexamers $= 10(T - 1)$.
+  \item Total capsomers (morphological units) $= 12 + 10(T - 1) = 10T + 2$.
+\end{itemize}
+
+For example:
+\begin{itemize}
+  \item $T=1$ ($h=1, k=0$): $60$ subunits, $12$ pentamers, $0$ hexamers (e.g., Parvovirus).
+  \item $T=3$ ($h=1, k=1$): $180$ subunits, $12$ pentamers, $20$ hexamers (e.g., Poliovirus, TBSV).
+  \item $T=7$ ($h=2, k=1$ or $h=1, k=2$): $420$ subunits, $12$ pentamers, $60$ hexamers (e.g., Bacteriophage T4, HK97).
+\end{itemize}
+
+\subsection{Thermodynamics of self-assembly}
+
+Capsid assembly is a reversible condensation reaction driven by hydrophobic interactions between subunit interfaces. For a capsid formed from $N$ identical subunits ($N = 60T$):
+\[
+  N \cdot S \rightleftharpoons S_N.
+\]
+The equilibrium association constant $K_a$ is:
+\begin{equation}
+  K_a = \frac{[S_N]}{[S]^N} = \exp\left(-\frac{\dG^\circ_{\text{assembly}}}{RT}\right).
+  \label{eq:assembly_ka}
+\end{equation}
+Because of the high molecularity $N$, assembly exhibits extreme cooperative threshold behavior: below a critical subunit concentration $C_{\text{crit}}$, virtually no capsids form; above $C_{\text{crit}}$, additional subunits quantitatively condense into intact capsids.
+
+The critical concentration is:
+\begin{equation}
+  C_{\text{crit}} \approx \exp\left(\frac{g_b}{RT}\right),
+  \label{eq:ccrit}
+\end{equation}
+where $g_b < 0$ is the average contact binding free energy per subunit interface.
+
+% ============================================================
+\section{Biophysics of viral entry and membrane fusion}
+% ============================================================
+
+Enveloped viruses (e.g., Influenza, HIV, SARS-CoV-2) enter host cells by fusing their lipid envelope with the host cell plasma membrane or endosomal membrane. Fusion is mediated by specialized viral fusion proteins (Class I, II, or III).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{viral_membrane_fusion_1786991009262.jpg}
+  \caption{Biophysical stages of viral membrane fusion. 1: Native prefusion spike. 2: Triggering (e.g., low pH) extends fusion peptide into host membrane. 3: Pre-hairpin intermediate folds back into a 6-helix bundle. 4: Hemifusion stalk formation. 5: Complete fusion pore opening.}
+  \label{fig:fusion}
+\end{figure}
+
+\subsection{Thermodynamics of hairpin formation}
+
+Class I fusion proteins (e.g., Influenza Hemagglutinin HA, HIV Env gp41, SARS-CoV-2 Spike) exist in a metastable prefusion state. Triggering (acidification in endosomes or receptor binding) induces a dramatic conformational rearrangement:
+\begin1. Exposure and insertion of the hydrophobic fusion peptide into the target host membrane.
+2. Refolding of heptad repeat regions (HR1 and HR2) into a highly stable six-helix bundle (postfusion hairpin).
+
+The free energy released by 6-helix bundle refolding ($\dG_{\text{refolding}} \approx -150$ to $-300~\text{kJ~mol}^{-1}$ per trimer) overcomes the electrostatic and steric hydration repulsion between the two lipid bilayers, driving them through a high-energy hemifusion stalk intermediate into an open fusion pore.
+
+% ============================================================
+\section{Quantitative virology and replication kinetics}
+% ============================================================
+
+\subsection{The Luria-Delbrück fluctuation analysis}
+
+\begin{historicalnote}{Luria and Delbrück (1943, Nobel 1969)}
+  Salvador Luria and Max Delbrück designed the fluctuation test to determine whether bacterial mutations conferring phage resistance arise spontaneously prior to selection or are induced by exposure to the phage. By demonstrating that the variance of resistant colony counts among independent cultures vastly exceeds the mean (Poisson expectation), they proved that mutations occur spontaneously during unselected growth.
+\end{historicalnote}
+
+If mutations occur spontaneously at rate $a$ per cell division, the expected number of mutants $m$ in a culture grown to $N$ total cells is:
+\begin{equation}
+  m = a N \ln(a N C),
+  \label{eq:luria_delbruck}
+\end{equation}
+where $C$ is the number of independent cultures.
+
+The mean number of mutants $\bar{r}$ and the variance $V_r$ satisfy:
+\begin{itemize}
+  \item \textbf{Induced hypothesis (Poisson):} $V_r = \bar{r}$.
+  \item \textbf{Spontaneous mutation hypothesis (Luria-Delbrück):} $V_r \gg \bar{r}$ (fluctuation with a heavy-tailed distribution).
+\end{itemize}
+
+\subsection{Single-step growth kinetics}
+
+Ellis and Delbrück (1939) established the single-step growth experiment to measure the key parameters of viral infection:
+\begin{itemize}
+  \item \textbf{Latent period ($t_{\text{latent}}$):} Time from initial infection to first release of progeny virions.
+  \item \textbf{Eclipse period ($t_{\text{eclipse}}$):} Time from infection until infectious intracellular virions are assembled (before release).
+  \item \textbf{Burst size ($B$):} Average number of infectious progeny virions released per infected cell:
+        \begin{equation}
+          B = \frac{\text{Final plateau virus titer} - \text{Initial virus titer}}{\text{Initial infected cell concentration}}.
+          \label{eq:burst_size}
+        \end{equation}
+\end{itemize}
+
+% ============================================================
+\section{Innate immunity and cytosolic sensing}
+% ============================================================
+
+Host cells detect viral infection using Pattern Recognition Receptors (PRRs) that recognize Pathogen-Associated Molecular Patterns (PAMPs), such as cytosolic double-stranded DNA (dsDNA) or double-stranded RNA (dsRNA).
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{cgas_sting_pathway_1786991021739.jpg}
+  \caption{The cGAS-STING cytosolic DNA sensing pathway. Cytosolic dsDNA activates cGAS to synthesize 2'3'-cGAMP, which binds STING on the ER. STING translocates to the Golgi, recruiting TBK1 to phosphorylate IRF3, driving Type I Interferon ($\text{IFN}-\beta$) transcription.}
+  \label{fig:cgas}
+\end{figure}
+
+\subsection{The cGAS-STING signaling pathway}
+
+Cyclic GMP-AMP Synthase (cGAS) is a cytosolic DNA sensor:
+\begin1. cGAS binds double-stranded DNA in a length-dependent, sequence-independent manner.
+2. DNA binding activates cGAS to catalyze the synthesis of the non-canonical cyclic dinucleotide $2'3'$-cGAMP from ATP and GTP:
+   \[
+     \mathrm{ATP} + \mathrm{GTP} \overset{\text{cGAS}}{\longrightarrow} 2'3'\text{-cGAMP} + \mathrm{PP}_i.
+   \]
+3. $2'3'$-cGAMP acts as a second messenger, binding the STING (Stimulator of Interferon Genes) dimer located on the endoplasmic reticulum (ER) membrane with high affinity ($\Kd \approx 4~\text{nM}$).
+4. Activated STING translocates to the Golgi compartment and recruits TANK-binding kinase 1 (TBK1).
+5. TBK1 phosphorylates the transcription factor IRF3 (Interferon Regulatory Factor 3).
+6. Phosphorylated IRF3 dimerizes, translocates into the nucleus, and induces transcription of Type~I Interferons ($\text{IFN}-\alpha/\beta$).
+
+% ============================================================
+\section{Adaptive immunity and antibody kinetics}
+% ============================================================
+
+\subsection{Combinatorial diversity of V(D)J recombination}
+
+Antibody diversity arises from somatic recombination of Variable (V), Diversity (D), and Joining (J) gene segments at the immunoglobulin heavy ($H$) and light ($L$) chain loci.
+
+For heavy chain ($V_H, D_H, J_H$) and light chain ($V_L, J_L$):
+\begin{equation}
+  N_{\text{combinatorial}} = (V_H \times D_H \times J_H) \times (V_L \times J_L).
+  \label{eq:vdj_comb}
+\end{equation}
+In human B cells: $V_H \approx 45, D_H \approx 23, J_H \approx 6 \implies 6{,}210$ heavy chains.\\
+Light chain ($\kappa + \lambda$): $(35 \times 5) + (30 \times 4) = 175 + 120 = 295$ light chains.\\
+Base combinatorial total $= 6{,}210 \times 295 \approx 1.83 \times 10^6$ distinct antigen-binding pairs.
+
+Including junctional diversity (imprecise cleavage, exonuclease trimming, and non-templated N-nucleotide addition by Terminal Deoxynucleotidyl Transferase, TdT), total potential antibody diversity exceeds $10^{13}$ unique receptor sequences.
+
+\subsection{Surface Plasmon Resonance (SPR) binding kinetics}
+
+The interaction between an antibody Fab fragment ($A$) and immobilized antigen ($B$):
+\begin{equation}
+  A + B \underset{k_{\text{off}}}{\overset{k_{\text{on}}}{\rightleftharpoons}} AB.
+  \label{eq:spr_binding}
+\end{equation}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{antibody_antigen_spr_1786991031819.jpg}
+  \caption{Antibody-antigen binding kinetics and Surface Plasmon Resonance (SPR) sensorgram. Association phase ($k_{\text{on}}$), equilibrium plateau, and dissociation phase ($k_{\text{off}}$).}
+  \label{fig:spr}
+\end{figure}
+
+\textbf{Association Phase ($0 \le t \le t_{\text{inj}}$):}
+Analyte $A$ at concentration $C$ is injected. The change in SPR response units $R(t)$ follows:
+\begin{equation}
+  R(t) = R_{\text{eq}} \left( 1 - e^{-(k_{\text{on}} C + k_{\text{off}}) t} \right),
+  \label{eq:spr_assoc}
+\end{equation}
+where $R_{\text{eq}} = \frac{R_{\max} C}{C + K_d}$ and $K_d = \frac{k_{\text{off}}}{k_{\text{on}}}$.
+
+\textbf{Dissociation Phase ($t > t_{\text{inj}}$):}
+Buffer wash ($C = 0$):
+\begin{equation}
+  R(t) = R_0 e^{-k_{\text{off}} (t - t_{\text{inj}})}.
+  \label{eq:spr_dissoc}
+\end{equation}
+
+The half-life of the complex $t_{1/2}$ is:
+\begin{equation}
+  t_{1/2} = \frac{\ln 2}{k_{\text{off}}}.
+  \label{eq:complex_half_life}
+\end{equation}
+
+% ============================================================
+\section{Code lab: SPR kinetics simulation}
+% ============================================================
+
+\begin{codelab}{Surface Plasmon Resonance (SPR) binding curve fitting}
+  Simulates an SPR sensorgram (association and dissociation phases) for an antibody-antigen interaction and extracts kinetic rate constants $k_{\text{on}}$, $k_{\text{off}}$, and $K_d$.
+\end{codelab}
+
+\begin{lstlisting}[language=Python,
+  caption={SPR kinetics simulation (Python 3, NumPy, Matplotlib).},
+  label={lst:spr_sim}]
+import numpy as np
+import matplotlib.pyplot as plt
+
+# -------------------------------------------------------
+# Kinetic Constants for High-Affinity Antibody
+# -------------------------------------------------------
+kon  = 1.5e5       # association rate constant (M^-1 s^-1)
+koff = 3.0e-3      # dissociation rate constant (s^-1)
+Kd   = koff / kon  # equilibrium dissociation constant (M)
+Rmax = 100.0       # maximum response units (RU)
+
+print(f"True kon:  {kon:.2e} M^-1 s^-1")
+print(f"True koff: {koff:.2e} s^-1")
+print(f"True Kd:   {Kd*1e9:.2f} nM")
+print(f"Complex t1/2: {np.log(2)/koff:.1f} s")
+
+# -------------------------------------------------------
+# Simulation Parameters
+# -------------------------------------------------------
+t_assoc = np.linspace(0, 180, 500)   # 180s association phase
+t_diss  = np.linspace(180, 480, 500) # 300s dissociation phase
+
+concentrations = [1.0e-8, 2.5e-8, 5.0e-8, 1.0e-7] # 10, 25, 50, 100 nM
+
+# -------------------------------------------------------
+# Plotting SPR Sensorgrams
+# -------------------------------------------------------
+plt.figure(figsize=(9, 5.5))
+
+for C in concentrations:
+    # Association phase
+    k_obs = kon * C + koff
+    Req   = (Rmax * C) / (C + Kd)
+    R_a   = Req * (1.0 - np.exp(-k_obs * t_assoc))
+    
+    # Dissociation phase starting from R(t_inj)
+    R0    = R_a[-1]
+    R_d   = R0 * np.exp(-koff * (t_diss - 180.0))
+    
+    # Combine time and response
+    t_full = np.concatenate([t_assoc, t_diss])
+    R_full = np.concatenate([R_a, R_d])
+    
+    plt.plot(t_full, R_full, lw=2, label=f'[Analyte] = {C*1e9:.0f} nM')
+
+plt.axvline(180.0, color='gray', ls='--', label='Injection End (Buffer Wash)')
+plt.xlabel('Time (seconds)', fontsize=11)
+plt.ylabel('Response (RU)', fontsize=11)
+plt.title('Surface Plasmon Resonance (SPR) Binding Kinetics', fontsize=12)
+plt.legend(fontsize=9)
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
+plt.savefig('spr_kinetics.pdf', dpi=150)
+plt.show()
+\end{lstlisting}
+
+\textbf{Results.}
+\begin{itemize}
+  \item At higher analyte concentrations, the observed association rate constant $k_{\text{obs}} = k_{\text{on}} C + k_{\text{off}}$ increases, causing faster approach to equilibrium $R_{\text{eq}}$.
+  \item During dissociation ($t > 180$~s), all curves decay exponentially with identical rate constant $k_{\text{off}} = 3.0 \times 10^{-3}$~s$^{-1}$, corresponding to a complex half-life of $231$~s.
+\end{itemize}
+
+% ============================================================
+%  PROBLEM SET
+% ============================================================
+\newpage
+\section{Problem set: Module 4}
+
+\noindent Attempt all problems. Show all working.
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{2}\enspace\disciplinetag{Capsid Geometry}\enspace
+  Caspar-Klug triangulation and subunit counts}
+
+  An icosahedral virus is determined by cryo-EM to have a triangulation number of $T = 7$ (dextro, $h=2, k=1$).
+
+  \begin{enumerate}
+    \item Calculate the total number of major structural protein subunits in the complete capsid.
+    \item Calculate the total number of pentamers, hexamers, and morphological capsomers.
+    \item If each protein subunit has a molecular mass of $42~\text{kDa}$, calculate the total protein mass of the empty capsid in megadaltons (MDa).
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Total protein subunits $= 60 \, T = 60 \times 7 = 420$ subunits.
+
+  \textbf{(b)}
+  \begin{itemize}
+    \item Pentamers $= 12$ (always 12 at vertices).
+    \item Hexamers $= 10(T - 1) = 10(7 - 1) = 60$ hexamers.
+    \item Total capsomers $= 12 + 60 = 72$ capsomers.
+  \end{itemize}
+
+  \textbf{(c)} Total mass $= 420 \times 42~\text{kDa} = 17{,}640~\text{kDa} = 17.64~\text{MDa}$.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Antibody Kinetics}\enspace
+  SPR binding kinetics and affinity calculation}
+
+  In an SPR experiment measuring a monoclonal antibody Fab binding to viral glycoprotein:
+  \begin{itemize}
+    \item In dissociation phase ($C=0$), response drops from $R_0 = 120~\text{RU}$ to $R(t=300\,\text{s}) = 44.15~\text{RU}$.
+    \item In association phase at analyte concentration $C = 50~\text{nM}$, observed rate constant $k_{\text{obs}} = 0.0110~\text{s}^{-1}$.
+  \end{itemize}
+
+  \begin{enumerate}
+    \item Calculate the dissociation rate constant $k_{\text{off}}$ (s$^{-1}$) and complex half-life $t_{1/2}$ (min).
+    \item Calculate the association rate constant $k_{\text{on}}$ (M$^{-1}$s$^{-1}$).
+    \item Calculate the equilibrium dissociation constant $K_d$ (nM).
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Dissociation kinetics (Eq.~\ref{eq:spr_dissoc}): $R(t) = R_0 e^{-k_{\text{off}} t}$.
+  \[
+    \ln\left(\frac{R(t)}{R_0}\right) = -k_{\text{off}} t \implies \ln\left(\frac{44.15}{120}\right) = \ln(0.3679) = -1.000.
+  \]
+  \[
+    k_{\text{off}} = \frac{1.000}{300~\text{s}} = 3.33 \times 10^{-3}~\text{s}^{-1}.
+  \]
+  Complex half-life:
+  \[
+    t_{1/2} = \frac{\ln 2}{k_{\text{off}}} = \frac{0.6931}{3.33 \times 10^{-3}} = 208~\text{s} = 3.47~\text{min}.
+  \]
+
+  \textbf{(b)} Observed association rate: $k_{\text{obs}} = k_{\text{on}} C + k_{\text{off}}$.
+  \[
+    k_{\text{on}} C = k_{\text{obs}} - k_{\text{off}} = 0.0110 - 0.00333 = 0.00767~\text{s}^{-1}.
+  \]
+  With $C = 50~\text{nM} = 5.0 \times 10^{-8}~\text{M}$:
+  \[
+    k_{\text{on}} = \frac{0.00767~\text{s}^{-1}}{5.0 \times 10^{-8}~\text{M}} = 1.534 \times 10^5~\text{M}^{-1}\text{s}^{-1}.
+  \]
+
+  \textbf{(c)} Dissociation constant:
+  \[
+    K_d = \frac{k_{\text{off}}}{k_{\text{on}}} = \frac{3.333 \times 10^{-3}}{1.534 \times 10^5} = 2.17 \times 10^{-8}~\text{M} = 21.7~\text{nM}.
+  \]
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Luria-Delbrück Math}\enspace
+  Distinguishing spontaneous vs. induced mutations}
+
+  A fluctuation test is performed on 20 independent 1-mL bacterial cultures, each grown from a small inoculum to $N = 10^9$ cells~mL$^{-1}$. T1 bacteriophage is added to select for resistant mutants:
+
+  \begin{center}
+  Resistant colonies per culture: 0, 1, 0, 0, 142, 0, 1, 0, 28, 0, 1, 0, 2, 0, 512, 0, 1, 0, 3, 0.
+  \end{center}
+
+  \begin{enumerate}
+    \item Calculate the sample mean $\bar{r}$ and sample variance $s^2$ for the number of resistant colonies.
+    \item Explain how the ratio $s^2 / \bar{r}$ distinguishes between the hypothesis of phage-induced immunity vs. spontaneous pre-existing mutation.
+    \item Estimate the mutation rate $a$ using the null-class (zero-proportion) method $P_0 = e^{-m}$.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Sum of colonies:
+  \[
+    \sum r_i = 0+1+0+0+142+0+1+0+28+0+1+0+2+0+512+0+1+0+3+0 = 691.
+  \]
+  Sample mean:
+  \[
+    \bar{r} = \frac{691}{20} = 34.55~\text{colonies/culture}.
+  \]
+  To compute sample variance $s^2 = \frac{1}{n-1} \sum (r_i - \bar{r})^2$:
+  $\sum r_i^2 = 1^2 + 142^2 + 1^2 + 28^2 + 1^2 + 2^2 + 512^2 + 1^2 + 3^2 = 1 + 20164 + 1 + 784 + 1 + 4 + 262144 + 1 + 9 = 283{,}109$.
+  \[
+    s^2 = \frac{283109 - 20(34.55)^2}{19} = \frac{283109 - 23874.05}{19} = \frac{259234.95}{19} = 13{,}644.
+  \]
+
+  \textbf{(b)} The ratio $s^2 / \bar{r} = 13644 / 34.55 = 394.9 \gg 1$.
+  If resistance were induced upon exposure to phage, the number of resistant cells would follow a Poisson distribution with $s^2 / \bar{r} \approx 1$. The massive variance-to-mean ratio (jackpots of 142 and 512 colonies occurring when mutations happened early in culture growth) conclusively proves the Luria-Delbrück hypothesis of spontaneous pre-existing mutation.
+
+  \textbf{(c)} Proportion of cultures with 0 resistant colonies: 11 out of 20, so $P_0 = 11/20 = 0.55$.
+  Using $P_0 = e^{-m}$:
+  \[
+    m = -\ln(P_0) = -\ln(0.55) = 0.598~\text{mutations per culture}.
+  \]
+  Mutation rate per cell division:
+  \[
+    a = \frac{m}{N} = \frac{0.598}{1.0 \times 10^9} = 5.98 \times 10^{-10}~\text{mutations per cell division}.
+  \]
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{4}\enspace\disciplinetag{Immuno-Combinatorics}\enspace
+  V(D)J recombination combinatorics}
+
+  Consider a simplified mammalian immunoglobulin heavy chain locus with $V=40$, $D=25$, $J=6$ segments, and light chain locus with $V=35$, $J=5$ segments.
+
+  \begin1. Calculate the number of possible combinatorial heavy-light chain pairs.
+  2. During junctional diversification, non-templated nucleotides ($N$-additions) are added by TdT at both $V_H$-$D_H$ and $D_H$-$J_H$ junctions. If 0 to 3 random nucleotides ($\mathrm{A, T, G, C}$) are added independently at each junction, calculate the total number of distinct heavy chain coding sequences generated from a single $V_H$-$D_H$-$J_H$ segment combination.
+  3. Estimate the total theoretical antibody repertoire diversity including both combinatorial and junctional additions.
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Heavy chain combinations: $N_H = 40 \times 25 \times 6 = 6{,}000$.
+  Light chain combinations: $N_L = 35 \times 5 = 175$.
+  Combinatorial pairs:
+  \[
+    N_{\text{comb}} = N_H \times N_L = 6{,}000 \times 175 = 1.05 \times 10^6.
+  \]
+
+  \textbf{(b)} At a single junction, $k$ nucleotides can be added ($k = 0, 1, 2, 3$).
+  Number of sequence possibilities for $k$ added bases $= 4^k$.
+  Total possibilities for one junction:
+  \[
+    N_{\text{junc1}} = 4^0 + 4^1 + 4^2 + 4^3 = 1 + 4 + 16 + 64 = 85.
+  \]
+  For two independent junctions ($V_H$-$D_H$ and $D_H$-$J_H$):
+  \[
+    N_{\text{junc, total}} = 85 \times 85 = 7{,}225 \text{ variants per } V-D-J \text{ combination}.
+  \]
+
+  \textbf{(c)} Total heavy chains $= 6{,}000 \times 7{,}225 = 4.335 \times 10^7$.
+  Combined with 175 light chains:
+  \[
+    N_{\text{total}} = (4.335 \times 10^7) \times 175 = 7.59 \times 10^9 \text{ unique antibodies}.
+  \]
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Innate Immune Kinetics}\enspace
+  cGAS-STING second messenger dynamics}
+
+  In an infected macrophage, cytosolic DNA activates cGAS to produce $2'3'$-cGAMP at rate $V_{\text{synth}} = 50~\text{nM~min}^{-1}$. cGAMP is degraded by the phosphodiesterase ENPP1 at rate $V_{\text{deg}} = k_{\text{deg}} [ \text{cGAMP} ]$ with $k_{\text{deg}} = 0.10~\text{min}^{-1}$.
+
+  \begin1. Calculate the steady-state concentration $[ \text{cGAMP} ]_{\text{ss}}$ (nM).
+  2. STING activation by cGAMP follows a Hill equation with $K_d = 4.0~\text{nM}$ and Hill coefficient $n = 2$. Calculate the fractional activation $\theta_{\text{STING}}$ at steady state.
+  3. A viral antagonist protein degrades cGAMP by increasing $k_{\text{deg}}$ to $1.25~\text{min}^{-1}$. Calculate the new steady-state concentration and the resulting STING activation fraction.
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Steady-state mass balance:
+  \[
+    \od{[\text{cGAMP}]}{t} = V_{\text{synth}} - k_{\text{deg}} [\text{cGAMP}] = 0 \implies [\text{cGAMP}]_{\text{ss}} = \frac{V_{\text{synth}}}{k_{\text{deg}}} = \frac{50~\text{nM~min}^{-1}}{0.10~\text{min}^{-1}} = 500~\text{nM}.
+  \]
+
+  \textbf{(b)} STING activation:
+  \[
+    \theta_{\text{STING}} = \frac{[\text{cGAMP}]^2}{[\text{cGAMP}]^2 + K_d^2} = \frac{500^2}{500^2 + 4.0^2} = \frac{250{,}000}{250{,}016} = 0.999936 \quad (99.99\%).
+  \]
+
+  \textbf{(c)} With viral antagonist ($k_{\text{deg}}' = 1.25~\text{min}^{-1}$):
+  \[
+    [\text{cGAMP}]_{\text{ss}}' = \frac{50}{1.25} = 40~\text{nM}.
+  \]
+  New STING activation:
+  \[
+    \theta_{\text{STING}}' = \frac{40^2}{40^2 + 4.0^2} = \frac{1600}{1600 + 16} = \frac{1600}{1616} = 0.9901 \quad (99.0\%).
+  \]
+  Notice that even with a 12.5-fold increase in degradation rate, because cGAS synthesis is robust ($50~\text{nM~min}^{-1}$) relative to the tight affinity of STING ($K_d = 4~\text{nM}$), STING remains $99\%$ activated—illustrating the high sensitivity and signaling margin of the innate immune response.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{4}\enspace\disciplinetag{Viral Fusion Biophysics}\enspace
+  Thermodynamics of membrane fusion}
+
+  Viral membrane fusion requires overcoming an electrostatic and hydration free energy barrier of $\dG_{\text{barrier}} = +160~\text{kJ~mol}^{-1}$ to form a stable fusion pore.
+
+  Refolding of one influenza HA glycoprotein trimer into its low-pH postfusion 6-helix bundle releases $\dG_{\text{fold}} = -45~\text{kJ~mol}^{-1}$ of free energy.
+
+  \begin1. Calculate the theoretical minimum number of HA trimers $N_{\text{min}}$ that must cooperatively refold to drive fusion of a single virion.
+  2. If the probability of a single HA trimer refolding at $\text{pH } 5.0$ is $p = 0.40$, calculate the probability that a cluster of $N = 5$ adjacent HA trimers all refold simultaneously.
+  3. Explain how the cooperativity requirement prevents premature accidental membrane fusion at neutral pH.
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Energy balance:
+  \[
+    N \cdot |\dG_{\text{fold}}| \ge \dG_{\text{barrier}} \implies N \ge \frac{160~\text{kJ~mol}^{-1}}{45~\text{kJ~mol}^{-1}} = 3.555.
+  \]
+  Since trimers are discrete units, a minimum of $N_{\text{min}} = 4$ HA trimers must cooperatively refold.
+
+  \textbf{(b)} Assuming independent triggering events for trimers in a cluster of size $N=5$:
+  \[
+    P(\text{all } 5 \text{ refold}) = p^N = (0.40)^5 = 0.01024 \quad (1.024\%).
+  \]
+
+  \textbf{(c)} At neutral pH, the probability $p_0$ of an individual trimer spontaneously undergoing the conformational change is extremely low ($p_0 \sim 10^{-5}$). Because fusion requires $N \ge 4$ adjacent trimers to refold together, the collective probability scales as $p_0^N \sim 10^{-20}$, making accidental fusion in extracellular space impossible. Only in the acidic endosome ($\text{pH } 5.0$) where $p \sim 0.5$ does the joint probability $p^N$ become physiologically high, creating a sharp pH threshold.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{4}\enspace\disciplinetag{Quantitative Virology}\enspace
+  Single-step growth curve dynamics}
+
+  A culture of $1.0 \times 10^7$ host B cells is infected with $5.0 \times 10^7$ bacteriophage $\lambda$ particles in a total volume of $5.0~\text{mL}$.
+
+  \begin1. Calculate the multiplicity of infection (MOI).
+  2. Using the Poisson distribution $P(k) = \frac{\text{MOI}^k e^{-\text{MOI}}}{k!}$, calculate the percentage of host cells that receive:
+     (i) zero phages; (ii) exactly one phage; (iii) two or more phages.
+  3. After a latent period of 35~min, total plaque-forming units (PFU) in the culture rise from $5.0 \times 10^7$ to $8.5 \times 10^9$. Calculate the burst size $B$ (virions per infected cell).
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Multiplicity of Infection:
+  \[
+    \text{MOI} = \frac{\text{Total virions}}{\text{Total cells}} = \frac{5.0 \times 10^7}{1.0 \times 10^7} = 5.0~\text{phages per cell}.
+  \]
+
+  \textbf{(b)} Poisson distribution with $\lambda = 5.0$:
+  \begin{itemize}
+    \item (i) Uninfected ($k=0$):
+          \[
+            P(0) = \frac{5.0^0 e^{-5.0}}{0!} = e^{-5.0} = 6.74 \times 10^{-3} \quad (0.674\%).
+          \]
+    \item (ii) Singly infected ($k=1$):
+          \[
+            P(1) = \frac{5.0^1 e^{-5.0}}{1!} = 5.0 \times 0.006738 = 0.0337 \quad (3.37\%).
+          \]
+    \item (iii) Multiply infected ($k \ge 2$):
+          \[
+            P(k \ge 2) = 1 - P(0) - P(1) = 1 - 0.00674 - 0.0337 = 0.9596 \quad (95.96\%).
+          \]
+  \end{itemize}
+
+  \textbf{(c)} Total infected cells $= N_{\text{total}} \times (1 - P(0)) = 1.0 \times 10^7 \times (1 - 0.00674) = 9.933 \times 10^6$ cells.
+  Virions released $= 8.5 \times 10^9 - 5.0 \times 10^7 = 8.45 \times 10^9$ virions.
+  Burst size:
+  \[
+    B = \frac{8.45 \times 10^9~\text{virions}}{9.933 \times 10^6~\text{infected cells}} = 850.7 \approx 851~\text{virions/cell}.
+  \]
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Viral Replication}\enspace
+  Baltimore classification and Baltimore Baltimore-III RNA replication}
+
+  A novel double-stranded RNA (dsRNA) virus (Baltimore Class III) infects human respiratory cells.
+
+  \begin1. Explain why dsRNA viruses MUST package an active viral RNA-dependent RNA polymerase (RdRp) inside the virion particle, whereas positive-sense single-stranded RNA (+ssRNA, Class I) viruses do not.
+  2. Describe the kinetic role of the double-stranded RNA-dependent protein kinase R (PKR) host defense mechanism and how it detects the viral genome.
+  3. If viral RdRp transcribes positive strands at rate $v_tx = 120~\text{nucleotides~s}^{-1}$, calculate the time required to synthesize a full-length $3.6~\text{kb}$ viral segment.
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Host eukaryotic ribosomes can only translate single-stranded mRNA in the $5'\to 3'$ direction. Neither strand of a dsRNA duplex is accessible to ribosomes without transcription. Host cells lack enzymes capable of transcribing RNA from an RNA template. Therefore, dsRNA viruses must carry their own pre-synthesized RdRp protein inside the capsid to transcribe $m\mathrm{RNA}$ immediately upon entry. In contrast, +ssRNA genomes can be directly recognized and translated by host ribosomes upon uncoating to synthesize RdRp \textit{de novo}.
+
+  \textbf{(b)} Host cells maintain PKR as an inactive monomer in the cytosol. PKR contains tandem dsRNA-binding domains. Binding to viral dsRNA ($> 30~\text{bp}$) induces PKR dimerization and autophosphorylation. Active PKR phosphorylates the translation initiation factor eIF2$\alpha$ at Ser51, causing tight sequestration of eIF2B and globally shutting down host and viral protein synthesis.
+
+  \textbf{(c)} Time to transcribe $3.6~\text{kb} = 3600~\text{nt}$:
+  \[
+    t = \frac{3600~\text{nt}}{120~\text{nt~s}^{-1}} = 30.0~\text{seconds}.
+  \]
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{4}\enspace\disciplinetag{Interferon Signaling}\enspace
+  Type I Interferon feed-forward loop}
+
+  Type I Interferon ($\text{IFN}-\beta$) produced by infected cells binds the IFNAR receptor on uninfected neighboring cells, triggering the JAK-STAT signaling pathway.
+
+  Let $I$ be extracellular IFN-$\beta$ concentration, $S$ be active STAT1/STAT2 heterodimers in the nucleus, and $P$ be Antiviral Protein (ISG) concentration.
+  \[
+    \od{S}{t} = k_1 \frac{I}{K_1 + I} - \delta_S S, \qquad \od{P}{t} = k_2 S - \delta_P P.
+  \]
+
+  Given $k_1 = 10.0~\text{nM~min}^{-1}$, $K_1 = 2.0~\text{nM}$, $\delta_S = 0.20~\text{min}^{-1}$, $k_2 = 0.50~\text{min}^{-1}$, $\delta_P = 0.010~\text{min}^{-1}$.
+
+  \begin1. Calculate steady-state active STAT concentration $\bar{S}$ and ISG concentration $\bar{P}$ for an interferon exposure of $I = 8.0~\text{nM}$.
+  2. Calculate the half-life of active nuclear STAT ($t_{1/2, S}$) and antiviral protein ($t_{1/2, P}$).
+  3. Explain the functional significance of the slow turnover rate ($\delta_P = 0.010~\text{min}^{-1}$) of antiviral proteins in establishing a persistent protective state.
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} At steady state:
+  \[
+    \bar{S} = \frac{k_1}{\delta_S} \frac{I}{K_1 + I} = \frac{10.0}{0.20} \left(\frac{8.0}{2.0 + 8.0}\right) = 50.0 \times 0.80 = 40.0~\text{nM}.
+  \]
+  \[
+    \bar{P} = \frac{k_2}{\delta_P} \bar{S} = \frac{0.50}{0.010} \times 40.0 = 50.0 \times 40.0 = 2000~\text{nM} = 2.0~\mu\text{M}.
+  \]
+
+  \textbf{(b)} Half-lives:
+  \[
+    t_{1/2, S} = \frac{\ln 2}{\delta_S} = \frac{0.6931}{0.20~\text{min}^{-1}} = 3.47~\text{min}.
+  \]
+  \[
+    t_{1/2, P} = \frac{\ln 2}{\delta_P} = \frac{0.6931}{0.010~\text{min}^{-1}} = 69.3~\text{min} = 1.155~\text{hours}.
+  \]
+
+  \textbf{(c)} Nuclear STAT turnover is rapid ($t_{1/2} \approx 3.5~\text{min}$), allowing the cell to rapidly track dynamic changes in extracellular interferon. In contrast, downstream Interferon-Stimulated Gene (ISG) antiviral proteins (e.g., OAS, Mx1, PKR) decay slowly ($t_{1/2} \sim 1.15~\text{hours}$ or longer \textit{in vivo}), ensuring that once an antiviral tissue state is induced by transient interferon signaling, the cell remains protected against viral infection for hours after cytokine levels decline.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{5}\enspace\disciplinetag{Viral Biophysics}
+  \enspace\disciplinetag{Capsid Mechanics}\enspace\disciplinetag{Thermodynamics}\enspace
+  Osmotic pressure and DNA packaging in bacteriophage}
+
+  Bacteriophage $\lambda$ packages a double-stranded DNA genome of length $L = 48.5~\text{kb} = 1.65 \times 10^{-5}~\text{m}$ inside an icosahedral capsid of internal radius $R = 29~\text{nm}$ ($V = \frac{4}{3}\pi R^3 \approx 1.02 \times 10^{-23}~\text{m}^3$).
+
+  Because DNA is negatively charged and stiff (persistence length $P = 50~\text{nm}$), tightly spooling DNA inside the capsid creates immense internal pressure.
+
+  \begin1. Calculate the volume fraction $\phi$ occupied by DNA inside the capsid, assuming a DNA cylinder radius $r_{\text{DNA}} = 1.0~\text{nm}$.
+  2. The internal pressure $P_{\text{dna}}$ due to DNA-DNA electrostatic repulsion and bending energy is given by empirical formula:
+     \[
+       P_{\text{dna}} \approx F_0 \exp\left(-\frac{d}{d_0}\right),
+     \]
+     where $F_0 = 3.0 \times 10^{10}~\text{Pa}$, $d_0 = 0.30~\text{nm}$, and inter-strand spacing $d = 2.8~\text{nm}$. Calculate $P_{\text{dna}}$ in megapascals (MPa) and in atmospheres.
+  3. A molecular motor (TerL ATPase) packages DNA against this internal pressure. Calculate the mechanical work $W = \int P \, \mathrm{d}V \approx P_{\text{dna}} \cdot V_{\text{capsid}}$ required to package the genome. Convert to ATP equivalents given $\dG_{\text{ATP}} = -50~\text{kJ~mol}^{-1}$.
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} DNA volume:
+  \[
+    V_{\text{DNA}} = \pi r_{\text{DNA}}^2 L = \pi (1.0 \times 10^{-9}~\text{m})^2 (1.65 \times 10^{-5}~\text{m}) = 5.18 \times 10^{-23}~\text{m}^3.
+  \]
+  Capsid internal volume:
+  \[
+    V_{\text{capsid}} = \frac{4}{3}\pi R^3 = \frac{4}{3}\pi (29 \times 10^{-9}~\text{m})^3 = 1.021 \times 10^{-23}~\text{m}^3.
+  \]
+  Volume fraction:
+  \[
+    \phi = \frac{V_{\text{DNA}}}{V_{\text{capsid}}} = \frac{5.18 \times 10^{-23}}{1.021 \times 10^{-23}} \approx 0.507 \quad (50.7\%).
+  \]
+  The interior of the phage head is effectively a semi-crystalline liquid-crystalline array of DNA.
+
+  \textbf{(b)} Internal pressure:
+  \[
+    P_{\text{dna}} = (3.0 \times 10^{10}~\text{Pa}) \exp\left(-\frac{2.8}{0.30}\right) = (3.0 \times 10^{10}) \exp(-9.333).
+  \]
+  Since $e^{-9.333} = 8.845 \times 10^{-5}$:
+  \[
+    P_{\text{dna}} = (3.0 \times 10^{10}) \times (8.845 \times 10^{-5}) = 2.65 \times 10^6~\text{Pa} = 2.65~\text{MPa} \approx 26.2~\text{atm}.
+  \]
+  (In fully packed phage T4, pressure reaches up to $6~\text{MPa} \approx 60~\text{atm}$.)
+
+  \textbf{(c)} Work done packaging against internal pressure:
+  \[
+    W = P_{\text{dna}} \cdot V_{\text{capsid}} = (2.65 \times 10^6~\text{Pa})(1.021 \times 10^{-23}~\text{m}^3) = 2.71 \times 10^{-17}~\text{J}.
+  \]
+  Convert to Joules per mole of genomes:
+  \[
+    W_{\text{molar}} = (2.71 \times 10^{-17}~\text{J}) \times (6.022 \times 10^{23}~\text{mol}^{-1}) = 1.63 \times 10^7~\text{J~mol}^{-1} = 16{,}300~\text{kJ~mol}^{-1}.
+  \]
+  Number of ATPs required:
+  \[
+    N_{\text{ATP}} = \frac{16{,}300~\text{kJ~mol}^{-1}}{50~\text{kJ~mol}^{-1}} = 326~\text{ATP equivalents}.
+  \]
+  Because the motor packages 2~bp per ATP hydrolysed, for $48.5~\text{kb}$ it consumes $\sim 24{,}250$ ATPs total, providing a vast excess of energy ($> 70$-fold margin over mechanical resistance), ensuring rapid and irreversible genome packaging.
+\end{solution}
+
+% ============================================================
+%  END OF MODULE 4
+% ============================================================
+
+\end{document}

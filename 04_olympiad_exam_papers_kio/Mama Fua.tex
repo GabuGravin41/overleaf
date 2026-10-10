@@ -1,0 +1,98 @@
+\ifdefined\KIOInclude\else
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\begin{document}
+\fi
+
+\section*{Question 4: Mama Fua (25 marks)}
+
+Mama Fua runs a laundry service in Nairobi. A customer brings \(n\) pieces
+of clothing, and Mama Fua offers two ways to charge:
+
+\begin{itemize}
+    \item \(p\) shillings for each piece of clothing; or
+    \item \(r\) shillings for each kilogram of clothing.
+\end{itemize}
+
+The customer may choose some pieces to be charged by weight. These pieces
+are placed on the scale together, and their total weight is rounded
+\emph{up} to the next whole kilogram. Every remaining piece is charged
+separately at \(p\) shillings per piece.
+
+For example, if the pieces charged by weight have a total weight of
+\(2.01\) kilograms, the customer pays for \(3\) kilograms. If no pieces are
+charged by weight, the weight charge is zero.
+
+Find the minimum possible total bill.
+
+\subsection*{Input}
+
+The first line contains three integers \(n\), \(p\), and \(r\): the number
+of pieces, the price per piece, and the price per kilogram.
+
+The second line contains \(n\) weights \(w_1,w_2,\ldots,w_n\). Every weight
+is positive and is written with exactly two digits after the decimal point.
+Weights are given in kilograms.
+
+\subsection*{Output}
+
+Output one integer: the minimum possible bill in shillings.
+
+\subsection*{Constraints}
+
+\[
+1\le n\le2\cdot10^5
+\]
+\[
+10\le p,r\le10000
+\]
+\[
+0.01\le w_i\le10000.00
+\]
+
+\subsection*{Example 1}
+
+\paragraph{Input}
+\begin{verbatim}
+6 200 150
+0.20 0.30 0.40 2.10 3.00 10.00
+\end{verbatim}
+
+\paragraph{Output}
+\begin{verbatim}
+750
+\end{verbatim}
+
+\subsection*{Example 2}
+
+\paragraph{Input}
+\begin{verbatim}
+4 200 150
+0.25 0.25 0.25 0.25
+\end{verbatim}
+
+\paragraph{Output}
+\begin{verbatim}
+150
+\end{verbatim}
+
+\subsection*{Explanation}
+
+In the first example, the customer weighs the three lightest pieces
+together. They weigh \(0.90\) kilograms, which is rounded up to \(1\)
+kilogram and costs \(150\) shillings. The other three pieces cost
+\(3\cdot200=600\) shillings, giving a total of \(750\).
+
+In the second example, all four pieces are weighed together. Their total
+weight is exactly \(1\) kilogram, so the bill is \(150\) shillings.
+
+\medskip
+\noindent\textbf{Mark Distribution [25 marks total]:}
+\begin{itemize}
+    \item \textbf{Algorithm (10 marks):} Write a clear, step-by-step algorithm or pseudocode in your answer booklet describing your solution.
+    \item \textbf{Code Implementation (15 marks):} Implement your solution in any programming language of your choice (C, C++, Python, etc.) that passes all test cases within the time and memory limits.
+\end{itemize}
+
+\ifdefined\KIOInclude\else\end{document}\fi

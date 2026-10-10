@@ -1,0 +1,1231 @@
+% ============================================================
+%  module_01_genetics.tex  —  IBO Biology Platform
+%  Module 1: Genetics and Molecular Biology
+%
+%  STANDALONE: compile this file directly on Overleaf.
+%  Upload to Overleaf together with:
+%    preamble.tex  +  the four .jpg images in this folder.
+%  Set compiler: pdfLaTeX, root: module_01_genetics.tex
+% ============================================================
+
+\documentclass[12pt, a4paper, oneside]{report}
+\input{preamble}
+
+\begin{document}
+
+% ---------- Title block ----------
+\begin{titlepage}
+  \centering
+  \vspace*{4cm}
+  {\sffamily\fontsize{13}{16}\selectfont\color{accent} IBO Biology Platform}\\[0.6em]
+  {\rule{0.4\textwidth}{0.4pt}}\\[0.6em]
+  {\sffamily\fontsize{22}{28}\selectfont\bfseries Module 1}\\[0.4em]
+  {\sffamily\fontsize{16}{20}\selectfont\bfseries\color{accent} Genetics and Molecular Biology}\\[1.2em]
+  {\small\color{gray}
+    DNA structure \textbullet\ Replication fidelity \textbullet\
+    Transcription kinetics \textbullet\ Translation \textbullet\
+    Gene regulation \textbullet\ DNA repair}\\[0.6em]
+  {\rule{0.4\textwidth}{0.4pt}}\\[0.5em]
+  {\small\color{gray} \today}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============================================================
+%  Chapter begins here
+% ============================================================
+
+\chapter{Genetics and Molecular Biology}
+\label{ch:genetics}
+
+\begin{tcolorbox}[colback=probback, colframe=accent, boxrule=0.5pt, arc=1pt,
+  fonttitle=\bfseries\sffamily\small, coltitle=white, colbacktitle=accent,
+  title={Module Overview}, top=4pt, bottom=4pt, left=6pt, right=6pt]
+  \textbf{Topics:} DNA structure and information content;
+  replication machinery and fidelity;
+  transcription initiation kinetics;
+  translation and the genetic code;
+  gene regulation (\textit{lac} operon);
+  DNA repair.\\[3pt]
+  \textbf{Prerequisites:} Basic thermodynamics and equilibrium chemistry;
+  introductory calculus.\\[3pt]
+  \textbf{Problem set:} 10 problems, \stars{2}--\stars{5}.
+\end{tcolorbox}
+
+% ============================================================
+\section{The Physical Structure of DNA}
+% ============================================================
+
+\subsection{Information storage requirements}
+
+A cell must store information sufficient to specify all its proteins and
+regulatory elements, and must copy that information faithfully at every
+division. Three physical requirements follow: stable information storage,
+high-fidelity copying, and regulated readout. DNA addresses all three.
+
+\begin{historicalnote}{Watson, Crick, Franklin and the Double Helix (1953)}
+  The structure of DNA was determined in 1953 at the Cavendish Laboratory,
+  Cambridge. James Watson and Francis Crick built their model using
+  Rosalind Franklin's X-ray diffraction data (``Photo 51''), obtained
+  at King's College London, and Erwin Chargaff's empirical rules
+  ($[\text{A}]=[\text{T}]$; $[\text{G}]=[\text{C}]$). Franklin's data
+  directly revealed the helical parameters: pitch 3.4~nm, repeat 0.34~nm
+  per base pair, diameter 2.0~nm. Watson and Crick received the Nobel
+  Prize in Physiology or Medicine in 1962, jointly with Maurice Wilkins.
+  Franklin died in 1958 and was not eligible for posthumous nomination.
+\end{historicalnote}
+
+\subsection{Chemical structure and directionality}
+
+DNA is a polymer of four deoxyribonucleotides: adenine (A), thymine (T),
+guanine (G), and cytosine (C). The phosphodiester backbone connects the
+3$'$ hydroxyl of one deoxyribose to the 5$'$ phosphate of the next,
+creating a directional chain. The two strands run \textbf{antiparallel}
+and are held together by Watson--Crick hydrogen bonds:
+\[
+  \text{A--T}: \; 2 \text{ H-bonds}, \qquad \text{G--C}: \; 3 \text{ H-bonds}.
+\]
+Because the strands are complementary and antiparallel, each strand
+serves as a complete template for synthesising the other.
+
+
+\subsection{Thermodynamics of duplex stability}
+
+The stability of the double helix does not arise primarily from hydrogen
+bonds between bases. Hydrogen bonds to water are also favourable, so
+the enthalpic gain from base pairing is partially offset by the loss of
+hydrogen bonds to solvent. The dominant stabilising force is
+\textbf{base stacking}: London dispersion interactions between the
+stacked $\pi$-electron systems of adjacent aromatic rings, combined
+with the hydrophobic burial of the ring surfaces from water.
+
+The empirical melting temperature $T_m$ of a short DNA duplex in solution:
+\begin{equation}
+  T_m \approx 81.5 + 16.6\log_{10}[\text{Na}^+] + 0.41(\%\text{GC})
+             - \frac{675}{n} \quad (^\circ\text{C}),
+  \label{eq:tm}
+\end{equation}
+where $[\text{Na}^+]$ is the salt concentration (M), $\%\text{GC}$ is
+the fraction of G$+$C base pairs, and $n$ is the duplex length (bp).
+Salt screens repulsion between the negatively charged backbones (raises
+$T_m$); G--C pairs are more stable than A--T pairs; longer duplexes
+accumulate more stacking interactions.
+
+\subsection{Information content of DNA}
+
+The four nucleotides form a four-letter alphabet. The information content
+per symbol drawn uniformly from an alphabet of $k$ symbols is
+$I = \log_2 k$ bits (Shannon, 1948). With $k = 4$:
+\[
+  I = \log_2 4 = 2 \text{ bits per base pair.}
+\]
+The human genome ($\approx 3.2 \times 10^9$~bp) therefore stores
+$\approx 800$~MB of information. The storage density of DNA
+($\sim10^{21}$ bits~cm$^{-3}$) exceeds that of current electronic
+memory by many orders of magnitude.
+
+% ============================================================
+\section{DNA Replication: Machinery and Fidelity}
+% ============================================================
+
+\subsection{The Replication Fork}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{dna_replication_fork_1786906792977.jpg}
+  \caption{The \Ecoli\ replication fork. DnaB helicase (yellow hexamer) unwinds
+           the parental duplex. SSBs coat the lagging-strand template.
+           DNA Pol~III holoenzyme synthesises the leading strand continuously
+           and the lagging strand in Okazaki fragments, each primed by
+           DnaG primase.}
+  \label{fig:repfork}
+\end{figure}
+
+Replication begins at \textit{oriC} in \Ecoli. The initiator protein DnaA
+melts a region of \textit{oriC} and loads the helicase DnaB, which forms
+a hexameric ring encircling the lagging-strand template and unwinds the
+helix at $\approx 1000$~bp~s$^{-1}$.
+
+The key components and their roles are summarised in
+Table~\ref{tab:repfork}.
+
+\begin{table}[H]
+  \centering
+  \caption{Major protein components of the \Ecoli\ replication fork.}
+  \label{tab:repfork}
+  \small
+  \begin{tabularx}{\textwidth}{lXl}
+    \toprule
+    \textbf{Protein} & \textbf{Function} & \textbf{Rate / size} \\
+    \midrule
+    DnaB helicase  & Unwinds parental duplex (5$'\to$3$'$ on lagging template)
+                   & $\sim$1000~bp~s$^{-1}$ \\
+    SSBs           & Coat ssDNA, prevent re-annealing, remove secondary structure
+                   & Tetrameric \\
+    DnaG primase   & Synthesises 10--12~nt RNA primers \textit{de novo}
+                   & Every $\sim$1--2~kb on lagging strand \\
+    Pol~III holoenzyme & Replicative polymerase (5$'\to$3$'$ synthesis only)
+                   & $\sim$1000~nt~s$^{-1}$; processivity $>500$~kb \\
+    $\beta$ clamp  & Ring-shaped processivity clamp encircling DNA
+                   & Dimer \\
+    Pol~I          & Removes RNA primers (5$'\to$3$'$ exonuclease) and fills gap
+                   & \\
+    DNA Ligase     & Seals nicks between Okazaki fragments (uses NAD$^+$)
+                   & \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsubsection{The Directionality Problem}
+
+All known DNA polymerases synthesise exclusively 5$'\to$3$'$. Since the
+template strands are antiparallel, only the \textbf{leading strand} can
+be synthesised continuously in the direction of fork movement. The
+\textbf{lagging strand} is synthesised in discontinuous 1--2~kb segments
+called \emph{Okazaki fragments} (100--200~nt in eukaryotes), each
+requiring a new RNA primer. This asymmetry is a direct physical
+consequence of chemical directionality.
+
+\begin{historicalnote}{Reiji Okazaki and the Discovery of Discontinuous Replication (1968)}
+  In 1968, Reiji Okazaki at Nagoya University labelled newly synthesised
+  DNA with short pulses of $^3$H-thymidine and analysed the products by
+  alkaline sucrose gradient centrifugation. He observed a population of
+  short (1--2~kb) fragments, which matured into high-molecular-weight DNA
+  with longer labelling times. This directly demonstrated discontinuous
+  synthesis on the lagging strand. The short intermediates bear his name.
+  Okazaki died in 1975 from radiation-induced cancer, a consequence of
+  atomic bomb exposure in Hiroshima.
+\end{historicalnote}
+
+\subsection{Replication Fidelity: Three Tiers of Error Correction}
+
+The spontaneous error rate of nucleotide insertion in solution is
+$\sim10^{-1}$--$10^{-2}$ per base (due to tautomeric base shifts). The
+final biological error rate is $\sim10^{-9}$--$10^{-10}$ per base — a
+$10^{10}$-fold improvement achieved through three successive mechanisms.
+
+\subsubsection*{Tier 1 — Intrinsic Selectivity of Pol III: $\varepsilon_1 \approx 10^{-5}$}
+
+The active site of Pol~III selects the correct dNTP through an
+induced-fit mechanism. Correct base-pair geometry triggers closure of
+the ``fingers'' domain, properly positioning the 3$'$-OH and the
+incoming $\alpha$-phosphate for catalysis. Mismatched nucleotides
+prevent full domain closure, reducing the rate of phosphodiester bond
+formation by $10^4$--$10^5$-fold.
+
+\subsubsection*{Tier 2 — 3$'\to$5$'$ proofreading: $\sim$100-fold reduction}
+
+The $\varepsilon$ subunit of the Pol~III core carries a 3$'\to$5$'$
+exonuclease. After each nucleotide addition, there is kinetic competition
+between chain extension and transfer to the exonuclease site. A mismatched
+3$'$ end is extended $\sim10^3$-fold more slowly than a correct end,
+shifting the terminus preferentially to the exonuclease, which removes it.
+
+\subsubsection*{Tier 3 — Methyl-directed Mismatch Repair (MMR): $\sim$100-fold reduction}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{dna_mismatch_repair_1786906827550.jpg}
+  \caption{The \Ecoli\ methyl-directed mismatch repair system.
+           MutS recognises the geometric distortion of the mismatch.
+           MutH identifies the daughter strand by the absence of
+           Dam methylation at GATC sites. The error-containing segment
+           is excised by UvrD and exonucleases, then resynthesised by Pol~III.}
+  \label{fig:mmr}
+\end{figure}
+
+After replication, any remaining mismatches are identified by MutS. The
+critical problem of strand discrimination — which strand contains the
+error? — is solved by \textbf{Dam methylation}. Dam methylase modifies
+adenine within GATC sequences. Immediately after replication, the parental
+strand is methylated, but the daughter strand is not yet methylated
+(the hemimethylated window persists for $\sim$1--4 minutes). MutH
+specifically nicks the \emph{unmethylated} strand at hemimethylated
+GATC sites, thereby targeting excision to the newly synthesised strand
+that carries the error.
+
+\begin{table}[H]
+  \centering
+  \caption{Three-tier error correction in \Ecoli.}
+  \label{tab:fidelity}
+  \begin{tabular}{llr}
+    \toprule
+    \textbf{Mechanism} & \textbf{Error rate after} & \textbf{Reduction} \\
+    \midrule
+    None (uncorrected)        & $\sim10^{-1}$       & ---        \\
+    Pol III selectivity       & $\sim10^{-5}$       & $10^4$     \\
+    3$'\to$5$'$ proofreading  & $\sim10^{-7}$       & $10^2$     \\
+    Mismatch repair           & $\sim10^{-9}$       & $10^2$     \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+% ============================================================
+\section{Transcription: From DNA to RNA}
+% ============================================================
+
+\subsection{Promoter recognition}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\textwidth]{transcription_initiation_1786906804692.jpg}
+  \caption{Transcription initiation in \Ecoli. The $\sigma^{70}$ factor
+           contacts the $-35$ (TTGACA) and $-10$ (TATAAT) promoter elements,
+           enabling holoenzyme ($\alpha_2\beta\beta'\omega\sigma$) to form the
+           closed complex. Local strand melting from $-11$ to $+3$ creates the
+           open complex. RNA synthesis begins at $+1$.}
+  \label{fig:transcription}
+\end{figure}
+
+The $\sigma^{70}$ factor contacts two conserved sequence elements on the
+nontemplate (coding) strand:
+\begin{itemize}
+  \item \textbf{$-35$ element} (consensus \texttt{TTGACA}): bound by the
+        $\sigma_4$ domain.
+  \item \textbf{$-10$ element} (consensus \texttt{TATAAT}): bound by the
+        $\sigma_2$ domain. The AT-rich composition is functionally important
+        — A--T base pairs melt more easily than G--C pairs (2 vs.\ 3
+        hydrogen bonds), lowering the activation barrier for the open
+        complex.
+  \item \textbf{Spacer} of $17 \pm 1$~bp between $-35$ and $-10$. Deviation
+        from 17~bp rotates the relative orientation of the two $\sigma$
+        domains, reducing simultaneous contact and weakening promoter
+        strength.
+\end{itemize}
+
+\subsection{Kinetics of initiation}
+
+Initiation proceeds through a sequence of states:
+\begin{equation}
+  R + P \underset{k_{-1}}{\overset{k_1}{\rightleftharpoons}} RP_c
+        \underset{k_{-2}}{\overset{k_2}{\rightleftharpoons}} RP_o
+        \xrightarrow{k_3} \text{initial transcribing complex} \to \cdots
+  \label{eq:txn_kinetics}
+\end{equation}
+where $RP_c$ is the closed complex (RNAP bound, DNA duplex intact) and
+$RP_o$ is the open complex (transcription bubble from $-11$ to $+3$
+melted). The isomerization $RP_c \to RP_o$ is typically rate-limiting
+and thermally activated. Under the pre-equilibrium assumption
+($k_1, k_{-1} \gg k_2$):
+
+\begin{definition}{Observed Rate of Open Complex Formation}
+  \[
+    k_\text{obs} = \frac{k_2 \, [\text{RNAP}]}{[\text{RNAP}] + K_d^c}
+    \quad\text{where}\quad K_d^c = \frac{k_{-1}}{k_1}.
+  \]
+  As $[\text{RNAP}] \to \infty$, $k_\text{obs} \to k_2$, the intrinsic
+  isomerization rate.
+\end{definition}
+
+\subsection{Termination}
+
+Two mechanisms terminate transcription in bacteria:
+\begin{enumerate}
+  \item \textbf{Intrinsic (Rho-independent):} A GC-rich stem-loop forms in
+        the nascent RNA near the 3$'$ end, followed by a run of U residues.
+        The rU--dA hybrid is thermodynamically weak, causing spontaneous
+        RNA release.
+  \item \textbf{Rho-dependent:} The Rho hexameric helicase loads onto the
+        5$'$ end of the nascent RNA and translocates 5$'\to$3$'$,
+        powered by ATP hydrolysis. When RNAP pauses at a terminator,
+        Rho catches up and unwinds the RNA--DNA hybrid.
+\end{enumerate}
+
+% ============================================================
+\section{Translation: Decoding the Transcript}
+% ============================================================
+
+\subsection{The Ribosome}
+
+The 70S bacterial ribosome consists of the 30S small subunit (16S rRNA +
+$\sim$21 proteins) and the 50S large subunit (23S rRNA + 5S rRNA +
+$\sim$31 proteins). The small subunit decodes mRNA; the large subunit
+catalyses peptide bond formation. The peptidyl transferase centre is
+composed entirely of RNA — the ribosome is a ribozyme.
+
+\begin{historicalnote}{Ada Yonath and the Ribosome Structure (2009 Nobel Prize)}
+  Determining the atomic structure of the ribosome required decades of
+  methodological innovation. Ada Yonath (Weizmann Institute) pioneered
+  cryo-cooling of ribosome crystals to reduce radiation damage during
+  X-ray diffraction. Her group published the first ribosome crystal
+  structures in the 1980s. High-resolution structures ($<3$~\AA) were
+  ultimately obtained by Yonath, Thomas Steitz, and Venkatraman
+  Ramakrishnan, who shared the 2009 Nobel Prize in Chemistry. These
+  structures revealed that the active site contains no protein side
+  chains within 18~\AA\ of the peptidyl transfer reaction — definitively
+  confirming the ribosome as a ribozyme.
+\end{historicalnote}
+
+\subsection{The Genetic Code and Its Information Content}
+
+The genetic code uses triplet codons ($4^3 = 64$ possible) to encode
+20 amino acids and 3 stop signals. The information content per codon:
+\[
+  I_\text{codon} = \log_2 64 = 6 \text{ bits}.
+\]
+The minimum required to distinguish 20 amino acids (assuming equal
+frequencies):
+\[
+  I_\text{min} = \log_2 20 \approx 4.32 \text{ bits}.
+\]
+The \textbf{redundancy} of the code is $6 - 4.32 = 1.68$~bits~codon$^{-1}$,
+corresponding to $\approx 3.2$-fold degeneracy on average (consistent
+with 64 codons / 20 amino acids). Crucially, synonymous codons nearly
+always differ only at the \textbf{third (wobble) position}, concentrating
+mutational buffering at the position where tRNA wobble pairing is most
+tolerant of non-Watson--Crick contacts.
+
+\subsection{Energetic Cost of Translation}
+
+Each peptide bond costs approximately 4 ATP equivalents:
+\begin{itemize}
+  \item Aminoacyl-tRNA synthesis: ATP $\to$ AMP $+$ PP$_\text{i}$
+        (equivalent to 2 ATP in high-energy bonds).
+  \item EF-Tu GTP hydrolysis for aminoacyl-tRNA delivery to A site.
+  \item EF-G GTP hydrolysis for translocation.
+\end{itemize}
+A 300-amino-acid protein therefore costs $\sim$1200 ATP molecules.
+
+% ============================================================
+\section{Gene Regulation: The Thermodynamics of the \textit{lac} Operon}
+% ============================================================
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\textwidth]{lac_operon_regulation_1786906815973.jpg}
+  \caption{\textit{E.~coli} \textit{lac} operon regulation. \textbf{Left:}
+           Repressed state (no lactose). The lac repressor tetramer bridges
+           operators O1, O2, and O3, looping the DNA and blocking RNAP.
+           \textbf{Right:} Induced state (lactose/IPTG present). Allolactose
+           binds the repressor and reduces its DNA affinity $\sim10^4$-fold,
+           allowing RNAP to transcribe \textit{lacZYA}.}
+  \label{fig:lacoperon}
+\end{figure}
+
+\subsection{Quantitative repressor binding}
+
+\begin{definition}{Fractional Occupancy}
+  For the equilibrium $R + O \rightleftharpoons RO$ with dissociation
+  constant $\Kd = \conc{R}\conc{O}/\conc{RO}$, the fraction of operators
+  occupied by repressor is:
+  \[
+    \theta = \frac{\conc{R}}{\conc{R} + \Kd}.
+  \]
+\end{definition}
+
+For the \textit{lac} repressor: $\Kd^\text{op} \approx 10^{-13}$~M;
+intracellular $\conc{R} \approx 10~\text{nM} = 10^{-8}$~M.
+
+\[
+  \theta_\text{rep} = \frac{10^{-8}}{10^{-8} + 10^{-13}}
+                    = \frac{1}{1 + 10^{-5}} \approx 0.99999.
+\]
+
+Addition of IPTG reduces the DNA-binding affinity by $\sim10^4$-fold
+($\Kd^\text{ind} \approx 10^{-9}$~M):
+\[
+  \theta_\text{ind} = \frac{10^{-8}}{10^{-8} + 10^{-9}}
+                    = \frac{10}{11} \approx 0.909.
+\]
+
+The rate of transcript initiation is proportional to the unoccupied
+promoter fraction $(1-\theta)$. The theoretical fold-induction is:
+\[
+  \text{Fold-induction} = \frac{1 - \theta_\text{ind}}{1 - \theta_\text{rep}}
+  = \frac{0.091}{10^{-5}} \approx 9{,}100.
+\]
+The experimentally measured value is $\sim$1000-fold, reflecting protein
+dynamics, incomplete IPTG saturation, and in vivo conditions deviating
+from in vitro $\Kd$ measurements.
+
+\subsection{Catabolite repression}
+
+When glucose is absent, cAMP levels rise. cAMP binds the Catabolite
+Activator Protein (CAP/CRP), which contacts the $\alpha$CTD of RNAP and
+increases the open complex formation rate $\sim$20-fold.
+The \textit{lac} operon is therefore expressed at high levels only when
+both conditions hold:
+\[
+  \text{High expression} \Longleftrightarrow
+  (\text{glucose absent}) \;\text{AND}\; (\text{lactose present}).
+\]
+
+\subsection{Cooperative binding and the Hill equation}
+
+When multiple ligand-binding events are positively cooperative, the
+fractional occupancy follows the Hill equation:
+\begin{equation}
+  \theta = \frac{\conc{L}^n}{\conc{L}^n + \Kd^n},
+  \label{eq:hill}
+\end{equation}
+where $n$ is the Hill coefficient ($n=1$ gives the Michaelis--Menten
+hyperbola; $n > 1$ indicates positive cooperativity, sharpening the
+transition around $\Kd$). The lac repressor tetramer, bridging operators
+O1, O2, and O3 via DNA looping, gives an effective $n \approx 2$.
+
+% ============================================================
+\section{Mutation and DNA Repair}
+% ============================================================
+
+Types of mutations include:
+\begin{enumerate}
+  \item \textbf{Point mutations} — transitions (purine $\leftrightarrow$
+        purine, or pyrimidine $\leftrightarrow$ pyrimidine; more frequent)
+        and transversions (purine $\leftrightarrow$ pyrimidine; less frequent).
+  \item \textbf{Indels} — insertions or deletions; cause frameshifts if
+        not multiples of 3.
+  \item \textbf{Silent (synonymous)} — no amino acid change.
+  \item \textbf{Missense} — altered amino acid.
+  \item \textbf{Nonsense} — premature stop codon.
+\end{enumerate}
+
+Repair pathways include:
+\begin{itemize}
+  \item \textbf{Base Excision Repair (BER):} Removes small base lesions
+        (deaminated cytosine $\to$ uracil, oxidised guanine). DNA glycosylase
+        cleaves the glycosidic bond, AP endonuclease nicks the backbone,
+        Pol $\beta$ fills, and ligase seals.
+  \item \textbf{Nucleotide Excision Repair (NER):} Removes bulky lesions
+        (UV dimers, cisplatin adducts). Excises a $\sim$12--25~nt segment
+        around the lesion (bacteria) or $\sim$25--30~nt (eukaryotes).
+  \item \textbf{Mismatch Repair (MMR):} Described in Section~1.2.
+  \item \textbf{Double-Strand Break Repair:} Via homologous recombination
+        (high fidelity) or non-homologous end joining (error-prone).
+\end{itemize}
+
+% ============================================================
+\section{Code Lab: Gene Expression Dynamics}
+% ============================================================
+
+\begin{codelab}{\textit{lac} operon induction and protein accumulation}
+  Two simulations: (a)~protein dilution after translational block by
+  chloramphenicol; (b)~\textit{lac} operon induction from repressed state
+  to new steady state.
+\end{codelab}
+
+\begin{lstlisting}[language=Python, caption={Gene expression dynamics (run in Python 3 with NumPy, SciPy, and Matplotlib installed).}, label={lst:geneexpr}]
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import odeint
+
+# -------------------------------------------------------
+# Parameters
+# -------------------------------------------------------
+k_trans  = 10.0           # translation rate (proteins / mRNA / min)
+delta_M  = np.log(2) / 2  # mRNA degradation (1/min; half-life = 2 min)
+delta_P  = np.log(2) / 30 # protein dilution (1/min; doubling time = 30 min)
+M_ss     = 10.0           # steady-state mRNA (molecules / cell)
+
+# Steady-state protein copy number
+P_ss = k_trans * M_ss / delta_P
+print(f"Steady-state mRNA:    {M_ss:.0f}  molecules/cell")
+print(f"Steady-state protein: {P_ss:.0f} molecules/cell")
+print(f"mRNA half-life:  {np.log(2)/delta_M:.1f} min")
+print(f"Protein half-life: {np.log(2)/delta_P:.1f} min  (= cell doubling time)")
+
+# -------------------------------------------------------
+# Part 1: Protein decay after chloramphenicol (t = 0)
+# mRNA degrades exponentially; protein only lost by dilution
+# -------------------------------------------------------
+def model_cam(P, t, k_trans, M0, delta_M, delta_P):
+    M = M0 * np.exp(-delta_M * t)  # mRNA decays
+    return k_trans * M - delta_P * P
+
+t1    = np.linspace(0, 60, 1000)
+sol1  = odeint(model_cam, [P_ss], t1,
+               args=(k_trans, M_ss, delta_M, delta_P))
+
+# -------------------------------------------------------
+# Part 2: lac operon induction dynamics
+# IPTG added at t = 30 min: effective transcription rate
+# jumps from 1% to 100% of maximum
+# -------------------------------------------------------
+k_mRNA = delta_M * M_ss   # transcription rate sustaining M_ss at SS
+
+def model_lac(state, t, k_mRNA, delta_M, k_trans, delta_P, t_iptg):
+    M, P  = state
+    k_tx  = k_mRNA if t >= t_iptg else 0.01 * k_mRNA  # repressed -> induced
+    dMdt  = k_tx - delta_M * M
+    dPdt  = k_trans * M - delta_P * P
+    return [dMdt, dPdt]
+
+t2     = np.linspace(0, 120, 3000)
+init   = [0.1, 43.0]   # nearly fully repressed initial state
+sol2   = odeint(model_lac, init, t2,
+                args=(k_mRNA, delta_M, k_trans, delta_P, 30.0))
+
+# -------------------------------------------------------
+# Plotting
+# -------------------------------------------------------
+fig, axes = plt.subplots(1, 2, figsize=(13, 5))
+
+# Panel A: chloramphenicol response
+ax = axes[0]
+ax.axhline(P_ss, color='gray', ls=':', lw=1.2,
+           label=f'$P_{{ss}} = {P_ss:.0f}$ molecules')
+ax.plot(t1, sol1[:, 0], 'k-', lw=2, label='Protein (Cm added at $t=0$)')
+ax.axvline(np.log(2)/delta_P, color='red', ls='--', lw=1.2,
+           label=f'Protein $t_{{1/2}} = {np.log(2)/delta_P:.1f}$ min')
+ax.set_xlabel('Time (min)', fontsize=12)
+ax.set_ylabel('Protein molecules per cell', fontsize=12)
+ax.set_title('(A) Protein decay after translational block', fontsize=11)
+ax.legend(fontsize=9)
+ax.grid(True, alpha=0.3)
+
+# Panel B: lac induction
+ax = axes[1]
+ax.axvline(30, color='orange', ls='--', lw=1.5, label='IPTG added')
+ax.plot(t2, sol2[:, 0], 'b--', lw=1.8, label='mRNA (molecules/cell)')
+ax.plot(t2, sol2[:, 1], 'r-',  lw=2.2, label='Protein (molecules/cell)')
+ax.set_xlabel('Time (min)', fontsize=12)
+ax.set_ylabel('Molecules per cell', fontsize=12)
+ax.set_title('(B) $lac$ operon induction dynamics', fontsize=11)
+ax.legend(fontsize=9)
+ax.grid(True, alpha=0.3)
+
+plt.suptitle('Gene Expression Dynamics', fontsize=13, fontweight='bold')
+plt.tight_layout()
+plt.savefig('gene_expression_dynamics.pdf', dpi=150)
+plt.show()
+\end{lstlisting}
+
+\textbf{Results.}
+\begin{itemize}
+  \item Panel~(A): mRNA decays with $t_{1/2} = 2$~min after translational
+        block, but protein decays with $t_{1/2} = 30$~min (the doubling
+        time). Protein is only removed by dilution at division.
+  \item Panel~(B): mRNA reaches its new steady state within
+        $\sim$5~min of IPTG addition. Protein follows more slowly,
+        equilibrating after $\sim$3--4 doubling times ($\approx$90--120~min).
+\end{itemize}
+
+% ============================================================
+%  PROBLEM SET
+% ============================================================
+\newpage
+\section{Problem Set: Module 1}
+
+\noindent\textbf{Instructions.} Attempt each problem before reading the
+solution. Show all working. Where numbers are requested, carry appropriate
+significant figures and include units throughout.
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{2}\enspace\disciplinetag{Replication Fidelity}\enspace\disciplinetag{Quantitative}\enspace Mutation rate arithmetic}
+
+  A DNA polymerase has an intrinsic error rate of
+  $\varepsilon_1 = 10^{-5}$ per base incorporated.
+  The 3$'\to$5$'$ proofreading exonuclease reduces this by a factor of
+  $f_1 = 10^2$. Subsequent mismatch repair reduces it by a further factor
+  of $f_2 = 10^2$.
+
+  \begin{enumerate}
+    \item Calculate the final per-base error rate $\varepsilon_\text{final}$.
+    \item The \Ecoli\ genome is $G = 4.6 \times 10^6$~bp. What is the
+          expected number of mutations per complete genome replication?
+    \item \Ecoli\ divides every $T = 20$~min under optimal conditions.
+          How many mutations accumulate in a single lineage over one year?
+    \item A culture contains $N = 10^{10}$ cells. Calculate the expected
+          number of cells carrying a pre-existing mutation at a specific
+          single nucleotide. Comment on antibiotic resistance.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} The three correction mechanisms act sequentially and
+  independently:
+  \[
+    \varepsilon_\text{final}
+    = \varepsilon_1 \times \frac{1}{f_1} \times \frac{1}{f_2}
+    = 10^{-5} \times 10^{-2} \times 10^{-2}
+    = \boxed{10^{-9} \text{ per base.}}
+  \]
+
+  \textbf{(b)}
+  \[
+    \mu = \varepsilon_\text{final} \times G
+        = 10^{-9} \times 4.6 \times 10^6
+        = 4.6 \times 10^{-3} \text{ mutations per replication.}
+  \]
+  On average, one complete genome replication in \Ecoli\ produces fewer
+  than one mutation.
+
+  \textbf{(c)} Divisions per year:
+  \[
+    n_\text{div} = \frac{365 \times 24 \times 60}{20} = 26{,}280.
+  \]
+  \[
+    \mu_\text{year} = 4.6 \times 10^{-3} \times 26{,}280 \approx 121
+    \text{ mutations per year.}
+  \]
+
+  \textbf{(d)} Expected cells harbouring a specific mutation:
+  \[
+    E = N \times \varepsilon_\text{final}
+      = 10^{10} \times 10^{-9} = 10 \text{ cells.}
+  \]
+  Ten pre-existing mutant cells are expected before any antibiotic is
+  applied. Antibiotic treatment does not create resistance — it \emph{selects}
+  for it. This is why insufficient antibiotic doses (selecting but not
+  sterilising) are particularly dangerous.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Gene Regulation}\enspace\disciplinetag{Thermodynamics}\enspace Lac repressor binding}
+
+  The \textit{lac} repressor binds operator O1 with
+  $\Kd = 10^{-13}$~M. The intracellular repressor concentration
+  is $\conc{R} = 10$~nM.
+
+  \begin{enumerate}
+    \item Derive the fractional occupancy equation
+          $\theta = \conc{R}/(\conc{R} + \Kd)$ from equilibrium
+          thermodynamics. State all assumptions.
+    \item Calculate $\theta$ for the repressed state.
+    \item Adding 1~mM IPTG shifts the effective $\Kd$ by a factor of $10^4$.
+          Calculate $\Kd^\text{ind}$ and $\theta_\text{ind}$.
+    \item The rate of transcript initiation is proportional to
+          $(1-\theta)$. Calculate the theoretical fold-induction.
+    \item The experimentally measured fold-induction is $\approx$1000-fold.
+          Is this consistent with (d)? Identify possible sources of
+          discrepancy.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} The binding equilibrium is:
+  \[
+    R + O \underset{K_d}{\rightleftharpoons} RO, \qquad
+    \Kd = \frac{\conc{R}\conc{O}}{\conc{RO}}.
+  \]
+  Defining $\theta = \conc{RO}/(\conc{O}+\conc{RO})$ and substituting
+  $\conc{O} = \Kd\conc{RO}/\conc{R}$:
+  \[
+    \theta
+    = \frac{\conc{RO}}{\Kd\conc{RO}/\conc{R} + \conc{RO}}
+    = \frac{1}{\Kd/\conc{R} + 1}
+    = \frac{\conc{R}}{\conc{R} + \Kd}. \qquad\square
+  \]
+  Assumptions: (i) equilibrium applies; (ii) $\conc{R} \gg \conc{O}$
+  so free repressor concentration $\approx$ total repressor
+  (valid: $\sim$10 repressor copies per cell vs.\ 1 operator).
+
+  \textbf{(b)}
+  \[
+    \theta_\text{rep}
+    = \frac{10^{-8}}{10^{-8} + 10^{-13}}
+    = \frac{1}{1 + 10^{-5}}
+    \approx 0.99999.
+  \]
+
+  \textbf{(c)} $\Kd^\text{ind} = 10^4 \times 10^{-13} = 10^{-9}$~M.
+  \[
+    \theta_\text{ind}
+    = \frac{10^{-8}}{10^{-8} + 10^{-9}}
+    = \frac{10}{11} \approx 0.909.
+  \]
+
+  \textbf{(d)}
+  \[
+    \text{Fold-induction}
+    = \frac{1 - 0.909}{1 - 0.99999}
+    = \frac{0.091}{10^{-5}}
+    = \boxed{9{,}100}.
+  \]
+
+  \textbf{(e)} Our prediction ($\sim$9100) exceeds the measured $\sim$1000
+  by $\approx$10-fold. The model overestimates because: (i) \invitro\
+  $\Kd$ values do not perfectly reflect \invivo\ conditions (macromolecular
+  crowding, binding of DNA-associated proteins); (ii) IPTG does not fully
+  saturate all repressor at the concentrations used; (iii) at full
+  induction, the maximum promoter strength limits transcription
+  independently of repressor; (iv) the model assumes perfectly sharp
+  induction but repressor unbinding is kinetically finite.
+  The order-of-magnitude agreement validates the thermodynamic framework.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Translation Kinetics}\enspace\disciplinetag{ODE Modelling}\enspace mRNA and protein dynamics}
+
+  An mRNA reaches a steady-state concentration of 10 molecules/cell
+  (half-life $t_{1/2}^M = 2$~min). Each mRNA is translated at
+  $k_\text{trans} = 10$~proteins~min$^{-1}$. Proteins are lost by
+  cell division ($T_d = 30$~min; negligible intrinsic degradation).
+
+  \begin{enumerate}
+    \item Write the ODE for protein copy number $P(t)$ under steady-state
+          mRNA. Find $P_\text{ss}$.
+    \item Chloramphenicol blocks translation at $t = 0$. mRNA decays as
+          $M(t) = M_0\e^{-\delta_M t}$. Write and solve the resulting ODE
+          for $P(t)$.
+    \item How long does it take for protein to fall to $P_\text{ss}/2$?
+          Why does this differ from the mRNA half-life?
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Let $\delta_M = \ln2/2$~min$^{-1}$ and
+  $\delta_P = \ln2/T_d = \ln2/30$~min$^{-1}$. At steady-state mRNA:
+  \[
+    \od{P}{t} = k_\text{trans} M_\text{ss} - \delta_P P.
+  \]
+  Setting $\od{P}{t} = 0$:
+  \[
+    P_\text{ss} = \frac{k_\text{trans} M_\text{ss}}{\delta_P}
+                = \frac{10 \times 10}{\ln2/30}
+                \approx \boxed{4{,}330 \text{ proteins/cell.}}
+  \]
+
+  \textbf{(b)} With mRNA decaying, the ODE becomes:
+  \[
+    \od{P}{t} = k_\text{trans} M_0 \e^{-\delta_M t} - \delta_P P.
+  \]
+  Multiply both sides by integrating factor $\e^{\delta_P t}$:
+  \[
+    \od{}{t}\!\left(P\e^{\delta_P t}\right)
+    = k_\text{trans} M_0 \e^{(\delta_P - \delta_M)t}.
+  \]
+  Integrate and apply $P(0) = P_\text{ss}$:
+  \[
+    P(t) = \frac{k_\text{trans} M_0}{\delta_P - \delta_M}
+           \!\left(\e^{-\delta_M t} - \e^{-\delta_P t}\right)
+           + P_\text{ss}\e^{-\delta_P t}.
+  \]
+  Since $\delta_M \gg \delta_P$, the mRNA is exhausted after
+  $\sim$3$\times t_{1/2}^M \approx 6$~min. Thereafter:
+  \[
+    P(t) \approx P_\text{ss}\,\e^{-\delta_P t}.
+  \]
+
+  \textbf{(c)} The protein half-life under dilution is
+  $t_{1/2}^P = \ln2/\delta_P = 30$~min — equal to the cell
+  doubling time. This far exceeds the 2-min mRNA half-life because
+  \textbf{protein is only removed by cell division}, not by rapid
+  intracellular degradation. mRNA and protein operate on completely
+  different timescales, which enables cells to respond to stimuli
+  at the mRNA level (fast) while maintaining protein levels stably
+  over cell generations.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Information Theory}\enspace\disciplinetag{Genetic Code}\enspace The information content of the genetic code}
+
+  \begin{enumerate}
+    \item Calculate the minimum bits required to encode 20 amino acids.
+    \item A triplet code over 4 nucleotides encodes $4^3 = 64$ codons.
+          Calculate the code's information content and its redundancy in bits.
+    \item Synonymous codons usually differ only at the wobble (third)
+          position. Explain why this pattern reduces the mutational burden.
+    \item Given a translational error rate of $\varepsilon = 10^{-4}$
+          per codon, use the Poisson distribution to calculate the
+          probability that a 300-amino-acid protein is synthesised with
+          (i) zero errors and (ii) exactly one error.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Minimum bits to distinguish 20 equally probable amino acids:
+  \[
+    I_\text{min} = \log_2 20 \approx 4.32 \text{ bits.}
+  \]
+
+  \textbf{(b)} Information per codon:
+  $I_\text{codon} = \log_2 64 = 6$~bits.
+  Redundancy $= 6 - 4.32 = 1.68$~bits~codon$^{-1}$, corresponding to
+  $\approx 3.2$-fold degeneracy on average.
+
+  \textbf{(c)} If synonymous codons differ only at position 3, then a
+  point mutation at the wobble position has a high probability of remaining
+  \emph{synonymous} (encoding the same amino acid). Mutations at positions
+  1 or 2 almost always change the amino acid. The code therefore concentrates
+  mutational tolerance at the wobble position, where tRNA wobble pairing
+  is tolerant of G--U and other non-Watson--Crick pairs anyway. This is
+  widely thought to be a selected feature of the code, reducing the mean
+  fitness cost of both replication errors and translational misreading.
+
+  \textbf{(d)} Expected errors per protein: $\lambda = 300 \times 10^{-4} = 0.03$.
+  Poisson:
+  \begin{align*}
+    P(0 \text{ errors}) &= \e^{-0.03} \approx 0.9704, \\
+    P(1 \text{ error})  &= 0.03\,\e^{-0.03} \approx 0.0291.
+  \end{align*}
+  $\approx$97\% of 300-aa proteins are synthesised without error.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Transcription}\enspace\disciplinetag{Thermodynamics}\enspace Promoter binding and activation}
+
+  A promoter has $\Kd^\text{RNAP} = 10^{-8}$~M for the
+  $\sigma^{70}$-holoenzyme. Intracellular holoenzyme concentration
+  $\conc{H} = 50$~nM.
+
+  \begin{enumerate}
+    \item Calculate the fractional RNAP occupancy at this promoter.
+    \item A transcriptional activator stabilises RNAP at the promoter by
+          $\ddG = -3.0$~kcal~mol$^{-1}$ at $T = 310$~K.
+          Using $R = 1.987$~cal~mol$^{-1}$~K$^{-1}$, calculate the new
+          effective $\Kd^\text{act}$.
+    \item A repressor ($\Kd^\text{rep} = 5\times10^{-10}$~M,
+          $\conc{Rp} = 100$~nM) competes with RNAP for the same site.
+          Using a partition function over three states (empty, RNAP-bound,
+          repressor-bound), derive and calculate the probability of RNAP
+          occupancy.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)}
+  \[
+    \theta = \frac{5\times10^{-8}}{5\times10^{-8} + 10^{-8}} = \frac{5}{6} \approx 0.833.
+  \]
+
+  \textbf{(b)} The free energy change shifts the association constant:
+  \[
+    \frac{\Kd^\text{act}}{\Kd^\text{basal}} = \e^{\ddG/RT}, \qquad
+    RT = 1.987 \times 310 = 616 \text{ cal mol}^{-1}.
+  \]
+  \[
+    \frac{\Kd^\text{act}}{10^{-8}} = \e^{-3000/616} = \e^{-4.87}
+    \approx 7.7 \times 10^{-3},
+  \]
+  \[
+    \Kd^\text{act} \approx 7.7 \times 10^{-11} \text{ M} \approx 0.077 \text{ nM.}
+  \]
+  A 130-fold reduction in $\Kd$ converts a moderately occupied promoter
+  ($\theta = 0.833$) to one that is nearly always occupied.
+
+  \textbf{(c)} Define statistical weights for each state:
+  \[
+    Z = 1 + \frac{\conc{H}}{\Kd^\text{RNAP}} + \frac{\conc{Rp}}{\Kd^\text{rep}}.
+  \]
+  \[
+    \frac{\conc{H}}{\Kd^\text{RNAP}} = \frac{5\times10^{-8}}{10^{-8}} = 5; \qquad
+    \frac{\conc{Rp}}{\Kd^\text{rep}} = \frac{10^{-7}}{5\times10^{-10}} = 200.
+  \]
+  \[
+    P_\text{RNAP} = \frac{5}{1 + 5 + 200} = \frac{5}{206} \approx 0.024.
+  \]
+  RNAP occupies the promoter only 2.4\% of the time — the repressor,
+  with a 40-fold greater occupancy weight, almost entirely excludes RNAP.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{4}\enspace\disciplinetag{Molecular Evolution}\enspace\disciplinetag{Information Theory}\enspace\disciplinetag{Population Genetics}\enspace The Drake rule and the error threshold}
+
+  \begin{enumerate}
+    \item The Drake rule states that the spontaneous mutation rate is
+          $\mu \approx 0.003$ per genome per replication across
+          DNA-based microorganisms. For \Ecoli\ ($G = 4.6\times10^6$~bp),
+          calculate the implied per-base error rate and verify consistency
+          with Table~\ref{tab:fidelity}.
+    \item For poliovirus ($G_\text{RNA} = 7.4\times10^3$~nt, RdRp error
+          rate $\approx 10^{-4}$~nt$^{-1}$), calculate the mutations per
+          genome replication. Does poliovirus follow the Drake rule?
+    \item Define the Eigen error threshold mathematically. Using
+          $L = 7.4\times10^3$ and average mutant fitness $w_m = 0.1$,
+          calculate the threshold error rate $\mu^*$.
+    \item Ribavirin approximately doubles the RdRp error rate. Determine
+          whether a 2-fold increase is sufficient to push poliovirus
+          above its error threshold.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)}
+  \[
+    \varepsilon = \mu / G = 0.003 / (4.6\times10^6) \approx 6.5\times10^{-10}
+    \text{ per base,}
+  \]
+  consistent with the MMR-corrected value of $\sim10^{-9}$--$10^{-10}$
+  in Table~\ref{tab:fidelity}.
+
+  \textbf{(b)} Poliovirus: $10^{-4} \times 7.4\times10^3 \approx 0.74$
+  mutations per replication — 250-fold above the Drake rule. RNA viruses
+  exist at the edge of tolerable mutation load; they maintain fitness
+  as a quasispecies cloud rather than a single consensus sequence.
+
+  \textbf{(c)} The probability of copying a genome of length $L$ without
+  error: $Q = (1-\mu)^L \approx \e^{-\mu L}$.
+  At the error threshold, the wild-type cannot maintain informational
+  dominance:
+  \[
+    Q^* \approx w_m \implies \e^{-\mu^* L} = w_m \implies
+    \mu^* = -\frac{\ln w_m}{L} = \frac{\ln 10}{7400} \approx 3.1\times10^{-4}
+    \text{ per nt.}
+  \]
+
+  \textbf{(d)} Current poliovirus error rate: $10^{-4}$~nt$^{-1}$.
+  With ribavirin: $2\times10^{-4}$~nt$^{-1}$.
+  Threshold: $3.1\times10^{-4}$~nt$^{-1}$.
+
+  \[
+    2\times10^{-4} < 3.1\times10^{-4}.
+  \]
+  A 2-fold increase is \textbf{insufficient}. A $\gtrsim$3.1-fold increase
+  would be required. This is consistent with clinical observations that
+  ribavirin has modest antiviral efficacy against poliovirus as a
+  monotherapy, and explains why combination therapy is typically required
+  for lethal mutagenesis strategies.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{DNA Thermodynamics}\enspace Duplex stability and promoter function}
+
+  A 20-bp duplex with alternating AT/GC has an estimated hybridisation
+  enthalpy of $\dH = -160$~kJ~mol$^{-1}$ (simplified nearest-neighbour
+  calculation).
+
+  \begin{enumerate}
+    \item Using $\dS = \dH / 354$~K (empirical approximation) and
+          $T_m = \dH / (\dS + R\ln(C_T/4))$ with
+          $C_T = 1~\mu$M, calculate $T_m$ in kelvin and $^\circ$C.
+    \item The $-10$ element of a bacterial promoter has the consensus
+          sequence \texttt{TATAAT} (100\% AT). Explain mechanistically
+          why this AT-richness is a functional requirement rather than
+          an evolutionary accident.
+    \item A mutant promoter has the $-10$ sequence changed to
+          \texttt{GCGCGC} (100\% GC). Predict the qualitative effect on
+          (i) $T_m$ of the $-10$ region, (ii) open complex formation rate,
+          and (iii) transcriptional output.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)}
+  \[
+    \dS = \frac{-160{,}000}{354} = -452~\text{J mol}^{-1}\text{K}^{-1}.
+  \]
+  \[
+    R\ln(C_T/4) = 8.314\ln(2.5\times10^{-7}) = -126~\text{J mol}^{-1}\text{K}^{-1}.
+  \]
+  \[
+    T_m = \frac{-160{,}000}{-452 + (-126)} = \frac{-160{,}000}{-578}
+        \approx 277~\text{K} = 4^\circ\text{C.}
+  \]
+  (This simplified calculation underestimates real $T_m$ values; accurate
+  results require the full SantaLucia 1998 nearest-neighbour parameters.)
+
+  \textbf{(b)} Open complex formation requires RNAP to locally melt
+  $\sim$14~bp of DNA from $-11$ to $+3$. This melting requires thermal
+  energy to break base-pair hydrogen bonds and disrupt stacking. AT-rich
+  sequences have lower melting enthalpy and entropy than GC-rich sequences;
+  they are easier to melt at physiological temperatures. The consensus
+  \texttt{TATAAT} sequence at the $-10$ element therefore lowers the
+  activation barrier for the closed-to-open complex isomerization step,
+  increasing the rate of productive transcription initiation. This is
+  a thermodynamic necessity — not an arbitrary sequence preference.
+
+  \textbf{(c)} A \texttt{GCGCGC} $-10$ element: (i) $T_m$ of the $-10$
+  region increases substantially (100\% GC content raises $T_m$ by
+  $\approx$4°C per 10\% GC increase). (ii) The higher melting energy
+  raises the activation barrier for open complex formation, greatly
+  reducing $k_\text{iso}$. (iii) Transcriptional output is predicted to
+  fall sharply — this promoter would be classified as very weak. In practice,
+  such a mutation would likely be lethal if the gene is essential, or
+  would cause a strong loss-of-expression phenotype.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{4}\enspace\disciplinetag{Population Genetics}\enspace\disciplinetag{Molecular Evolution}\enspace Kimura's neutral theory and the molecular clock}
+
+  \begin{enumerate}
+    \item The rate of neutral substitution $k$ in a population is
+          equal to the neutral mutation rate $\mu_n$, independent of
+          population size $N$. Derive this result from first principles:
+          the rate of new neutral mutations per generation is $2N\mu_n$
+          (diploid), and the fixation probability of a neutral allele
+          is $1/(2N)$.
+    \item Two mammalian species share a gene with 10\% synonymous
+          divergence. Using $\mu_n = 2\times10^{-9}$~site$^{-1}$~yr$^{-1}$
+          and the Jukes--Cantor correction, estimate their divergence time.
+    \item Why must synonymous (silent) substitutions — rather than all
+          substitutions — be used as the molecular clock? What systematic
+          bias would occur if nonsynonymous substitutions were included?
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} In a population of $N$ diploid individuals, each generation
+  produces $2N\mu_n$ new neutral mutations. Each new neutral allele starts
+  at frequency $1/(2N)$ and has fixation probability equal to its initial
+  frequency (for a neutral allele, $p_\text{fix} = 1/(2N)$ by the
+  random walk argument). The rate of neutral substitutions per generation:
+  \[
+    k = (\text{mutations per generation}) \times p_\text{fix}
+      = 2N\mu_n \times \frac{1}{2N} = \mu_n. \qquad\square
+  \]
+  The population size cancels exactly — a profound result. Large populations
+  generate more neutral mutations, but each has a proportionally smaller
+  fixation probability.
+
+  \textbf{(b)} Jukes--Cantor correction for multiple hits at the same site:
+  \[
+    d = -\frac{3}{4}\ln\!\left(1 - \frac{4p}{3}\right), \quad p = 0.10.
+  \]
+  \[
+    d = -0.75\ln(0.867) \approx 0.107.
+  \]
+  Divergence time (factor of 2 for independent accumulation on both lineages):
+  \[
+    t = \frac{d}{2\mu_n} = \frac{0.107}{2\times2\times10^{-9}}
+      \approx 2.68\times10^7 \text{ yr} \approx 26.8 \text{ Mya.}
+  \]
+
+  \textbf{(c)} Synonymous substitutions are approximately neutral (no
+  change in protein sequence, so minimal selection) and accumulate at
+  rate $\approx\mu_n$. Nonsynonymous substitutions are under selection:
+  deleterious ones are eliminated (purifying selection reduces their rate
+  below $\mu_n$) and advantageous ones sweep through rapidly. Including
+  nonsynonymous substitutions introduces rate heterogeneity that depends
+  on the specific functional constraints and evolutionary history of
+  the gene, making the clock unreliable. Using all substitutions would
+  typically \emph{underestimate} divergence times (purifying selection
+  suppresses the apparent substitution rate).
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{3}\enspace\disciplinetag{Transcription Kinetics}\enspace Open complex formation rate}
+
+  For the \textit{lac} promoter: $k_\text{on} = 2\times10^7$~M$^{-1}$s$^{-1}$,
+  $k_\text{off} = 0.2$~s$^{-1}$, $k_\text{iso} = 1$~s$^{-1}$,
+  $k_{-\text{iso}} = 0.01$~s$^{-1}$, $\conc{H} = 50$~nM.
+
+  \begin{enumerate}
+    \item Under the pre-equilibrium assumption
+          ($k_\text{on}, k_\text{off} \gg k_\text{iso}$), derive an
+          expression for the observed rate $k_\text{obs}$ of open
+          complex formation as a function of $\conc{H}$.
+    \item Calculate $k_\text{obs}$ and $\tau = 1/k_\text{obs}$ at
+          $\conc{H} = 50$~nM.
+    \item What is the physical interpretation of the maximum rate
+          $k_\text{obs}^\text{max}$ as $\conc{H} \to \infty$?
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} The closed complex occupancy under pre-equilibrium:
+  \[
+    \theta_c = \frac{\conc{H}}{\conc{H} + K_d^c},
+    \quad K_d^c = k_\text{off}/k_\text{on}
+               = 0.2/(2\times10^7) = 10^{-8} \text{ M.}
+  \]
+  The observed isomerization rate:
+  \[
+    k_\text{obs} = k_\text{iso}\,\theta_c
+    = \frac{k_\text{iso}\conc{H}}{\conc{H} + K_d^c}.
+  \]
+
+  \textbf{(b)} At $\conc{H} = 5\times10^{-8}$~M:
+  \[
+    k_\text{obs} = \frac{1 \times 5\times10^{-8}}{5\times10^{-8} + 10^{-8}}
+                 = \frac{5}{6} \approx 0.833 \text{ s}^{-1}.
+  \]
+  \[
+    \tau = 1/0.833 \approx 1.2 \text{ s.}
+  \]
+  Open complex formation takes $\approx$1.2~s under physiological conditions.
+
+  \textbf{(c)} As $\conc{H} \to \infty$, all promoters are saturated with
+  closed complexes and $k_\text{obs} \to k_\text{iso} = 1$~s$^{-1}$.
+  This is the intrinsic rate of the $RP_c \to RP_o$ conformational change
+  — determined by the activation energy of DNA melting, not by RNAP
+  concentration. No amount of additional polymerase can accelerate the
+  reaction beyond this intrinsic limit.
+\end{solution}
+
+% ------------------------------------------------------------
+\begin{problem}{\stars{5}\enspace\disciplinetag{Replication}\enspace\disciplinetag{DNA Repair}\enspace\disciplinetag{Cancer Biology}\enspace Mismatch repair, microsatellite instability, and Lynch syndrome}
+
+  Lynch syndrome is caused by heterozygous germline loss-of-function
+  mutations in MMR genes (MLH1, MSH2, MSH6, PMS2) and confers
+  $\approx$70--80\% lifetime colorectal cancer risk.
+
+  \begin{enumerate}
+    \item MMR-deficient cells operate with only two correction tiers.
+          Calculate the per-base error rate $\varepsilon_\text{MMR^-}$
+          and the expected mutations per human genome replication
+          ($G = 3\times10^9$~bp).
+    \item Lynch syndrome tumours show microsatellite instability (MSI) —
+          length variation at short tandem repeat sequences. Explain
+          mechanistically why MMR deficiency specifically elevates
+          microsatellite mutation rates rather than uniformly raising
+          all mutation types.
+    \item Model colorectal carcinogenesis as requiring $m = 5$
+          rate-limiting mutations at specific single base positions.
+          For a colon with $N = 10^{10}$ epithelial cells undergoing
+          $n = 100$ divisions per lifetime, estimate the probability
+          that at least one cell has accumulated all 5 mutations, for:
+          \begin{enumerate}[label=(\roman*)]
+            \item MMR-proficient cells ($\varepsilon = 10^{-9}$~bp$^{-1}$)
+            \item MMR-deficient cells ($\varepsilon = 10^{-7}$~bp$^{-1}$)
+          \end{enumerate}
+    \item Your estimates in (c) are far smaller than observed cancer
+          incidences. Identify the most important physical process
+          missing from this simple model.
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+  \textbf{(a)} Without MMR, only two tiers remain:
+  \[
+    \varepsilon_{\text{MMR}^-}
+    = \varepsilon_1 / f_1
+    = 10^{-5} \times 10^{-2}
+    = 10^{-7} \text{ per base.}
+  \]
+  Mutations per replication ($G = 3\times10^9$~bp):
+  \[
+    \mu_{\text{MMR}^-} = 10^{-7} \times 3\times10^9 = 300 \text{ per replication,}
+  \]
+  compared to $\mu_\text{normal} = 10^{-9} \times 3\times10^9 = 3$.
+  MMR loss produces a 100-fold mutator phenotype.
+
+  \textbf{(b)} Microsatellites (tandem repeat sequences such as CACACACA)
+  are particularly prone to \textbf{replication slippage}: during Okazaki
+  fragment synthesis on the lagging strand, the newly synthesised strand
+  can loop out (or the template can loop out), causing the polymerase to
+  re-prime at the wrong repeat unit, inserting or deleting one repeat
+  unit. This creates a small insertion/deletion loop (IDL) rather than a
+  base substitution mismatch. IDLs are the primary substrate of the
+  MSH2--MSH3 mismatch recognition complex. Without functional MMR,
+  these IDLs are not corrected, causing length variation at every
+  microsatellite in the genome — the MSI signature. The mutation rate
+  at microsatellites can be $10^3$--$10^5$-fold elevated relative to
+  non-repetitive sequences, even though the base substitution rate
+  increases only $\sim$100-fold.
+
+  \textbf{(c)} Probability that one cell acquires all $m$ mutations:
+  \[
+    p_\text{cell} \approx (\varepsilon \times n)^m.
+  \]
+  Probability that at least one cell in $N$ acquires all $m$:
+  \[
+    P \approx N \times p_\text{cell}.
+  \]
+  \begin{enumerate}[label=(\roman*)]
+    \item MMR-proficient: $p_\text{cell} = (10^{-9}\times100)^5 = (10^{-7})^5 = 10^{-35}$;
+          $P = 10^{10} \times 10^{-35} = 10^{-25}$. Essentially zero.
+    \item MMR-deficient: $p_\text{cell} = (10^{-7}\times100)^5 = (10^{-5})^5 = 10^{-25}$;
+          $P = 10^{10} \times 10^{-25} = 10^{-15}$. Still vanishingly small.
+  \end{enumerate}
+
+  \textbf{(d)} The simple model assumes the 5 mutations must occur
+  \emph{independently in the same cell} from the same stem cell lineage.
+  This is far too stringent. The crucial missing mechanism is
+  \textbf{clonal expansion}: the first driver mutation confers a
+  growth advantage, expanding the mutant clone to thousands or millions
+  of cells. Each of these cells is now a candidate for acquiring the
+  next mutation. This exponential amplification at each stage — the
+  multi-stage Armitage--Doll model — collapses the time to accumulate
+  all required mutations from thousands of years to decades.
+  Lynch syndrome, by elevating $\varepsilon$ 100-fold, shortens each
+  clonal expansion step, compressing cancer latency from $\sim$60--70
+  years to $\sim$30--40 years — consistent with the observed earlier
+  age of cancer onset in Lynch syndrome patients.
+\end{solution}
+
+% ============================================================
+%  END OF MODULE 1
+% ============================================================
+
+\end{document}

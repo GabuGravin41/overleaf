@@ -1,0 +1,616 @@
+% ============================================================
+%  Kenya Informatics Olympiad -- Round 1, Paper 2
+%  Compile normally for student paper.
+%  Compile with   \def\withanswers{}   for marking scheme.
+% ============================================================
+\newif\ifanswers
+\answersfalse
+\ifdefined\withanswers\answerstrue\fi
+
+\usepackage[margin=2.2cm, headheight=14pt]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{titlesec}
+\usepackage[most]{tcolorbox}
+\usepackage[hidelinks]{hyperref}
+
+\definecolor{kioblack}{HTML}{1B1B1B}
+\definecolor{kiored}{HTML}{B22222}
+\definecolor{kiogreen}{HTML}{006B3F}
+\definecolor{kiogrey}{HTML}{F2F2F2}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textsc{Kenya Informatics Olympiad 2026}}
+\fancyhead[R]{\small Round 1, Paper 2\ifanswers\ --- Marking Scheme\fi}
+\fancyfoot[C]{\small Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\titleformat{\section}{\large\bfseries\color{kiogreen}}{}{0pt}{}
+  [\vspace{-0.6em}\color{kiogreen}\rule{\linewidth}{0.8pt}]
+\titlespacing*{\section}{0pt}{1.6em}{0.9em}
+
+\newcounter{prob}
+\newenvironment{problem}[1]
+  {\refstepcounter{prob}\par\medskip
+   \noindent{\bfseries\large \theprob.}\hfill\textit{[#1 marks]}\par
+   \nopagebreak\smallskip}
+  {\par\medskip}
+
+\newcommand{\answerline}[1][Answer]{%
+  \par\nopagebreak\smallskip\nopagebreak
+  \noindent\textbf{#1:}\ \hrulefill\par}
+
+\newenvironment{parts}
+  {\begin{enumerate}[label=(\alph*), leftmargin=2em, itemsep=0.35em]}
+  {\end{enumerate}}
+
+\newcommand{\mcq}[5]{%
+  \par\nopagebreak\smallskip\noindent
+  \begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lllll@{}}
+  \textbf{(A)}~#1 & \textbf{(B)}~#2 & \textbf{(C)}~#3 &
+  \textbf{(D)}~#4 & \textbf{(E)}~#5
+  \end{tabular*}\par}
+
+\newenvironment{mcqlong}
+  {\begin{enumerate}[label=\textbf{(\Alph*)},leftmargin=2.4em,itemsep=0pt]}
+  {\end{enumerate}}
+
+\newtcolorbox{example}{colback=white,colframe=kiogreen!60,boxrule=0.4pt,
+  arc=2pt,left=5pt,right=5pt,top=3pt,bottom=3pt,
+  title=\textbf{Example},fonttitle=\small\bfseries,coltitle=white,
+  colbacktitle=kiogreen!70}
+
+\newcommand{\task}{\par\smallskip\noindent\textbf{Your task.}
+  Describe an efficient algorithm for this problem.
+  Explain the key idea, justify why it is correct, and state its
+  time complexity. You do not need to write code.\par}
+
+\newtcolorbox{solution}[1][]{enhanced,breakable,colback=kiogrey,
+  colframe=kiogreen,boxrule=0.5pt,arc=2pt,left=6pt,right=6pt,
+  top=4pt,bottom=4pt,fonttitle=\bfseries,title={#1}}
+
+\begin{document}
+
+% ---- Cover ----
+\begin{center}
+  {\color{kioblack}\rule{\linewidth}{3pt}}\\[-2.2pt]
+  {\color{kiored}\rule{\linewidth}{3pt}}\\[-2.2pt]
+  {\color{kiogreen}\rule{\linewidth}{3pt}}\\[1.2em]
+  {\LARGE\bfseries Kenya Informatics Olympiad 2026}\\[0.5em]
+  {\Large Round 1, Paper 2\ifanswers\ --- Marking Scheme\else\ --- Problem Paper\fi}\\[1em]
+  {\color{kiogreen}\rule{\linewidth}{3pt}}\\[-2.2pt]
+  {\color{kiored}\rule{\linewidth}{3pt}}\\[-2.2pt]
+  {\color{kioblack}\rule{\linewidth}{3pt}}
+\end{center}
+
+\ifanswers\else
+\vspace{0.6em}
+\noindent
+\begin{tabular}{@{}p{0.48\linewidth}p{0.48\linewidth}@{}}
+Name: \hrulefill & School: \hrulefill \\[0.8em]
+County: \hrulefill & Candidate No.: \hrulefill
+\end{tabular}
+\fi
+
+\subsection*{Instructions}
+\begin{enumerate}[leftmargin=2em,itemsep=0.2em]
+  \item Time allowed: \textbf{3 hours}.
+  \item The paper has \textbf{20 problems} in three sections,
+        worth \textbf{100 marks} in total.
+  \item \textbf{Section A} (Problems 1--7): multiple choice.
+        Write one letter (A--E) in the answer grid. No penalty for wrong answers.
+  \item \textbf{Section B} (Problems 8--14): written answers.
+        Show your working; working earns partial credit.
+  \item \textbf{Section C} (Problems 15--20): algorithm descriptions.
+        Write clear steps or pseudocode, argue correctness, and give the
+        running time. No code required.
+  \item Calculators and electronic devices are \textbf{not} allowed.
+\end{enumerate}
+
+% ==============================================================
+\section*{Section A \quad Multiple Choice \hfill\normalsize (7 problems, 2 marks each)}
+% ==============================================================
+
+\ifanswers\else
+\noindent\textbf{Answer grid.}
+\begin{center}
+\renewcommand{\arraystretch}{1.8}
+\begin{tabular}{|c|*{7}{>{\centering\arraybackslash}p{1.1cm}|}}
+\hline
+\textbf{Problem} & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
+\textbf{Answer}  &   &   &   &   &   &   &   \\ \hline
+\end{tabular}
+\end{center}
+\fi
+
+% ---- A1 ----
+\begin{problem}{2}
+A colony of beetles doubles in number every week. When the colony first
+appeared it contained an odd number of beetles. There are now exactly
+$544$ beetles. How many weeks ago did the colony first appear?
+\mcq{3}{5}{7}{9}{11}
+\end{problem}
+
+% ---- A2 ----
+\begin{problem}{2}
+Three football teams --- Kenya, Uganda and Tanzania --- each played
+the other two exactly once. The total goals scored for and against
+each team were:
+
+\smallskip
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Team & Goals for & Goals against \\ \midrule
+Kenya    & 3 & 1 \\
+Uganda   & 1 & 2 \\
+Tanzania & 0 & 1 \\ \bottomrule
+\end{tabular}
+\end{center}
+
+\smallskip
+What was the Uganda vs.\ Tanzania score?
+\mcq{2--0}{1--0}{0--0}{1--1}{0--1}
+\end{problem}
+
+% ---- A3 ----
+\begin{problem}{2}
+A digital clock shows hours (00--23) and minutes (00--59).
+It has four buttons: \textbf{H+} (advance one hour), \textbf{H$-$}
+(go back one hour), \textbf{M+} (advance one minute) and \textbf{M$-$}
+(go back one minute). All values wrap around (e.g.\ pressing H+ at 23:00
+gives 00:00). What is the fewest number of button presses needed to change
+the display from \textbf{07:20} to \textbf{14:45}?
+\mcq{28}{30}{32}{34}{36}
+\end{problem}
+
+% ---- A4 ----
+\begin{problem}{2}
+You have 9 coins that look identical, but one is counterfeit and is
+slightly lighter than the rest. Using a balance scale (no weights),
+what is the minimum number of weighings needed to \emph{guarantee}
+finding the counterfeit coin?
+\mcq{1}{2}{3}{4}{5}
+\end{problem}
+
+% ---- A5 ----
+\begin{problem}{2}
+Three missionaries and three cannibals must cross a river.
+A boat holds at most two people. At no point on either bank or in the
+boat may cannibals outnumber missionaries (unless there are no
+missionaries on that side).
+What is the minimum number of one-way crossings needed?
+\mcq{7}{9}{11}{13}{15}
+\end{problem}
+
+% ---- A6 ----
+\begin{problem}{2}
+Two players take turns breaking a $3 \times 5$ chocolate bar.
+On each turn, a player picks any rectangular piece and snaps it into two
+rectangles along a straight line. The player who makes the \emph{last}
+break wins. Which player wins with optimal play?
+\begin{mcqlong}
+  \item The first player, by always breaking the largest piece.
+  \item The second player always wins, regardless of play.
+  \item The first player, but only if they break along a long edge first.
+  \item Whoever takes the $1\times 1$ corner pieces first wins.
+  \item Neither player can guarantee a win.
+\end{mcqlong}
+\end{problem}
+
+% ---- A7 ----
+\begin{problem}{2}
+What is the sum of \emph{all the digits} of every integer from 1 to 100?
+(For example, the integer 37 contributes $3 + 7 = 10$.)
+\mcq{856}{875}{901}{903}{925}
+\end{problem}
+
+% ==============================================================
+\section*{Section B \quad Written Answers \hfill\normalsize (7 problems, 36 marks)}
+% ==============================================================
+
+% ---- B8 ----
+\begin{problem}{5}
+You have 8 litres of milk in a jug and two empty containers: one holds
+5 litres and one holds 3 litres. No other measuring equipment is available.
+\begin{parts}
+  \item Describe a sequence of pourings that leaves exactly 4 litres in
+        the jug and exactly 4 litres in the 5-litre container. \hfill [3]
+  \item What is the minimum number of pourings needed? \hfill [2]
+\end{parts}
+\answerline
+\end{problem}
+
+% ---- B9 ----
+\begin{problem}{5}
+A train (Train~A) leaves Nairobi for Mombasa at 08:00, travelling at
+60\,km/h. Another train (Train~B) leaves Mombasa heading for Nairobi at
+10:00, travelling at 90\,km/h. Nairobi and Mombasa are 420\,km apart.
+\begin{parts}
+  \item At what time do the two trains meet? \hfill [2]
+  \item How far from Nairobi does the meeting occur? \hfill [2]
+  \item Which train has travelled the greater distance at the moment of meeting? \hfill [1]
+\end{parts}
+\answerline
+\end{problem}
+
+% ---- B10 ----
+\begin{problem}{5}
+The \emph{Tower of Hanoi} puzzle has $n$ discs stacked from largest (bottom)
+to smallest (top) on Peg~A, and two other pegs B and~C. The goal is to move
+all discs to Peg~C, one disc at a time, never placing a larger disc on a
+smaller one.
+\begin{parts}
+  \item Write a recurrence relation for $H(n)$, the minimum number of moves
+        for $n$ discs. \hfill [1]
+  \item Solve the recurrence to give a closed-form formula. \hfill [2]
+  \item How many moves are needed for $n = 8$ discs? \hfill [1]
+  \item If each move takes 1 second, approximately how many years would it
+        take to complete the puzzle with $n = 64$ discs?
+        (Use $1\text{ year} \approx 3.15 \times 10^7$ seconds.) \hfill [1]
+\end{parts}
+\answerline
+\end{problem}
+
+% ---- B11 ----
+\begin{problem}{5}
+Three piles of stones contain 3, 5, and 7 stones. Two players take turns;
+each must take at least one stone from exactly one pile on their turn. The
+player who takes the \emph{last} stone wins.
+\begin{parts}
+  \item Calculate the \emph{nim-sum} (bitwise XOR) of the pile sizes:
+        $3 \oplus 5 \oplus 7$. \hfill [1]
+  \item Based on this, who wins with optimal play --- the first or second player?
+        Give one winning first move and explain why it works. \hfill [3]
+  \item What would the answer be if the piles contained 1, 2 and 3 stones? \hfill [1]
+\end{parts}
+\answerline
+\end{problem}
+
+% ---- B12 ----
+\begin{problem}{6}
+$n$ people stand in a circle, numbered $1$ to $n$ clockwise. Starting from
+person~1, every second person is eliminated (so person~2 goes first,
+then person~4, and so on, wrapping around). Let $J(n)$ denote the position
+of the last survivor. Write $n = 2^m + L$ where $0 \le L < 2^m$; then
+$J(n) = 2L + 1$.
+\begin{parts}
+  \item Who survives when $n = 8$? \hfill [1]
+  \item Who survives when $n = 10$? \hfill [1]
+  \item Who survives when $n = 13$? \hfill [1]
+  \item Trace through the eliminations for $n = 6$ step by step to verify
+        the formula. \hfill [3]
+\end{parts}
+\answerline
+\end{problem}
+
+% ---- B13 ----
+\begin{problem}{5}
+A \emph{magic square} is an $n \times n$ grid filled with distinct integers
+such that every row, every column, and both main diagonals all have the same
+sum (the \emph{magic sum}).
+\begin{parts}
+  \item What must the magic sum be for a $3 \times 3$ magic square that uses
+        each of the integers 1 to 9 exactly once? \hfill [1]
+  \item Complete the magic square below.
+        \[
+        \begin{array}{|c|c|c|}
+        \hline
+        2 & \phantom{0} & 6 \\
+        \hline
+        \phantom{0} & 5 & \phantom{0} \\
+        \hline
+        4 & \phantom{0} & 8 \\
+        \hline
+        \end{array}
+        \]
+        \hfill [2]
+  \item A $3 \times 3$ magic square is formed using each of the integers from
+        3 to 11 exactly once. What is its magic sum? \hfill [1]
+  \item If you add the same constant to every cell of a magic square, is the
+        result still a magic square? Justify briefly. \hfill [1]
+\end{parts}
+\answerline
+\end{problem}
+
+% ---- B14 ----
+\begin{problem}{5}
+1 January 2024 was a \textbf{Monday}. 2024 was a leap year (366 days).
+2025 is not a leap year.
+\begin{parts}
+  \item On what day of the week did 1 January 2025 fall? \hfill [1]
+  \item On what day of the week did 31 October 2025 fall? \hfill [2]
+  \item How many days are there from 1 February 2025 to 30 April 2025
+        inclusive? \hfill [1]
+  \item In what year between 2026 and 2050 will 1 January next fall on a
+        Monday? \hfill [1]
+\end{parts}
+\answerline
+\end{problem}
+
+% ==============================================================
+\section*{Section C \quad Algorithm Design \hfill\normalsize (6 problems, 50 marks)}
+% ==============================================================
+
+\noindent For each problem, \textbf{describe an algorithm} --- not a program.
+A full answer explains the key idea, lists the steps, argues correctness, and states the
+running time.
+
+% ---- C15 ----
+\begin{problem}{8}
+You are given $n$ activities, each with a start time $s_i$ and finish time
+$f_i$ ($s_i < f_i$). Two activities \emph{conflict} if they overlap
+(both are running at the same moment). Find the \textbf{maximum} number of
+non-conflicting activities you can select.
+
+\smallskip\noindent\textbf{Constraints.} $1 \le n \le 10^5$,
+$0 \le s_i < f_i \le 10^9$.
+
+\begin{example}
+Activities $(1,4),(3,5),(0,6),(5,7),(3,9),(5,9),(6,10),(8,11),(8,12),
+(12,16)$. \textbf{Answer: 4.}
+One valid selection: $(1,4),(5,7),(8,11),(12,16)$.
+\end{example}
+\task
+\end{problem}
+
+% ---- C16 ----
+\begin{problem}{8}
+$n$ books with thicknesses $t_1, t_2, \dots, t_n$ must be placed on $k$
+shelves \emph{in order} (book $i$ comes before book $i+1$, either on the same
+shelf or an earlier one). Find the \textbf{minimum} possible value of the
+maximum total thickness on any single shelf.
+
+\smallskip\noindent\textbf{Constraints.} $1 \le k \le n \le 10^5$,
+$1 \le t_i \le 10^9$.
+
+\begin{example}
+Books $[3,2,4,1,5]$, $k = 2$. \textbf{Answer: 9.}
+Shelves $[3,2,4]$ and $[1,5]$ give maximum thickness 9.
+\end{example}
+\task
+\end{problem}
+
+% ---- C17 ----
+\begin{problem}{9}
+Find the length of the \textbf{longest strictly increasing subsequence}
+(LIS) of an array of $n$ integers. A \emph{subsequence} is obtained by
+deleting some elements without changing the order of the remaining ones.
+
+\smallskip\noindent\textbf{Constraints.} $1 \le n \le 10^5$,
+$-10^9 \le a_i \le 10^9$.
+
+\begin{example}
+$a = [10, 9, 2, 5, 3, 7, 101, 18]$. \textbf{Answer: 4}
+(e.g.\ $[2, 5, 7, 101]$).
+\end{example}
+\task
+\end{problem}
+
+% ---- C18 ----
+\begin{problem}{9}
+Given an array of $n$ distinct integers, count the number of
+\textbf{inversions}: pairs $(i, j)$ with $i < j$ but $a_i > a_j$.
+
+\smallskip\noindent\textbf{Constraints.} $1 \le n \le 10^5$.
+
+\begin{example}
+$a = [2, 4, 1, 3, 5]$. Inversions: $(2,1), (4,1), (4,3)$.
+\textbf{Answer: 3.}
+\end{example}
+\task
+\end{problem}
+
+% ---- C19 ----
+\begin{problem}{8}
+An $n \times m$ grid has cells that are either empty (0) or walls (1).
+Find the \textbf{shortest path} from cell $(r_1, c_1)$ to cell $(r_2, c_2)$
+using only four-directional moves (up/down/left/right) through empty cells.
+If no path exists, output $-1$.
+
+\smallskip\noindent\textbf{Constraints.} $1 \le n, m \le 1000$.
+
+\begin{example}
+\[
+\begin{array}{cccc}
+0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+0 & 0 & 1 & 0
+\end{array}
+\]
+From $(0,0)$ to $(2,3)$: \textbf{Answer: 5.}
+\end{example}
+\task
+\end{problem}
+
+% ---- C20 ----
+\begin{problem}{8}
+A row of $n$ houses each contains $a_i$ coins. A thief must steal the
+\textbf{maximum} total number of coins but may \emph{not} rob two adjacent
+houses (the alarm triggers if two houses sharing a wall are both robbed).
+
+\smallskip\noindent\textbf{Constraints.} $1 \le n \le 10^5$,
+$0 \le a_i \le 10^4$.
+
+\begin{example}
+$a = [2, 7, 9, 3, 1]$. \textbf{Answer: 12.} Take houses 1, 3, 5:
+$2 + 9 + 1 = 12$.
+\end{example}
+\task
+\end{problem}
+
+\begin{center}
+\vspace{1em}
+{\color{kiogreen}\rule{0.3\linewidth}{0.8pt}}\quad
+\textsc{End of Paper}\quad
+{\color{kiogreen}\rule{0.3\linewidth}{0.8pt}}
+\end{center}
+
+% ==============================================================
+%  MARKING SCHEME
+% ==============================================================
+\ifanswers
+\newpage
+\section*{Marking Scheme --- Paper 2}
+
+\subsection*{Section A}
+\begin{center}
+\renewcommand{\arraystretch}{1.4}
+\begin{tabular}{|c|*{7}{>{\centering\arraybackslash}p{1.1cm}|}}
+\hline
+\textbf{Problem} & 1 & 2 & 3 & 4 & 5 & 6 & 7 \\ \hline
+\textbf{Answer}  & B & C & C & B & C & B & C \\ \hline
+\end{tabular}
+\end{center}
+
+\begin{solution}[1. (B) 5 weeks]
+$544 = 2^5 \times 17$; since 17 is odd, the original colony was 17 beetles, 5 doublings ago.
+\end{solution}
+
+\begin{solution}[2. (C) Uganda--Tanzania $= 0$--$0$]
+Let $K$--$U = a$--$b$, $K$--$T = c$--$d$, $U$--$T = e$--$f$.
+From the constraints: $a+c=3$, $b+d=1$, $b+e=1$, $a+f=2$, $d+f=0$, $c+e=1$.
+$d+f=0 \Rightarrow d=f=0$; $b+d=1 \Rightarrow b=1$; $a+f=2 \Rightarrow a=2$; $c=1$, $e=0$.
+Result: $K$--$U = 2$--$1$, $K$--$T = 1$--$0$, $U$--$T = 0$--$0$.
+\end{solution}
+
+\begin{solution}[3. (C) 32 presses]
+Hours: $7 \to 14$. Forward: 7 presses; backward: 17. Use 7.
+Minutes: $20 \to 45$. Forward: 25 presses; backward: 35. Use 25.
+Total: $7 + 25 = 32$.
+\end{solution}
+
+\begin{solution}[4. (B) 2 weighings]
+Split 9 into groups of 3. Weigh group~1 vs.\ group~2.
+If equal, fake is in group~3; one more weighing identifies it.
+If unequal, the lighter group contains the fake; one more weighing finds it.
+One weighing cannot distinguish 9 possibilities (at most $3^1 = 3$); two can ($3^2 = 9$). \end{solution}
+
+\begin{solution}[5. (C) 11 crossings]
+Sequence (left $\to$ right = one crossing; start: MMMCCC on left):
+(1)~2C cross; (2)~1C back; (3)~2C cross; (4)~1C back; (5)~2M cross;
+(6)~1M+1C back; (7)~2M cross; (8)~1C back; (9)~2C cross; (10)~1C back;
+(11)~2C cross. Total: 11.
+\end{solution}
+
+\begin{solution}[6. (B) Second player always wins]
+Any $3 \times 5$ bar requires exactly $3 \times 5 - 1 = 14$ breaks to reduce to all $1\times 1$ pieces (each break adds one piece). Break 14 is even-numbered, so the second player makes it. After break 14 the first player faces only $1\times 1$ pieces and cannot move, so the second player wins.
+\end{solution}
+
+\begin{solution}[7. (C) 901]
+\textbf{Units digits (1--99)}: digits 1--9 appear 10 times each, digit 0 appears 9 times $\Rightarrow$ sum $= 10 \times 45 = 450$.
+\textbf{Tens digits (10--99)}: digit $d$ appears 10 times $\Rightarrow$ sum $= 10 \times 45 = 450$.
+\textbf{Number 100}: digit sum $= 1$.
+Grand total: $450 + 450 + 1 = 901$.
+\end{solution}
+
+\subsection*{Section B}
+
+\begin{solution}[8. Milk and water --- 7 pourings]
+\textbf{(a)} Sequence (Jug, 5L, 3L):
+$(8,0,0) \to (3,5,0) \to (3,2,3) \to (6,2,0) \to (6,0,2)
+ \to (1,5,2) \to (1,4,3) \to (4,4,0)$.
+Award 1 mark for each correct milestone (after step 3, 5, 7).
+\textbf{(b)} Minimum is \textbf{7} pourings.
+\end{solution}
+
+\begin{solution}[9. Train meeting]
+\textbf{(a)} After Train~A has travelled for 2 hours it is 120\,km from Nairobi. Remaining gap when Train~B departs: $420-120=300$\,km; closing speed $150$\,km/h; time to meet $= 2$\,h. Meeting time: \textbf{12:00 (noon)}.
+\textbf{(b)} Train~A travels $60 \times 4 = 240$\,km from Nairobi. \textbf{240\,km}.
+\textbf{(c)} Train~A has travelled 240\,km; Train~B has travelled 180\,km. \textbf{Train~A}.
+\end{solution}
+
+\begin{solution}[10. Tower of Hanoi]
+\textbf{(a)} $H(1)=1$;\ $H(n) = 2H(n-1)+1$.
+\textbf{(b)} $H(n) = 2^n - 1$ (solve by adding 1 to both sides: $H(n)+1 = 2(H(n-1)+1)$).
+\textbf{(c)} $H(8) = 255$.
+\textbf{(d)} $2^{64}-1 \approx 1.84 \times 10^{19}$ seconds $\approx 1.84\times10^{19}/(3.15\times10^7)
+\approx 5.85 \times 10^{11}$ years.
+\end{solution}
+
+\begin{solution}[11. Nim game]
+\textbf{(a)} $3 \oplus 5 \oplus 7 = (011 \oplus 101) \oplus 111 = 110 \oplus 111 = 001 = 1$.
+\textbf{(b)} Non-zero nim-sum $\Rightarrow$ \textbf{first player wins}. Winning moves (any one acceptable): reduce 7 to 6 (piles $3,5,6$, XOR $= 0$); or reduce 5 to 4 (piles $3,4,7$, XOR $= 0$); or reduce 3 to 2 (piles $2,5,7$, XOR $= 0$).
+\textbf{(c)} $1 \oplus 2 \oplus 3 = 0$: \textbf{second player wins}.
+\end{solution}
+
+\begin{solution}[12. Josephus problem]
+$J(n)=2L+1$ where $n = 2^m + L$, $0 \le L < 2^m$.
+\textbf{(a)} $n=8=2^3+0 \Rightarrow J = 1$. \textbf{Person 1.}
+\textbf{(b)} $n=10=8+2 \Rightarrow J = 5$. \textbf{Person 5.}
+\textbf{(c)} $n=13=8+5 \Rightarrow J = 11$. \textbf{Person 11.}
+\textbf{(d)} $n=6$: eliminate 2,4,6; then from 1: eliminate 3; then 1,5 remain; next is 5 then 1, eliminate 1. \textbf{Survivor: person 5.} Formula: $6=4+2$, $J=5$.\ \checkmark
+\end{solution}
+
+\begin{solution}[13. Magic squares]
+\textbf{(a)} Sum $= 1+2+\cdots+9=45$; three rows; magic sum $= \mathbf{15}$.
+\textbf{(b)} Row/column/diagonal checks give: top-middle $=7$, middle-left $=9$,
+middle-right $=1$, bottom-middle $=3$.
+\[
+\begin{array}{|c|c|c|}\hline 2&7&6\\\hline 9&5&1\\\hline 4&3&8\\\hline\end{array}
+\]
+\textbf{(c)} Using 3--11: total $=3+4+\cdots+11=63$; magic sum $= \mathbf{21}$.
+\textbf{(d)} Yes: adding constant $c$ increases every row/column/diagonal sum by $3c$, so all remain equal.
+\end{solution}
+
+\begin{solution}[14. Calendar]
+\textbf{(a)} 2024 has 366 days $= 52$ weeks $+ 2$. Jan 1, 2025: \textbf{Wednesday}.
+\textbf{(b)} Days from Jan 1 to Oct 31 (not counting Jan 1) $= 303$. $303 = 43\times7+2$. Oct 31: Wed $+2 =$ \textbf{Friday}.
+\textbf{(c)} Feb (28) + Mar (31) + Apr (30) $= \mathbf{89}$ days.
+\textbf{(d)} 2025 is not a leap year (365 days $= 52\times7+1$); Jan 1, 2026: Thursday. Then: 2026 $\to$ Fri, 2027 $\to$ Sat, 2028 $\to$ Sun (leap: $+2$), 2029 $\to$ Tue, 2030 $\to$ Wed, 2031 $\to$ Thu, 2032 $\to$ Fri (leap $+2$), 2033 $\to$ Sun, $\ldots$, \textbf{2035 $\to$ Tuesday}, $\ldots$ Next Monday: Jan 1, \textbf{2035}. (Award mark for correct calculation method even if date is off by one year.)
+\end{solution}
+
+\subsection*{Section C}
+
+\begin{solution}[15. Activity selection --- $O(n\log n)$]
+\textbf{Key idea [2].} A greedy approach works: always pick the feasible activity that finishes earliest, to leave the most room for future activities.
+\textbf{Algorithm [3].} Sort activities by finish time. Initialise the current end time $t=0$ and a counter. For each activity in sorted order: if $s_i \ge t$, select it, increment the counter, set $t = f_i$.
+\textbf{Correctness [2].} Exchange argument: if an optimal solution omits the earliest-finishing activity~$a^*$ and includes some other $b$ instead, swapping $b$ for $a^*$ cannot break feasibility (since $f_{a^*} \le f_b$ leaves at least as much room) and does not reduce the count.
+\textbf{Complexity [1].} $O(n \log n)$ for sorting; $O(n)$ for the scan.
+\end{solution}
+
+\begin{solution}[16. Binary search on answer --- $O(n \log S)$]
+\textbf{Key idea [2].} Binary search on the answer $C$ (the capacity). For a fixed $C$, check greedily whether $k$ shelves suffice: scan books left to right, placing each on the current shelf until adding the next book would exceed $C$, then open a new shelf.
+\textbf{Algorithm [3].} Let $lo = \max(t_i)$, $hi = \sum t_i$. While $lo < hi$: $mid = (lo+hi)/2$; if feasible$(mid)$ then $hi = mid$ else $lo = mid+1$. Return $lo$.
+\textbf{Correctness [2].} The feasibility predicate is monotone: if capacity $C$ is feasible, so is any $C' > C$. Binary search on a monotone predicate finds the minimum feasible value.
+\textbf{Complexity [1].} $O(n)$ per feasibility check; $O(\log S)$ iterations where $S = \sum t_i$. Total $O(n \log S)$.
+\end{solution}
+
+\begin{solution}[17. Longest increasing subsequence --- $O(n \log n)$]
+\textbf{Key idea [2].} Maintain a list $T$ where $T[j]$ is the smallest tail element of all increasing subsequences of length $j+1$ seen so far. Append or update using binary search.
+\textbf{Algorithm [3].} Start with $T$ empty. For each $a_i$: binary search for the leftmost position $p$ in $T$ with $T[p] \ge a_i$. If found, replace $T[p]$ with $a_i$; otherwise append $a_i$. The LIS length equals $|T|$ at the end.
+\textbf{Correctness [3].} $T$ is always strictly increasing. The invariant holds because (i) we only place $a_i$ where $T[p-1] < a_i \le T[p]$, preserving the increasing structure, and (ii) $|T|$ equals the LIS length since each append corresponds to extending the longest subsequence found.
+\textbf{Complexity [1].} $O(\log n)$ per element; total $O(n \log n)$.
+\end{solution}
+
+\begin{solution}[18. Count inversions --- $O(n \log n)$]
+\textbf{Key idea [2].} Modify merge sort: when merging two sorted halves, every element in the right half that is placed before an element in the left half generates an inversion. Count these during the merge.
+\textbf{Algorithm [4].} Divide the array into two halves recursively. During the merge step, use two pointers $i$ (left) and $j$ (right). Whenever $a[j] < a[i]$, the element $a[j]$ forms an inversion with every remaining element in the left half ($\text{left\_size} - i$ inversions); add this count.
+\textbf{Correctness [2].} Every inversion between an element in the left half and one in the right half is counted exactly once at the merge step where the two elements first appear in the same sub-array.
+\textbf{Complexity [1].} Same as merge sort: $O(n \log n)$.
+\end{solution}
+
+\begin{solution}[19. Shortest path on grid --- $O(nm)$]
+\textbf{Key idea [2].} BFS from the source explores cells in order of increasing distance. Because each move has unit cost, the first time BFS reaches a cell gives its shortest distance.
+\textbf{Algorithm [3].} Initialise a queue with the start cell $(r_1, c_1)$; set $\text{dist}[r_1][c_1]=0$, all others $= -1$. While the queue is non-empty: dequeue cell $(r,c)$; for each of the four neighbours $(r',c')$: if in bounds, not a wall, and $\text{dist}[r'][c'] = -1$, set $\text{dist}[r'][c'] = \text{dist}[r][c]+1$ and enqueue. Output $\text{dist}[r_2][c_2]$ (or $-1$ if still $-1$).
+\textbf{Correctness [2].} BFS processes cells in non-decreasing order of distance, so the first visit gives the minimum.
+\textbf{Complexity [1].} Each cell is enqueued at most once: $O(nm)$.
+\end{solution}
+
+\begin{solution}[20. House robber DP --- $O(n)$]
+\textbf{Key idea [2].} Let $dp[i]$ be the maximum coins obtainable from houses $1, \ldots, i$. Either house $i$ is robbed (add $a_i$ to the best result up to house $i-2$) or it is not (keep the best result up to house $i-1$).
+\textbf{Recurrence [3].} $dp[0]=0$, $dp[1]=a_1$. For $i \ge 2$: $dp[i] = \max(dp[i-1],\, dp[i-2] + a_i)$.
+\textbf{Correctness [2].} If house $i$ is in the optimal solution, no adjacent house is, so the contribution is $a_i + dp[i-2]$. Otherwise the best is $dp[i-1]$. Taking the maximum of these two cases is exhaustive.
+\textbf{Complexity [1].} One pass: $O(n)$ time, $O(1)$ space (keep only the last two values).
+\end{solution}
+\fi
+
+\end{document}

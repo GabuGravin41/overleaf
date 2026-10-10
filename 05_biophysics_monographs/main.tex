@@ -1,0 +1,150 @@
+% ============================================================
+%  main.tex  —  IBO Biology Platform
+%  Compile with: pdflatex main  (run twice for cross-references)
+%  Or upload the entire latex/ folder to Overleaf as a project.
+% ============================================================
+
+\documentclass[12pt, a4paper, twoside, openright]{book}
+
+\input{preamble}
+
+% ============================================================
+%  Document metadata
+% ============================================================
+\title{%
+  \vspace{-2cm}
+  {\sffamily\Huge\bfseries\color{IBOblue} IBO Biology Platform}\\[0.6em]
+  {\sffamily\Large\color{IBOteal}
+    Deep Notes, Derivations, and Problem Sets\\
+    for Competitive Biology}\\[1em]
+  {\sffamily\normalsize\color{gray}
+    Genetics \textbullet\ Molecular Biology \textbullet\
+    Cell Biology \textbullet\ Biochemistry\\
+    Bacteriology \textbullet\ Virology}%
+}
+\author{}
+\date{\sffamily\today}
+
+% ============================================================
+\begin{document}
+% ============================================================
+
+% ---------- Title page ----------
+\begin{titlepage}
+  \centering
+  \vspace*{2cm}
+
+  % Decorative rule
+  {\color{IBOblue}\rule{\textwidth}{2pt}}\\[0.8em]
+
+  {\sffamily\fontsize{36}{42}\selectfont\bfseries\color{IBOblue}
+    IBO Biology Platform}\\[0.5em]
+
+  {\color{IBOblue}\rule{\textwidth}{0.6pt}}\\[0.8em]
+
+  {\sffamily\Large\color{IBOteal}
+    Deep Notes, Derivations, and Problem Sets\\
+    for Competitive Biology}\\[2em]
+
+  {\sffamily\normalsize\color{gray}
+    \textit{Aimed at IBO gold-medal level and beyond.}\\[0.3em]
+    Problems require quantitative reasoning, first-principles\\
+    derivations, and cross-topic integration.}
+
+  \vfill
+
+  % Module overview
+  \begin{tcolorbox}[
+    colback=lightblue, colframe=IBOblue,
+    width=0.75\textwidth,
+    title={\sffamily\bfseries Modules},
+    fonttitle=\color{white}
+  ]
+    \begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=1.5em]
+      \item Genetics and Molecular Biology
+      \item Cell Biology and Biochemistry
+      \item Bacteriology
+      \item Virology
+    \end{enumerate}
+  \end{tcolorbox}
+
+  \vfill
+
+  {\color{IBOblue}\rule{\textwidth}{2pt}}\\[0.5em]
+  {\sffamily\small\color{gray} Compiled: \today}
+\end{titlepage}
+
+% ---------- Front matter ----------
+\frontmatter
+\tableofcontents
+\listoffigures
+\lstlistoflistings
+
+% ============================================================
+%  How to use this book
+% ============================================================
+\chapter*{How to Use This Platform}
+\addcontentsline{toc}{chapter}{How to Use This Platform}
+
+\noindent This platform is designed as a \textbf{Codeforces-equivalent for biology} —
+a resource where students who have achieved gold medals at the IBO, and working researchers,
+will still find the problems challenging. The material is not organised around rote memorisation.
+Every concept is derived from physical first principles.
+
+\medskip
+\noindent\textbf{Each module contains:}
+\begin{enumerate}[label=\textbf{\arabic*.}]
+  \item \textbf{Deep lecture notes} --- full derivations, physical reasoning,
+        historical context, and Python simulations.
+  \item \textbf{Problem sets} --- 8--12 problems per module, each tagged
+        with a difficulty rating and the disciplines involved.
+  \item \textbf{Full worked solutions} --- every algebraic step shown.
+\end{enumerate}
+
+\subsection*{Difficulty rating}
+
+\begin{tabular}{ll}
+  \stars{1} & Accessible; requires careful reading of the notes. \\[3pt]
+  \stars{2} & Requires synthesis of two or more concepts. \\[3pt]
+  \stars{3} & Requires a derivation or quantitative argument from scratch. \\[3pt]
+  \stars{4} & Challenging integration across topics; IBO gold level. \\[3pt]
+  \stars{5} & Research-adjacent; open-ended or requires independent reasoning. \\
+\end{tabular}
+
+\subsection*{Notation}
+
+\begin{tabular}{ll}
+  $\kB$           & Boltzmann constant, $1.381\times10^{-23}$~J~K$^{-1}$ \\
+  $\NA$           & Avogadro's number, $6.022\times10^{23}$~mol$^{-1}$ \\
+  $R$             & Gas constant, $8.314$~J~mol$^{-1}$~K$^{-1}$ \\
+  $F$             & Faraday's constant, $96{,}485$~C~mol$^{-1}$ \\
+  $\Kd$           & Dissociation constant \\
+  $\conc{X}$      & Molar concentration of species X \\
+  $\od{x}{t}$     & Ordinary derivative of $x$ with respect to $t$ \\
+\end{tabular}
+
+% ============================================================
+%  Modules
+% ============================================================
+\mainmatter
+
+% -------------------------------------------------------
+% Each module_XX.tex is a STANDALONE document and can be
+% compiled independently on Overleaf (see instructions at
+% the top of each module file).
+%
+% Available modules in this project:
+%   - module_01_genetics.tex     (Genetics & Molecular Biology)
+%   - module_02_cell_biochem.tex (Cell Biology & Biochemistry)
+%   - module_03_bacteriology.tex (Microbiology & Bacteriology)
+%   - module_04_virology.tex     (Virology & Immunology)
+% -------------------------------------------------------
+
+% ============================================================
+%  Back matter
+% ============================================================
+\backmatter
+\bibliographystyle{apalike}
+% \bibliography{references}   % Add references.bib when needed
+
+\end{document}

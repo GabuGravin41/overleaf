@@ -1,0 +1,92 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=blue,
+}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.8ex plus 0.2ex minus 0.2ex}
+
+\title{Kenya Informatics Olympiad}
+\author{Round 2 2027}
+\date{Time allowed: 3 hours}
+
+\makeatletter
+\renewcommand{\maketitle}{
+  \begin{center}
+    \begin{tabular}{c c c}
+      \includegraphics[height=2.5cm]{rising_stars.png} &
+      \hspace{1.5cm} &
+      \includegraphics[height=2.5cm]{cemastea logo.png} \\
+    \end{tabular}
+
+    \vspace{1cm}
+
+    {\huge \bfseries \@title \par}
+    \vspace{0.3cm}
+    {\large \@author \par}
+    \vspace{0.2cm}
+    {\normalsize \@date \par}
+  \end{center}
+  \vspace{0.5cm}
+}
+\makeatother
+
+\begin{document}
+\maketitle
+\def\KIOInclude{1}
+
+\section*{Instructions}
+\begin{itemize}
+    \item Write your full name, age, and school clearly on the first page
+          of your answer booklet.
+    \item Number all pages if you use more than one sheet.
+    \item This paper contains \textbf{4 questions}, each worth \textbf{25 marks} (Total: \textbf{100 marks}).
+    \item \textbf{Mark Distribution per Question (25 marks):}
+          \begin{itemize}[nosep]
+              \item \textbf{Algorithm (10 marks):} Write a clear, step-by-step algorithm or pseudocode describing your solution logic. Candidates with limited coding syntax experience can earn full algorithm marks!
+              \item \textbf{Code Implementation (15 marks):} Write a complete, readable implementation in a programming language of your choice (C, C++, Python, Java, etc.) that passes all test cases under the constraints.
+          \end{itemize}
+    \item You may not communicate with anyone except the invigilator.
+    \item Programs will be marked by hand and tested against automated suites for logical correctness, handling of edge cases, and efficiency where relevant.
+    \item Where multiple items appear on one input or output line, they are
+          separated by a single space. Your output must follow the specified
+          format exactly.
+    \item Attempt as many questions as you can. Do not worry if you cannot
+          finish the paper in the time available. Partial solutions receive partial credit.
+\end{itemize}
+
+\vspace{1ex}
+\hrule
+\vspace{2ex}
+
+\input{Pizza Inn.tex}
+
+\vspace{2ex}
+\hrule
+\vspace{2ex}
+
+\input{Kasongo's Farm.tex}
+
+\vspace{2ex}
+\hrule
+\vspace{2ex}
+
+\input{Elevator.tex}
+
+\vspace{2ex}
+\hrule
+\vspace{2ex}
+
+\input{Mama Fua.tex}
+
+\end{document}

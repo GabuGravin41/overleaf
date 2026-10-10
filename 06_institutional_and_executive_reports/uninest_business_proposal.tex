@@ -1,0 +1,143 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{enumitem}
+
+\definecolor{primary}{RGB}{37, 99, 235}
+\definecolor{darkgray}{RGB}{31, 41, 55}
+\definecolor{lightgray}{RGB}{243, 244, 246}
+\definecolor{accent}{RGB}{16, 185, 129}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primary,
+    urlcolor=primary
+}
+
+\titleformat{\section}{\large\bfseries\color{primary}}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\normalfont\bfseries\color{darkgray}}{}{0em}{}
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    
+    {\Huge \bfseries \color{primary} HOMEBASE} \\[0.75em]
+    {\Large \bfseries Executive Business Proposal \& Product Blueprint} \\[1.5em]
+    
+    \rule{0.8\textwidth}{1.5pt} \\[2em]
+    
+    {\large \textbf{Co-Founder \& Investor Blueprint}} \\[0.5em]
+    {\small Digital Infrastructure for African University Housing \& Escrow Payments} \\[4cm]
+    
+    \vfill
+    
+    {\large \textbf{Prepared by}: HomeBase Founding Team} \\
+    {\small Location: Nairobi, Kenya} \\
+    {\small Date: August 2026}
+\end{titlepage}
+
+\newpage
+
+\section{Executive Summary \& Strategic Ethos}
+
+\subsection{1.1 Strategic Vision}
+\textbf{HomeBase} is an integrated digital platform engineered to modernize student housing, rent processing, and property management across higher education institutions in Africa.
+
+\subsection{1.2 The Core HomeBase Ethos}
+\begin{quote}
+\textit{“Build value fast. Deploy utility at ultra-low cost. Own the underlying infrastructure. Scale relentlessly across every university cluster until HomeBase is the default operating system for student rentals, collecting micro-revenue from millions of daily transactions.”}
+\end{quote}
+
+\subsection{1.3 Problem Statement}
+Kenya has over 560,000 university students. Public universities can accommodate less than 18\% in official halls of residence. Consequently, over \textbf{460,000 students (82\%)} are forced to seek private housing in surrounding off-campus neighborhoods. 
+
+Students suffer from:
+\begin{enumerate}[noitemsep]
+    \item Severe rental fraud by unverified broker agents who collect fake deposits.
+    \item Inaccurate property photos and hidden utility fees.
+    \item Unsafe payment methods without recourse.
+\end{enumerate}
+
+Landlords suffer from:
+\begin{enumerate}[noitemsep]
+    \item High vacancy rates due to inefficient student reach.
+    \item Manual cash and M-Pesa reconciliation friction.
+    \item Disorganized tenant repair and maintenance communication.
+\end{enumerate}
+
+---
+
+\section{System Architecture \& Technical Implementation}
+
+HomeBase is fully developed as a production-ready application using modern web technologies:
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{l X}
+\toprule
+\textbf{Component} & \textbf{Technology Stack \& Implementation} \\
+\midrule
+\textbf{Frontend UI} & React 18, TypeScript, TailwindCSS, Lucide Icons, Vite Build Tool \\
+\textbf{Backend API} & Node.js, Express.js REST API with modular routing controllers \\
+\textbf{Database \& ORM} & PostgreSQL database managed via Prisma ORM \\
+\textbf{Authentication} & Dual-Auth Architecture: Clerk (Google OAuth) + Local JWT Session Engine \\
+\textbf{Payment Gateway} & Paystack API (M-Pesa Express, Card, Paybill, HMAC Verification) \\
+\textbf{Security} & bcrypt password hashing, CORS protection, Rate limiting \\
+\bottomrule
+\end{tabularx}
+\caption{HomeBase Full-Stack Technology Architecture}
+\end{table}
+
+\subsection{2.1 Production Core Features Already Built}
+\begin{itemize}
+    \item \textbf{Student Search Engine}: Filter listings by university gate, price range, amenities, and proximity.
+    \item \textbf{Micro-Fee Contact Unlocks}: Instant unlocking of landlord contact details and GPS map pins for KSh 99 (Unverified) or KSh 199 (Verified).
+    \item \textbf{Anti-Fraud Escrow Engine}: Student rent deposits are held securely in HomeBase Escrow and released 48 hours post key handover.
+    \item \textbf{Dual Authentication System}: Password reset code modal and account linking for Clerk/Google users.
+    \item \textbf{Landlord Management Console}: Interactive structured room builder, local base64 photo uploader, and payout configuration (M-Pesa, Paybill, Till, Pochi).
+    \item \textbf{Admin Command Panel}: Real-time KPI analytics, one-click escrow fund releases, and listing verification management.
+\end{itemize}
+
+---
+
+\section{Monetization \& Pricing Model}
+
+HomeBase operates on a zero-friction, multi-stream revenue model:
+
+\begin{enumerate}
+    \item \textbf{Student Micro-Unlocks (KSh 99 / KSh 199)}: High-volume, low-friction impulse payments to access caretaker numbers and exact GPS map pins.
+    \item \textbf{3.0\% Escrow Rent Commission}:
+    \begin{itemize}[noitemsep]
+        \item \textbf{1.5\%}: Paystack processing fee.
+        \item \textbf{1.5\%}: HomeBase net platform profit.
+    \end{itemize}
+    \item \textbf{Tiered Landlord Subscriptions}:
+    \begin{itemize}[noitemsep]
+        \item \textbf{Basic}: KSh 0 (1 Property, 10 rooms) — Free Forever.
+        \item \textbf{Standard}: KSh 499/mo (Up to 3 Properties, 30 rooms, Priority Ranking).
+        \item \textbf{Premium}: KSh 1,499/mo (Up to 20 Properties, 1,000 rooms, Analytics).
+        \item \textbf{Enterprise}: KSh 3,499/mo (Unlimited Properties \& Listings).
+    \end{itemize}
+    \item \textbf{Physical Verification Audit Fee (KSh 1,500)}: One-time fee paid by landlords for physical property inspection and physical gate sticker badging.
+\end{enumerate}
+
+---
+
+\section{Execution Roadmap for Co-Founders}
+
+\begin{enumerate}
+    \item \textbf{Phase 1 (Immediate)}: Plug live Paystack API credentials into Vercel production environment.
+    \item \textbf{Phase 2 (Month 1)}: Deploy 5 student brand ambassadors across Kenyatta University (KM, Gate A, Sukari) to verify the first 150 hostels.
+    \item \textbf{Phase 3 (Months 2-4)}: Launch September Freshman Intake marketing campaign across student WhatsApp groups and social channels.
+\end{enumerate}
+
+\end{document}

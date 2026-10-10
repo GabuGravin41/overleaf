@@ -1,0 +1,151 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{enumitem}
+
+\definecolor{primary}{RGB}{37, 99, 235}
+\definecolor{darkgray}{RGB}{31, 41, 55}
+\definecolor{lightgray}{RGB}{243, 244, 246}
+\definecolor{accent}{RGB}{16, 185, 129}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primary,
+    urlcolor=primary
+}
+
+\titleformat{\section}{\large\bfseries\color{primary}}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\normalfont\bfseries\color{darkgray}}{}{0em}{}
+
+\begin{document}
+
+\begin{center}
+    {\Huge \bfseries \color{primary} HomeBase} \\[0.5em]
+    {\Large \bfseries Business Model Canvas \& Market Infrastructure Blueprint} \\[0.25em]
+    {\small \color{darkgray} Comprehensive Strategic Architecture for Kenyan University Housing} \\[0.5em]
+    \rule{\textwidth}{1pt}
+\end{center}
+
+\vspace{1em}
+
+\section*{1. Business Model Canvas Matrix}
+
+\vspace{0.5em}
+
+\noindent
+\begin{tabularx}{\textwidth}{|X|X|X|}
+\hline
+\rowcolor{lightgray}
+\textbf{Key Partners} & \textbf{Key Activities} & \textbf{Value Propositions} \\
+\hline
+\begin{minipage}[t]{\linewidth}\raggedright
+\begin{itemize}[leftmargin=*,noitemsep,topsep=2pt,parsep=2pt]
+    \item Student Unions \& Class Reps (KU, JKUAT, UoN, MKU).
+    \item Independent Landlords \& Caretakers.
+    \item Safaricom M-Pesa \& Paystack Gateway.
+    \item University Housing Offices.
+\end{itemize}
+\end{minipage}
+&
+\begin{minipage}[t]{\linewidth}\raggedright
+\begin{itemize}[leftmargin=*,noitemsep,topsep=2pt,parsep=2pt]
+    \item Hostel Mapping \& Physical Verification Audits.
+    \item Platform Maintenance \& Security.
+    \item Campus Ambassador Management.
+    \item Dispute Resolution \& Escrow Releases.
+\end{itemize}
+\end{minipage}
+&
+\begin{minipage}[t]{\linewidth}\raggedright
+\textbf{For Students:}
+\begin{itemize}[leftmargin=*,noitemsep,topsep=2pt,parsep=2pt]
+    \item Fraud-proof Escrow Deposit Protection (key release guarantee).
+    \item GPS pin \& caretaker contact unlocks (KSh 99 / 199).
+\end{itemize}
+\textbf{For Landlords:}
+\begin{itemize}[leftmargin=*,noitemsep,topsep=2pt,parsep=2pt]
+    \item 100\% Free Basic Listing (Zero onboarding cost).
+    \item Automated M-Pesa rent payouts to Paybill/Till.
+\end{itemize}
+\end{minipage}
+\\
+\hline
+\rowcolor{lightgray}
+\textbf{Key Resources} & \textbf{Channels} & \textbf{Customer Relationships} \\
+\hline
+\begin{minipage}[t]{\linewidth}\raggedright
+\begin{itemize}[leftmargin=*,noitemsep,topsep=2pt,parsep=2pt]
+    \item Proprietary Tech Stack (React, Express, Prisma, PostgreSQL).
+    \item Verified Hostel GPS Database \& Photos.
+    \item Escrow Transaction Engine.
+\end{itemize}
+\end{minipage}
+&
+\begin{minipage}[t]{\linewidth}\raggedright
+\begin{itemize}[leftmargin=*,noitemsep,topsep=2pt,parsep=2pt]
+    \item Mobile \& Web App Portal.
+    \item Campus Ambassadors (Student Reps).
+    \item Physical "HomeBase Verified" Gate Badges.
+    \item WhatsApp \& Freshman Guides.
+\end{itemize}
+\end{minipage}
+&
+\begin{minipage}[t]{\linewidth}\raggedright
+\begin{itemize}[leftmargin=*,noitemsep,topsep=2pt,parsep=2pt]
+    \item Self-Service Web Portal (Instant unlocks).
+    \item WhatsApp \& In-App Support Desk.
+    \item Physical Gate Badges for High Trust.
+\end{itemize}
+\end{minipage}
+\\
+\hline
+\rowcolor{lightgray}
+\multicolumn{2}{|l|}{\textbf{Cost Structure}} & \textbf{Revenue Streams} \\
+\hline
+\multicolumn{2}{|X|}{
+\begin{minipage}[t]{\linewidth}\raggedright
+\begin{itemize}[leftmargin=*,noitemsep,topsep=2pt,parsep=2pt]
+    \item \textbf{Paystack Processing Fees}: 1.5\% per escrow transaction.
+    \item \textbf{Ambassador Bounties}: KSh 200 per verified hostel onboarded.
+    \item \textbf{Infrastructure Hosting}: Cloud servers, Vercel, PostgreSQL DB.
+    \item \textbf{Branding \& Printing}: Physical vinyl entrance badges and flyers.
+\end{itemize}
+\end{minipage}
+} &
+\begin{minipage}[t]{\linewidth}\raggedright
+\begin{itemize}[leftmargin=*,noitemsep,topsep=2pt,parsep=2pt]
+    \item \textbf{Student Unlocks}: KSh 99 / KSh 199.
+    \item \textbf{Escrow Net Margin}: 1.5\% net commission on rent.
+    \item \textbf{Landlord Upgrades}: Standard (KSh 499), Premium (KSh 1.49k), Enterprise (KSh 3.49k).
+    \item \textbf{Verification Audits}: KSh 1,500 one-time fee per property.
+\end{itemize}
+\end{minipage}
+\\
+\hline
+\end{tabularx}
+
+\vspace{2em}
+
+\section*{2. Detailed Block Descriptions}
+
+\subsection*{2.1 Customer Segments \& Total Addressable Market}
+\begin{itemize}
+    \item \textbf{Primary Segment}: Over 460,000 university students in Kenya living off-campus (82\% of 560,000 total enrolled students across public and private universities).
+    \item \textbf{Secondary Segment}: Over 22,000 private hostel owners, independent landlords, and caretakers seeking rapid room occupancy and automated rent collection.
+\end{itemize}
+
+\subsection*{2.2 Value Proposition \& Moat}
+\begin{itemize}
+    \item \textbf{Zero Financial Pressure for Landlords}: Landlords list 1 property for free. This guarantees fast inventory aggregation across university nodes.
+    \item \textbf{Student Anti-Fraud Guarantee}: Funds are locked safely in escrow and only released 48 hours after key receipt.
+    \item \textbf{Infrastructure Lock-in}: Once landlords manage room inventory and tenant repair requests on HomeBase, switching costs become prohibitively high.
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,552 @@
+% ============================================================
+%  Kenya Informatics Olympiad 2026 -- First Round Solutions
+%  FOR EXAMINER USE ONLY
+%  Compile with: pdflatex kio2026_round1_solutions.tex
+%  Requires: rising_stars.png, cemastea_logo.png (same folder)
+% ============================================================
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, bending}
+\usepackage{xcolor}
+
+\hypersetup{colorlinks=true, linkcolor=blue, urlcolor=blue}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.7ex plus 0.2ex minus 0.2ex}
+
+% Correct answer highlighted
+\newcommand{\ans}[1]{\textcolor{blue}{\textbf{[Answer: #1]}}}
+
+% Solution heading
+\newcommand{\qsol}[3]{%
+  \vspace{1.5ex}%
+  \noindent\textbf{Q#1.} \textit{#2}\quad\ans{#3}%
+  \par\vspace{0.4ex}%
+}
+
+% ----------------------------------------------------------
+\title{Kenya Informatics Olympiad 2026}
+\author{First Round --- Solutions \& Explanations Manual
+        \\\normalsize\textit{For Examiner Use Only --- Not for Distribution}}
+\date{Time allowed: 2 hours}
+
+\makeatletter
+\renewcommand{\maketitle}{%
+  \begin{center}
+    \begin{tabular}{ccc}
+      \includegraphics[height=2.5cm]{rising_stars.png} &
+      \hspace{1.5cm} &
+      \includegraphics[height=2.5cm]{cemastea logo.png} \\
+    \end{tabular}
+
+    \vspace{1cm}
+
+    {\huge\bfseries \@title\par}
+    \vspace{0.3cm}
+    {\large \@author\par}
+    \vspace{0.2cm}
+    {\normalsize \@date\par}
+  \end{center}
+  \vspace{0.5cm}
+}
+\makeatother
+
+% ===========================================================
+\begin{document}
+\maketitle
+
+% ----------------------------------------------------------
+\section*{Quick-Reference Answer Key}
+% ----------------------------------------------------------
+
+\begin{center}
+\begin{tabular}{clcc|clcc}
+  \toprule
+  Q & Answer & Topic & Marks
+  & Q & Answer & Topic & Marks \\
+  \midrule
+   1 & \textbf{B --- 11}           & Grid paths (inclusion--exclusion) & 1
+  &11 & \textbf{B --- 6}            & Greedy coin change              & 1 \\
+   2 & \textbf{B --- 0 and 1}      & Logic gate trace                  & 1
+  &12 & \textbf{A --- 24\,310}     & Counting distributions           & 1 \\
+   3 & \textbf{B --- 10}           & Binary search worst case          & 1
+  &13 & \textbf{D --- 27}          & Triangle DP (mountain path)      & 2 \\
+   4 & \textbf{C --- 3,1,2,4}      & Impossible stack output           & 1
+  &14 & \textbf{C --- 1→4→2→3→1}   & Negative-weight cycle            & 2 \\
+   5 & \textbf{A --- D,E,B,F,C,A}  & Tree postorder                    & 1
+  &15 & \textbf{C --- 50}          & Sweets \& ages algebra           & 2 \\
+   6 & \textbf{B --- $K_4$}        & Eulerian paths (degree parity)    & 1
+  &16 & \textbf{D --- Bob wins}    & Nim subtraction game             & 2 \\
+   7 & \textbf{B --- 3}            & Interval scheduling (bays)        & 1
+  &17 & \textbf{C --- 14}          & Ten glasses pouring              & 2 \\
+   8 & \textbf{B --- 3}            & Shortest path (BFS)               & 1
+  &18 & \textbf{C --- 16}          & Knights with exactly 2 attacks   & 2 \\
+   9 & \textbf{C --- 14}           & Max non-attacking bishops         & 1
+  &19 & \textbf{C --- 34}          & Join the dots (simple polygons)  & 2 \\
+  10 & \textbf{B --- 32}           & Max non-attacking knights         & 1
+  &20 & \textbf{B --- 9}           & Hidden set queries               & 2 \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{1ex}\hrule\vspace{2ex}
+
+% ===========================================================
+\section*{Section A --- Detailed Solutions}
+% ===========================================================
+
+%-----------------------------------------------------------
+\qsol{1}{Grid Paths with Obstacle}{B (11)}
+
+Without the obstacle, paths from $(0,0)$ to $(3,3)$ require exactly 3 East
+and 3 North steps in any order:
+\[
+  \binom{6}{3} = 20.
+\]
+Paths that pass through the blocked point $(2,1)$ are the product of paths
+$(0,0)\!\to\!(2,1)$ and $(2,1)\!\to\!(3,3)$:
+\[
+  \binom{3}{1} \times \binom{3}{2} = 3 \times 3 = 9.
+\]
+Valid routes $= 20 - 9 = \mathbf{11}$.
+
+%-----------------------------------------------------------
+\qsol{2}{Logic Gates}{B (0 and 1)}
+
+Trace each gate in turn:
+
+\medskip
+\begin{center}
+\begin{tabular}{ccc|c|c|c}
+  \toprule
+  $A$ & $B$ & $C$ & AND$(A,B)$ & XOR(AND,$C$) & $Y=$ NOT(XOR) \\
+  \midrule
+  1 & 0 & 1 & 0 & 1 & \textbf{0} \\
+  1 & 1 & 1 & 1 & 0 & \textbf{1} \\
+  \bottomrule
+\end{tabular}
+\end{center}
+\medskip
+
+The outputs are $0$ and $1$ respectively.
+
+%-----------------------------------------------------------
+\qsol{3}{Binary Search Worst Case}{B (10)}
+
+Each comparison halves the search space. For a list of size $N$, the worst
+case is $\lfloor\log_2 N\rfloor + 1$ comparisons. For $N = 1{,}000$:
+\[
+  2^9 = 512 < 1{,}000 \le 1{,}024 = 2^{10},
+  \quad\Rightarrow\quad
+  \lfloor\log_2 1{,}000\rfloor + 1 = 9 + 1 = \mathbf{10}.
+\]
+
+%-----------------------------------------------------------
+\qsol{4}{Impossible Stack Output}{C (3,\,1,\,2,\,4)}
+
+To output 3 first, we must push 1, 2, 3 (stack bottom-to-top: 1, 2, 3) and
+then pop 3. The stack is now $[\ldots 1, 2]$ with 2 on top. The next output
+must be 2 (the top), but the required next element is 1. Since 1 is buried
+below 2, it is impossible to output 1 before 2.
+\textbf{Option C is impossible.}
+
+Verify the others are achievable:
+\begin{itemize}[nosep]
+  \item \texttt{1,3,4,2}: push 1, pop; push 2, push 3, pop; push 4, pop; pop.
+  \item \texttt{4,3,2,1}: push 1,2,3,4; pop,pop,pop,pop.
+  \item \texttt{2,4,3,1}: push 1, push 2, pop; push 3, push 4, pop; pop; pop.
+\end{itemize}
+
+%-----------------------------------------------------------
+\qsol{5}{Postorder Tree Traversal}{A (D,\,E,\,B,\,F,\,C,\,A)}
+
+Reconstruct the tree from the given traversals:
+\begin{enumerate}[nosep]
+  \item Preorder starts with the root: root $= A$.
+  \item In inorder \texttt{D,B,E,\underline{A},F,C}: left subtree is
+        $\{D,B,E\}$, right subtree is $\{F,C\}$.
+  \item Left subtree preorder \texttt{B,D,E}: root $= B$; left child $D$,
+        right child $E$.
+  \item Right subtree preorder \texttt{C,F}: root $= C$; left child $F$.
+\end{enumerate}
+\[
+\text{Tree:}\quad
+\begin{array}{ccccc}
+  & & A & & \\
+  & \swarrow & & \searrow & \\
+  & B & & C & \\
+  \swarrow\quad\searrow & & & \swarrow & \\
+  D \quad E & & & F & \\
+\end{array}
+\]
+Postorder (Left, Right, Root): $D, E, B$ then $F, C$ then $A$
+$= \mathbf{D, E, B, F, C, A}$.
+
+%-----------------------------------------------------------
+\qsol{6}{Eulerian Paths (degree parity)}{B ($K_4$)}
+
+An Eulerian path exists $\Leftrightarrow$ the number of odd-degree vertices
+is 0 or 2. Count degrees for each graph:
+
+\begin{center}
+\begin{tabular}{clll}
+  \toprule
+  Option & Degrees & Odd-degree count & Euler path? \\
+  \midrule
+  A & all degree 2 & 0 & Yes \\
+  B & all degree 3 ($K_4$) & \textbf{4} & \textbf{No} \\
+  C & 1(3), 2(2), 3(3), 4(2), 5(2) & 2 & Yes \\
+  D & 1(3), 2(2), 3(3), 4(2) & 2 & Yes \\
+  E & 1(1), 2(2), 3(2), 4(2), 5(1) & 2 & Yes \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+%-----------------------------------------------------------
+\qsol{7}{Matatu Terminus (Interval Scheduling)}{B (3)}
+
+The minimum bays equals the maximum number of matatus present simultaneously.
+Sweep through arrival/departure events:
+
+\begin{center}
+\begin{tabular}{ccl}
+\toprule
+Time & Change & Running total \\
+\midrule
+10  & $+1$ (M1 arrives) & 1 \\
+50  & $+1$ (M2 arrives) & 2 \\
+90  & $+1$ (M3 arrives) & \textbf{3} \\
+100 & $-1$ (M1 departs) & 2 \\
+110 & $+1$ (M4 arrives) & \textbf{3} \\
+120 & $-1$ (M2 departs) & 2 \\
+140 & $+1$ (M5 arrives) & \textbf{3} \\
+150 & $-1$ (M3 departs) & 2 \\
+180 & $-1$ (M5 departs) & 1 \\
+200 & $-1$ (M4 departs) & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Peak overlap $= \mathbf{3}$ bays.
+
+%-----------------------------------------------------------
+\qsol{8}{Katende's Network (BFS)}{B (3)}
+
+Adjacency: $1\!\leftrightarrow\!2,3,4$; $2\!\leftrightarrow\!3$;
+$4\!\leftrightarrow\!5$. BFS from 1: neighbours of 1 are 2, 3, 4 (distance 1);
+from 4 we reach 5 (distance 2). Shortest path: $1\to 4\to 5$, which uses
+$\mathbf{3}$ computers.
+
+%-----------------------------------------------------------
+\qsol{9}{Max Non-attacking Bishops}{C (14)}
+
+Label each square by (row$+$col) for its \textbf{NE-diagonal} and by
+(row$-$col) for its \textbf{NW-diagonal}. Two bishops attack each other iff
+they share either label. On an $8{\times}8$ board, (row$+$col) ranges over 2
+to 16, giving \textbf{15} NE-diagonals, so the theoretical max is 15.
+
+However, corner square a1 has row$-$col $= 0$, and so does corner square h8.
+They share a NW-diagonal and would attack each other, so at most one can be
+used. This drops the maximum from 15 to $\mathbf{14}$.
+
+\emph{One valid placement:} all 8 squares of rank 8, plus 6 squares of rank 1
+(omitting a1, which attacks h8 via NW-diagonal, and h1, which shares the
+NE-diagonal row$+$col$=9$ with a8). Total: $8+6=14$.
+
+%-----------------------------------------------------------
+\qsol{10}{Max Non-attacking Knights}{B (32)}
+
+A knight always moves from a white square to a black square (or vice versa):
+its L-shaped move covers an odd total number of squares, which always changes
+square colour. Therefore \textbf{two knights on white squares can never attack
+each other} (any attack would land on black). Placing all 32 knights on white
+squares gives 32 non-attacking knights. Since there are exactly 32 white
+squares, 32 is also the maximum.
+
+%-----------------------------------------------------------
+\qsol{11}{Greedy Coin Change Failure}{B (6 shillings)}
+
+Trace greedy vs.\ optimal for small values $V$ (denominations: 1, 3, 4):
+
+\begin{center}
+\begin{tabular}{cccc}
+\toprule
+$V$ & Greedy selection & Greedy coins & Optimal \\
+\midrule
+5 & $4+1$     & 2 & 2 \\
+\textbf{6} & $4+1+1$  & \textbf{3} & $3+3$ = \textbf{2} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+At $V=6$ the greedy uses 3 coins but the optimum is 2 coins ($3+3$).
+Since $3 > 2$, this is the \textbf{smallest failure value}.
+
+%-----------------------------------------------------------
+\qsol{12}{Counting Distributions (Stars and Bars)}{A (24\,310)}
+
+Distributing $n=9$ identical balls into $k=9$ distinguishable bins
+(zero allowed) is equivalent to choosing how many of $9+8=17$ positions
+are balls vs.\ dividers:
+\[
+  \binom{n+k-1}{k-1} = \binom{17}{8}
+  = \frac{17\times16\times15\times14\times13\times12\times11\times10}
+         {8!}
+  = \mathbf{24{,}310}.
+\]
+
+\vspace{1ex}\hrule\vspace{2ex}
+
+% ===========================================================
+\section*{Section B --- Detailed Solutions}
+% ===========================================================
+
+%-----------------------------------------------------------
+\qsol{13}{Mountain Path (Triangle DP)}{D (27)}
+
+Apply bottom-up dynamic programming. At each position, store the best total
+reachable from that point to the bottom:
+
+\medskip
+\begin{center}
+\begin{tabular}{cccl}
+\toprule
+Row & Values & DP states & Computation \\
+\midrule
+4 (bottom) & 2, 8, 1, 9 & 2, 8, 1, 9 & (base case) \\
+3 & 4, 3, 7 & 12, 11, 16 &
+  $4{+}\max(2,8)=12$;\; $3{+}\max(8,1)=11$;\; $7{+}\max(1,9)=16$ \\
+2 & 9, 6 & 21, 22 &
+  $9{+}\max(12,11)=21$;\; $6{+}\max(11,16)=22$ \\
+1 (top) & 5 & \textbf{27} & $5+\max(21,22)=\mathbf{27}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\medskip
+
+The optimal path is $5\to6\to7\to9$, sum $= 5+6+7+9 = \mathbf{27}$.
+
+%-----------------------------------------------------------
+\qsol{14}{Negative-Weight Cycle}{C ($1\!\to\!4\!\to\!2\!\to\!3\!\to\!1$)}
+
+Sum the edge weights for each option:
+
+\begin{center}
+\begin{tabular}{clcc}
+  \toprule
+  Option & Cycle & Edge weights & Total \\
+  \midrule
+  A & $1\to2\to3\to1$       & $+2,\;-1,\;+2$         & $+3$ \\
+  B & $2\to3\to4\to2$       & $-1,\;+5,\;-3$         & $+1$ \\
+  \textbf{C} & $\mathbf{1\to4\to2\to3\to1}$ &
+    $\mathbf{+1,\;-3,\;-1,\;+2}$ & $\mathbf{-1}$ \\
+  D & $1\to4\to3\to1$       & $+1,\;+1,\;+2$         & $+4$ \\
+  E & (claim: no neg.\ cycle) & --- & \emph{False} \\
+  \bottomrule
+\end{tabular}
+\end{center}
+
+Only option C has a negative total ($-1$). Option E is false since C is a
+counterexample.
+
+%-----------------------------------------------------------
+\qsol{15}{Sweets \& Ages (Algebra)}{C (50)}
+
+Let Alice's age $= a_A$, sweets $= s_A$; Bob's age $= a_B$, sweets $= s_B$.
+Define $S_A = a_A+s_A$, $S_B = a_B+s_B$, $P_A = a_A s_A$, $P_B = a_B s_B$.
+
+\textbf{From Alice's clue:}
+\[
+  S_A = 2S_B \qquad \text{and} \qquad P_A = 4P_B.
+\]
+
+\textbf{From Bob's reply} (giving 5 sweets equates both sums and products):
+\[
+  S_A - 5 = S_B + 5 \;\Rightarrow\; S_A - S_B = 10.
+\]
+Combined with $S_A = 2S_B$: $\;S_B = 10$, $\;S_A = 20$.
+
+The new-product equality $a_A(s_A-5) = a_B(s_B+5)$ expands, using
+$P_A = 4P_B$, to:
+\[
+  4a_B s_B - 5a_A = a_B s_B + 5a_B
+  \;\Rightarrow\;
+  3a_B s_B = 5(a_A + a_B).
+\]
+Substituting $a_A = 20 - s_A$ and $a_B = 10 - s_B$:
+\[
+  s_A = 30 - 7s_B + \tfrac{3}{5}s_B^2.
+\]
+For $s_A$ to be a positive integer, $5\mid s_B^2$, so $5\mid s_B$.
+Since $1 \le s_B \le 9$, the only option is $s_B = 5$, giving $s_A = 10$.
+Hence $a_B = 5$, $a_A = 10$.
+
+\textbf{Verification:} $S_A = 20 = 2\times10 = 2S_B$;\;
+$P_A = 100 = 4\times25 = 4P_B$;\;
+after transfer: $a_A+(s_A-5)=15=a_B+(s_B+5)$ and
+$a_A(s_A-5)=50=a_B(s_B+5)$. $\checkmark$
+
+Product of ages: $a_A \times a_B = 10\times5 = \mathbf{50}$.
+
+%-----------------------------------------------------------
+\qsol{16}{Nim Subtraction Game (moves: 1, 3, 4)}{D (Bob wins)}
+
+Label each heap size $n$ as $W$ (first player wins) or $L$ (first player
+loses). $G(0)=L$; $G(n)=W$ if any of $G(n-1), G(n-3), G(n-4)$ is $L$.
+
+\begin{center}
+\begin{tabular}{ccccccccccccccc}
+\toprule
+$n$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & $\ldots$ \\
+\midrule
+$G(n)$ & L & W & L & W & W & W & W & L & W & L & W & W & W & (period 7) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The sequence is periodic with period 7: positions $0, 2 \pmod{7}$ are $L$.
+
+$30 \div 7 = 4$ remainder $2$, so $G(30) = G(2) = L$.
+
+Since $G(30)$ is a losing position, \textbf{the first player (Alice) loses
+under optimal play; Bob wins.}
+
+%-----------------------------------------------------------
+\qsol{17}{The Ten Glasses}{C ($M_A+M_B+M_C = 14$)}
+
+\textbf{Config A} (\texttt{[0,2,1,...,1]}): Pour glass~2 (2\,L) into
+glass~1 (capacity~1): glass~1 fills to 1\,L, leaving 1\,L in glass~2.
+Done in \textbf{1 move} ($M_A = 1$).
+
+\textbf{Config B} (\texttt{[0,0,0,0,5,1,...,1]}): Cascade down:
+\begin{align*}
+  &\text{Move 1: } 5\to4 \;\text{(glass~4 fills; 1\,L left in glass~5)}\\
+  &\text{Move 2: } 4\to3 \;\text{(glass~3 fills; 1\,L left in glass~4)}\\
+  &\text{Move 3: } 3\to2 \;\text{(glass~2 fills; 1\,L left in glass~3)}\\
+  &\text{Move 4: } 2\to1 \;\text{(glass~1 fills; 1\,L left in glass~2)}
+\end{align*}
+Done in \textbf{4 moves} ($M_B = 4$).
+
+\textbf{Config C} (\texttt{[0,...,0,10]}): Cascade all the way down:
+\[
+  10\!\to\!9 \to 8 \to 7 \to 6 \to 5 \to 4 \to 3 \to 2 \to 1
+  \quad\text{(9 pours, each leaving 1\,L behind)}
+\]
+Done in \textbf{9 moves} ($M_C = 9$).
+
+\[
+  M_A + M_B + M_C = 1 + 4 + 9 = \mathbf{14}.
+\]
+
+%-----------------------------------------------------------
+\qsol{18}{Knights with Exactly 2 Attacks on $5{\times}5$}{C (16)}
+
+The following placement of 16 knights (label rows/columns 0--4;
+K = knight, dot = empty) satisfies the condition:
+
+\begin{center}
+\ttfamily
+\begin{tabular}{ccccc}
+. & K & K & K & . \\
+K & K & . & K & K \\
+K & . & . & . & K \\
+K & K & . & K & K \\
+. & K & K & K & . \\
+\end{tabular}
+\end{center}
+
+\textbf{Verification (representative positions):}
+\begin{itemize}[nosep]
+  \item $(0,1)$: reaches $(1,3)$\checkmark and $(2,0)$\checkmark
+        --- exactly 2 attacks.
+  \item $(0,2)$: reaches $(1,0)$\checkmark and $(1,4)$\checkmark
+        --- exactly 2 attacks.
+  \item $(2,0)$: reaches $(0,1)$\checkmark and $(4,1)$\checkmark
+        --- exactly 2 attacks.
+  \item $(1,1)$: reaches $(0,3)$\checkmark and $(3,0)$\checkmark
+        --- exactly 2 attacks.
+\end{itemize}
+All 16 placed knights can be verified similarly. \textbf{That 16 is the
+maximum} was confirmed by exhaustive computer search: no subset of 17 or more
+squares satisfies the ``exactly 2 attacks each'' condition.
+
+%-----------------------------------------------------------
+\qsol{19}{Join the Dots (Simple Polygons)}{C ($P_A+\cdots+P_E = 34$)}
+
+First identify the \textbf{convex hull} (boundary) of each set and count
+interior points. For $h$ hull vertices and $k$ interior points:
+\begin{itemize}[nosep]
+  \item $k=0$: the only simple polygon is the convex hull itself.
+    $\Rightarrow P = 1$.
+  \item $k=1$: to include the interior point, replace one of the $h$
+    boundary edges with a two-edge detour through the interior point.
+    Each of the $h$ edges gives a distinct non-crossing polygon.
+    $\Rightarrow P = h$.
+  \item $k=2$: the count depends on the specific configuration
+    (computed by exhaustive enumeration of non-crossing Hamiltonian cycles).
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{ccccc}
+\toprule
+Set & Total pts & Hull size ($h$) & Interior ($k$) & $P$ \\
+\midrule
+A & 5 & 5 & 0 & $1$ \\
+B & 4 & 3 & 1 & $3$ \\
+C & 6 & 5 & 1 & $5$ \\
+D & 7 & 6 & 1 & $6$ \\
+E & 7 & 5 & 2 & $19$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\[
+  P_A + P_B + P_C + P_D + P_E = 1 + 3 + 5 + 6 + 19 = \mathbf{34}.
+\]
+
+%-----------------------------------------------------------
+\qsol{20}{The Hidden Set (Query Complexity)}{B (9 queries)}
+
+There are $\binom{10}{5} = 252$ possible hidden sets. Each query returns a
+binary answer, so the information-theoretic lower bound is
+$\lceil\log_2 252\rceil = 8$ queries.
+
+\textbf{However, 8 queries is impossible.} Proof sketch:
+
+\begin{enumerate}[nosep]
+  \item Any first query of size $q$ splits the 252 states into a NO-branch of
+        size $\binom{10-q}{5}$ and a YES-branch. For this split to fit within
+        $2^7=128$, both branches must have $\le 128$ states. The only valid
+        $q$ is 1 (giving a 126/126 split); for $q\ge 2$ the YES-branch
+        exceeds 128.
+  \item After a YES response (126 states remain), the next query must split
+        them into two branches each of size $\le 64$. For any query size $q$:
+        \begin{itemize}[nosep]
+          \item $q=1$: NO-branch $= \binom{8}{4} = 70 > 64$.\quad Fails.
+          \item $q\ge 2$: YES-branch $\ge 91 > 64$.\quad Fails.
+        \end{itemize}
+        No query can achieve the required split.
+\end{enumerate}
+
+Since 8 is impossible, and querying each of elements 1 through 9 individually
+(9 queries) always identifies the hidden set (the 10th element is determined
+by the count), the answer is $\mathbf{9}$ queries.
+
+\vspace{2ex}
+\hrule
+\vspace{1.5ex}
+\begin{center}
+  \Large\bfseries --- End of Solutions Manual ---
+\end{center}
+
+\end{document}

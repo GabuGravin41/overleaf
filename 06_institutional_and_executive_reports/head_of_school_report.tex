@@ -1,0 +1,155 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{graphicx}
+
+% Formatting for links
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
+
+% Section formatting
+\titleformat{\section}{\large\bfseries\color{darkgray}}{\thesection}{1em}{}
+\titleformat{\subsection}{\normalsize\bfseries\color{gray}}{\thesubsection}{1em}{}
+
+\title{\textbf{EV Charging Infrastructure Project Proposal}}
+\author{Prepared for: Head of School, African Olympiad Academy}
+\date{August 4, 2026}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+
+\vspace{1em}
+\noindent\textbf{Subject:} Implementation of Charging Station for 2x Golden Dragon Electric Buses (XML6559JEV)
+\vspace{2em}
+
+\section{1. Executive Summary}
+The African Olympiad Academy is in the process of acquiring two Golden Dragon XML6559JEV electric 15-seater buses (equipped with 53 kWh battery packs). To ensure reliable and cost-effective daily operations, the school requires a dedicated on-site charging station. This report outlines the technical strategy, the necessary regulatory application process with the Energy Utility Corporation Limited (EUCL), the required documentation, and a conservative, worst-case project timeline with estimated costs.
+
+\section{2. Technical Scope \& Strategy}
+Following an analysis of the electric bus specifications and standard school transport schedules (morning and afternoon routes with long midday and overnight idle periods), the installation of \textbf{two 22 kW AC Chargers (Type 2, 3-Phase)} is highly recommended over DC Fast Chargers.
+
+\begin{itemize}
+    \item \textbf{Charging Time:} A 22 kW AC charger will fully replenish the 53 kWh battery from 0\% to 100\% in approximately 2.5 to 3 hours.
+    \item \textbf{Grid Impact:} The proposed setup will request an additional 44 kW of power from the local Kanombe sector grid.
+    \item \textbf{Cost Efficiency:} AC chargers are substantially less expensive to procure and install. Furthermore, they place less strain on the local electrical transformer, reducing the likelihood of exorbitant utility upgrade fees.
+\end{itemize}
+
+\section{3. The EUCL Capacity Upgrade Application}
+As the new infrastructure requires an additional 44 kW of power, a formal application for a \textbf{Commercial Capacity Upgrade} must be submitted to EUCL.
+
+\subsection{3.1 Application Strategy: Physical vs. Online}
+While EUCL provides an online portal for standard residential connections, it is strongly advised to submit this application \textbf{in person} at the Kicukiro EUCL branch. 
+
+\begin{itemize}
+    \item \textbf{Categorization:} EV charging is non-standard infrastructure. An online application risks being miscategorized or delayed. An in-person visit guarantees that the branch engineer understands the specific technical load profile of electric school buses.
+    \item \textbf{Direct Communication:} A physical visit allows us to secure the direct contact information of the EUCL site surveyor assigned to the Kanombe sector, which is critical for expediting follow-ups.
+    \item \textbf{Immediate Resolution:} Any missing details in the technical load request can be clarified immediately, avoiding the multi-day delays associated with automated online rejections.
+\end{itemize}
+
+\subsection{3.2 Required Documentation Checklist}
+EUCL requires specific institutional documents to verify legal standing and property rights. To submit the application, the following items are needed from the school administration:
+
+\begin{itemize}[label=$\square$]
+    \item \textbf{School Registration Certificate:} Official proof of the Academy's legal registration.
+    \item \textbf{Land Title (UPI):} Proof of ownership for the school's plot in Kanombe.
+    \item \textbf{Legal Representative ID:} A photocopy of the National ID or Passport of the Head of School (or the legally authorized signatory).
+    \item \textbf{Letter of Authorization:} A formal letter on school letterhead, signed and stamped by the Head of School, authorizing the engineering student to apply for the capacity upgrade and act as the technical liaison for the project.
+    \item \textbf{Technical Equipment List:} (To be prepared by the engineering student) Detailing the 2x 22kW chargers and justifying the 44 kW load request.
+\end{itemize}
+
+\vspace{1em}
+\noindent\fbox{%
+    \parbox{\textwidth}{%
+        \textbf{Note for the Head of School:}\\
+        You are not required to visit the EUCL office in person. By providing the four documents listed above (including the signed Authorization Letter), the engineering student is fully empowered to execute the application and handle all technical discussions with EUCL engineers on the school's behalf.
+    }%
+}
+\vspace{1em}
+
+\section{4. End-to-End Project Roadmap \& Worst-Case Timeline}
+In infrastructure projects requiring utility intervention, delays are common. The following timeline represents a \textbf{worst-case scenario} to ensure realistic expectations and proper budgeting of time.
+
+\subsection{Phase 1: Application \& Site Survey (Weeks 1--4)}
+\begin{itemize}
+    \item Gather required documents and submit the physical application to the EUCL Kicukiro branch.
+    \item \textbf{Worst-Case Delay:} EUCL engineers may take 3--4 weeks to schedule and conduct the site visit to assess the main electrical panel and the Kanombe transformer.
+\end{itemize}
+
+\subsection{Phase 2: EUCL Grid Upgrades (Weeks 5--12) *If Required*}
+\begin{itemize}
+    \item If the local transformer lacks the capacity for an additional 44 kW, REG/EUCL must perform a grid upgrade.
+    \item \textbf{Worst-Case Delay:} Procuring and installing a new transformer or running new high-voltage lines can take 2 to 3 months.
+\end{itemize}
+
+\subsection{Phase 3: Sourcing \& Procurement (Weeks 13--18)}
+\begin{itemize}
+    \item Obtain competitive quotes from authorized local EV infrastructure suppliers (e.g., CEVR, Kabisa, IZI Electric).
+    \item \textbf{Worst-Case Delay:} If suppliers do not have 22 kW Type 2 chargers in local stock, importing them via sea/air freight and clearing Rwandan customs can take 4 to 6 weeks.
+\end{itemize}
+
+\subsection{Phase 4: Site Preparation, Installation \& Commissioning (Weeks 19--22)}
+\begin{itemize}
+    \item Execute civil works: digging cable trenches, pouring concrete pedestals, and building a protective canopy.
+    \item Vendor installs chargers, runs heavy-duty 3-phase cabling, and performs safety checks (grounding, surge protection).
+    \item \textbf{Worst-Case Delay:} Heavy rains or scheduling conflicts with certified electricians can extend installation by 2 to 3 weeks.
+\end{itemize}
+
+\textbf{Total Estimated Worst-Case Timeline:} 4 to 5.5 Months. \\
+\textit{(Note: If EUCL determines the existing grid can handle the load and suppliers have local stock, this timeline shrinks to 4--6 weeks).}
+
+\section{5. Estimated Project Budget (USD)}
+The following estimates reflect realistic market rates for hardware and installation in Kigali, factoring in a 100-meter distance from the main electrical panel to the charging location. While manual labor is very cost-effective in Rwanda, the distance necessitates heavy-duty materials.
+
+\vspace{1em}
+\begin{center}
+\begin{tabular}{@{}p{5cm} p{3.5cm} p{6cm}@{}}
+\toprule
+\textbf{Category} & \textbf{Estimated Cost} & \textbf{Notes} \\
+\midrule
+Hardware \& Equipment & \$3,200 -- \$4,800 & Includes chargers, cables, and breakers. \\
+Civil Works \& Labor & \$300 -- \$500 & Trenching, concrete, and certified electrical installation. \\
+EUCL Upgrade Fees & \textit{Variable} & Dictated entirely by EUCL's site assessment. \\
+\midrule
+\textbf{Total Estimated Budget} & \textbf{\$3,500 -- \$5,300} & \textit{Excludes potential EUCL grid upgrade fees.} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{5.1 Detailed Budget Breakdown}
+To provide absolute transparency on where the project funds are allocated, below is a granular breakdown of the major budget categories:
+
+\begin{itemize}
+    \item \textbf{Hardware \& Equipment Allocation:}
+    \begin{itemize}
+        \item \textit{2x 22 kW AC Chargers (Type 2):} $\sim$\$1,500 -- \$3,000. This is the core charging hardware provided by the vendor.
+        \item \textit{Heavy-Duty Copper Cable (100 meters):} $\sim$\$1,200 -- \$1,500. Due to the 100-meter distance, a thick (e.g., 35mm\textsuperscript{2}) armored copper cable is strictly required to safely carry 80 Amps without severe voltage drop. Copper is priced globally, making this a significant, unavoidable expense.
+        \item \textit{Switchgear \& Safety Breakers:} $\sim$\$200 -- \$300. Includes the main 3-phase breaker and sub-panel RCBOs to protect the chargers from grid surges.
+    \end{itemize}
+    
+    \item \textbf{Civil Works \& Labor Allocation:}
+    \begin{itemize}
+        \item \textit{Trenching (Manual Labor):} $\sim$\$50 -- \$100. Local casual labor rates are very affordable. A team can manually dig the 100m trench over 3--4 days.
+        \item \textit{Materials (Concrete, Sand, Warning Tape):} $\sim$\$100 -- \$150. For bedding the cable and pouring concrete pedestals for the chargers.
+        \item \textit{Certified Electrician Labor:} $\sim$\$150 -- \$250. RURA-certified technicians required to terminate the heavy cables, install the switchgear, and commission the system.
+    \end{itemize}
+    
+    \item \textbf{EUCL (Rwanda Energy Group) Allocation:}
+    \begin{itemize}
+        \item \textit{Application \& Survey Fees:} Minimal administrative fees for processing the capacity upgrade request.
+        \item \textit{Transformer/Grid Upgrade (If applicable):} If the local Kanombe transformer is currently operating at maximum capacity, EUCL may mandate that the school subsidizes a portion of a transformer upgrade to handle the new 44 kW load. This is entirely variable and will only be known after the physical site survey.
+    \end{itemize}
+\end{itemize}
+
+\end{document}

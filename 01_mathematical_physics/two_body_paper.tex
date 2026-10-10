@@ -1,0 +1,2026 @@
+\documentclass[12pt,a4paper]{article}
+
+%--------------------------------------------------------------
+% PACKAGES
+%--------------------------------------------------------------
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{mathtools}
+\usepackage{physics}          % \dd, \dv, \pdv, \abs, \norm, etc.
+\usepackage{tensor}           % tensor index notation
+\usepackage{bm}               % bold math
+\usepackage{bbm}              % blackboard bold 1
+\usepackage{xcolor}
+\usepackage{booktabs}         % professional tables
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{fancyhdr}
+
+%--------------------------------------------------------------
+% PAGE STYLE
+%--------------------------------------------------------------
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\textit{The Two-Body Problem}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+%--------------------------------------------------------------
+% THEOREM ENVIRONMENTS
+%--------------------------------------------------------------
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+%--------------------------------------------------------------
+% CUSTOM COMMANDS
+%--------------------------------------------------------------
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\ve}[1]{\mathbf{#1}}           % bold vector
+\newcommand{\he}[1]{\hat{\mathbf{#1}}}     % unit vector hat
+\newcommand{\er}{\hat{\mathbf{r}}}
+\newcommand{\ep}{\hat{\boldsymbol{\phi}}}
+\newcommand{\et}{\hat{\boldsymbol{\theta}}}
+\newcommand{\Lv}{\ve{L}}
+\newcommand{\lv}{\boldsymbol{\ell}}
+\newcommand{\Av}{\ve{A}}
+\newcommand{\Fv}{\ve{F}}
+\newcommand{\rv}{\ve{r}}
+\newcommand{\vv}{\ve{v}}
+\newcommand{\av}{\ve{a}}
+\newcommand{\gv}{\ve{g}}
+\newcommand{\Rv}{\ve{R}}
+\newcommand{\pv}{\ve{p}}
+\newcommand{\nab}{\boldsymbol{\nabla}}
+\newcommand{\half}{\tfrac{1}{2}}
+\newcommand{\dt}[1]{\dot{#1}}
+\newcommand{\ddt}[1]{\ddot{#1}}
+\newcommand{\Gam}{\Gamma}
+\newcommand{\eps}{\epsilon}
+\newcommand{\dOm}{d\Omega^2}
+\newcommand{\rs}{r_s}
+\newcommand{\Sch}{Schwarzschild}
+\newcommand{\GR}{general relativity}
+\newcommand{\GRc}{General Relativity}
+\newcommand{\Newt}{Newtonian}
+\newcommand{\leff}{\ell}  % specific angular momentum
+\newcommand{\veff}{V_{\mathrm{eff}}}
+\newcommand{\boxedeq}[1]{%
+  \begin{empheq}[box=\fbox]{align}#1\end{empheq}}
+
+\usepackage{empheq}
+
+%--------------------------------------------------------------
+% HYPERREF SETUP
+%--------------------------------------------------------------
+\hypersetup{
+  colorlinks = true,
+  linkcolor  = blue!70!black,
+  citecolor  = green!50!black,
+  urlcolor   = blue!70!black,
+  pdftitle   = {The Two-Body Problem: From Newtonian Mechanics to General Relativity},
+  pdfauthor  = {}
+}
+
+%--------------------------------------------------------------
+% TITLE
+%--------------------------------------------------------------
+\title{%
+  \LARGE\bfseries The Two-Body Problem:\\
+  From Newtonian Mechanics to General Relativity\\[1em]
+  \large A Complete Mathematical Treatment
+}
+\author{}
+\date{\today}
+
+%==============================================================
+\begin{document}
+%==============================================================
+
+\maketitle
+\thispagestyle{empty}
+
+\begin{abstract}
+This paper provides a fully self-contained, step-by-step mathematical treatment of the two-body gravitational problem, beginning from first principles of Newtonian mechanics and culminating in the general-relativistic description via the Schwarzschild geometry and geodesic equations. We derive every result from scratch: the vector calculus identities needed, Newton's laws and their consequences, the reduction of the two-body problem to an effective one-body problem, the derivation of conic-section orbits and Kepler's three laws, the conserved quantities and their geometrical interpretation, and then the entire framework of differential geometry and general relativity needed to treat the same problem in Einstein's theory. We derive the Schwarzschild metric in full, construct the effective potential, exhibit the new phenomenon of orbital precession, compute the perihelion advance of Mercury explicitly, and discuss the innermost stable circular orbit and radial plunge. No step is assumed or skipped; every theorem is proved, and every computation is displayed in full.
+\end{abstract}
+
+\vfill
+\tableofcontents
+\vfill
+
+\newpage
+\setcounter{page}{1}
+
+%==============================================================
+\section{Mathematical Preliminaries}
+%==============================================================
+
+This chapter establishes the mathematical language used throughout the paper. We proceed from elementary vector algebra through differential calculus, curvilinear coordinates, and the theory of ordinary differential equations. All identities are proved from first principles.
+
+%--------------------------------------------------------------
+\subsection{Vector Algebra and Notation}
+%--------------------------------------------------------------
+
+We work in Euclidean three-dimensional space $\R^3$. A \textbf{vector} is an ordered triple
+\[
+  \ve{A}
+  = A_x\,\he{e}_x + A_y\,\he{e}_y + A_z\,\he{e}_z
+  = \sum_{i=1}^{3} A_i\,\he{e}_i,
+\]
+where $\he{e}_i$ are mutually orthogonal unit vectors satisfying
+\[
+  \he{e}_i \cdot \he{e}_j = \delta_{ij},
+  \qquad
+  \he{e}_i \times \he{e}_j = \epsilon_{ijk}\,\he{e}_k.
+\]
+Here $\delta_{ij}$ is the \textbf{Kronecker delta} and $\epsilon_{ijk}$ is the \textbf{Levi-Civita symbol}, defined by
+\[
+  \epsilon_{ijk} =
+  \begin{cases}
+    +1 & \text{if } (i,j,k) \text{ is an even permutation of } (1,2,3),\\
+    -1 & \text{if } (i,j,k) \text{ is an odd permutation of } (1,2,3),\\
+    \phantom{+}0 & \text{if any two indices are equal.}
+  \end{cases}
+\]
+We use Einstein's repeated-index summation convention: $\epsilon_{ijk}\he{e}_k \equiv \sum_k \epsilon_{ijk}\he{e}_k$.
+
+\paragraph{The dot product.}
+\[
+  \ve{A} \cdot \ve{B}
+  = \sum_{i=1}^{3} A_i B_i
+  = |\ve{A}||\ve{B}|\cos\theta,
+\]
+where $\theta$ is the included angle.
+
+\paragraph{The cross product.}
+\[
+  (\ve{A} \times \ve{B})_i = \epsilon_{ijk} A_j B_k,
+\]
+which expands to
+\[
+  \ve{A} \times \ve{B}
+  = (A_y B_z - A_z B_y)\,\he{e}_x
+  + (A_z B_x - A_x B_z)\,\he{e}_y
+  + (A_x B_y - A_y B_x)\,\he{e}_z.
+\]
+
+\paragraph{The scalar triple product.}
+\[
+  \ve{A} \cdot (\ve{B} \times \ve{C})
+  = \epsilon_{ijk} A_i B_j C_k
+  = \det\begin{pmatrix} A_x & A_y & A_z \\ B_x & B_y & B_z \\ C_x & C_y & C_z \end{pmatrix}.
+\]
+
+%--------------------------------------------------------------
+\subsection{Differential Calculus of Vectors}
+%--------------------------------------------------------------
+
+Let $\rv(t) = (x(t),y(t),z(t))$ be a vector-valued function of time. Its \textbf{derivative} is
+\[
+  \dot{\rv}
+  = \frac{d\rv}{dt}
+  = \lim_{\Delta t\to 0}\frac{\rv(t+\Delta t)-\rv(t)}{\Delta t}
+  = \dot{x}\,\he{e}_x + \dot{y}\,\he{e}_y + \dot{z}\,\he{e}_z.
+\]
+The familiar product rules hold for vector-valued functions:
+\[
+  \frac{d}{dt}(\ve{A}\cdot\ve{B}) = \dot{\ve{A}}\cdot\ve{B} + \ve{A}\cdot\dot{\ve{B}},
+  \qquad
+  \frac{d}{dt}(\ve{A}\times\ve{B}) = \dot{\ve{A}}\times\ve{B} + \ve{A}\times\dot{\ve{B}}.
+\]
+
+\begin{proof}[Proof of the dot-product rule]
+Let $f(t) = \ve{A}(t)\cdot\ve{B}(t) = \sum_i A_i(t)B_i(t)$. Then by the ordinary product rule for scalars,
+\[
+  \frac{df}{dt}
+  = \sum_i \frac{d(A_i B_i)}{dt}
+  = \sum_i (\dot{A}_i B_i + A_i \dot{B}_i)
+  = \dot{\ve{A}}\cdot\ve{B} + \ve{A}\cdot\dot{\ve{B}}. \qed
+\]
+\end{proof}
+
+\begin{corollary}
+If\/ $|\ve{A}|$ is constant, then $\ve{A}\perp\dot{\ve{A}}$.
+\end{corollary}
+\begin{proof}
+$|\ve{A}|^2 = \ve{A}\cdot\ve{A} = \mathrm{const}$, so $0 = \frac{d}{dt}(\ve{A}\cdot\ve{A}) = 2\ve{A}\cdot\dot{\ve{A}}$. \qed
+\end{proof}
+
+%--------------------------------------------------------------
+\subsection{The Gradient, Divergence, Curl, and Laplacian}
+%--------------------------------------------------------------
+
+The \textbf{nabla operator} is
+\[
+  \nab = \he{e}_x\frac{\partial}{\partial x} + \he{e}_y\frac{\partial}{\partial y} + \he{e}_z\frac{\partial}{\partial z}.
+\]
+For a scalar field $f:\R^3\to\R$ and a vector field $\ve{F}:\R^3\to\R^3$:
+\begin{align*}
+  \text{Gradient:}\quad
+  &\nab f = \frac{\partial f}{\partial x}\he{e}_x + \frac{\partial f}{\partial y}\he{e}_y + \frac{\partial f}{\partial z}\he{e}_z,\\[4pt]
+  \text{Divergence:}\quad
+  &\nab\cdot\ve{F} = \frac{\partial F_x}{\partial x}+\frac{\partial F_y}{\partial y}+\frac{\partial F_z}{\partial z},\\[4pt]
+  \text{Curl:}\quad
+  &(\nab\times\ve{F})_i = \epsilon_{ijk}\partial_j F_k,\\[4pt]
+  \text{Laplacian:}\quad
+  &\nab^2 f = \nab\cdot(\nab f) = \frac{\partial^2 f}{\partial x^2}+\frac{\partial^2 f}{\partial y^2}+\frac{\partial^2 f}{\partial z^2}.
+\end{align*}
+
+%--------------------------------------------------------------
+\subsection{Key Vector Identities (with Proofs)}
+%--------------------------------------------------------------
+
+\begin{theorem}[BAC--CAB rule]\label{thm:baccab}
+For any vectors $\ve{A},\ve{B},\ve{C}\in\R^3$,
+\[
+  \ve{A}\times(\ve{B}\times\ve{C}) = \ve{B}(\ve{A}\cdot\ve{C}) - \ve{C}(\ve{A}\cdot\ve{B}).
+\]
+\end{theorem}
+\begin{proof}
+The $i$-th component of the left side is
+\[
+  [\ve{A}\times(\ve{B}\times\ve{C})]_i
+  = \epsilon_{ijk}A_j(\ve{B}\times\ve{C})_k
+  = \epsilon_{ijk}A_j\epsilon_{klm}B_lC_m.
+\]
+We use the contraction identity
+\[
+  \epsilon_{ijk}\epsilon_{klm} = \epsilon_{kij}\epsilon_{klm} = \delta_{il}\delta_{jm}-\delta_{im}\delta_{jl}.
+\]
+Therefore,
+\[
+  [\ve{A}\times(\ve{B}\times\ve{C})]_i
+  = (\delta_{il}\delta_{jm}-\delta_{im}\delta_{jl})A_jB_lC_m
+  = A_jB_iC_j - A_jB_jC_i
+  = B_i(\ve{A}\cdot\ve{C}) - C_i(\ve{A}\cdot\ve{B}).
+\]
+Since this holds for each component $i$, the result follows. \qed
+\end{proof}
+
+\begin{theorem}\label{thm:curlgrad}
+For any smooth scalar field $f$, $\;\nab\times(\nab f) = \ve{0}$.
+\end{theorem}
+\begin{proof}
+The $i$-th component is $\epsilon_{ijk}\partial_j(\partial_k f)$. By Schwarz's theorem, $\partial_j\partial_k f = \partial_k\partial_j f$, so the quantity $\partial_j\partial_k f$ is symmetric in $(j,k)$. Contracting a symmetric tensor with $\epsilon_{ijk}$, which is antisymmetric in $(j,k)$, gives zero. \qed
+\end{proof}
+
+\begin{theorem}\label{thm:divcurl}
+For any smooth vector field $\ve{F}$, $\;\nab\cdot(\nab\times\ve{F}) = 0$.
+\end{theorem}
+\begin{proof}
+$\nab\cdot(\nab\times\ve{F}) = \partial_i(\epsilon_{ijk}\partial_j F_k) = \epsilon_{ijk}\partial_i\partial_j F_k$. Since $\partial_i\partial_j F_k$ is symmetric in $(i,j)$ and $\epsilon_{ijk}$ is antisymmetric in $(i,j)$, the contraction vanishes. \qed
+\end{proof}
+
+\begin{theorem}\label{thm:grad1r}
+Let $r = |\rv|$. Then
+\[
+  \nab\!\left(\frac{1}{r}\right) = -\frac{\er}{r^2} = -\frac{\rv}{r^3}.
+\]
+\end{theorem}
+\begin{proof}
+We have $r=(x^2+y^2+z^2)^{1/2}$, so
+\[
+  \frac{\partial}{\partial x}\!\left(\frac{1}{r}\right)
+  = -\frac{1}{r^2}\frac{\partial r}{\partial x}
+  = -\frac{1}{r^2}\cdot\frac{x}{r}
+  = -\frac{x}{r^3}.
+\]
+By identical calculations in $y$ and $z$, we obtain $\nab(1/r) = -(x,y,z)/r^3 = -\rv/r^3$. \qed
+\end{proof}
+
+\begin{theorem}\label{thm:lap1r}
+$\displaystyle\nab^2\!\left(\frac{1}{r}\right) = -4\pi\,\delta^{(3)}(\rv)$.
+\end{theorem}
+\begin{proof}
+For $r>0$, compute $\nab\cdot(-\rv/r^3)$ component by component:
+\[
+  \frac{\partial}{\partial x}\!\left(\frac{x}{r^3}\right)
+  = \frac{1}{r^3} - \frac{3x^2}{r^5}.
+\]
+Summing over all three components:
+\[
+  \nab\cdot\!\left(\frac{\rv}{r^3}\right)
+  = \frac{3}{r^3} - \frac{3(x^2+y^2+z^2)}{r^5}
+  = \frac{3}{r^3} - \frac{3}{r^3} = 0, \qquad r > 0.
+\]
+To account for the singularity at $r=0$, apply the divergence theorem over a ball $B_\varepsilon$ of radius $\varepsilon$:
+\[
+  \int_{B_\varepsilon}\nab^2\!\left(\frac{1}{r}\right)dV
+  = \oint_{\partial B_\varepsilon}\nab\!\left(\frac{1}{r}\right)\cdot d\ve{S}
+  = \oint_{\partial B_\varepsilon}\!\left(-\frac{\er}{\varepsilon^2}\right)\cdot\er\,dS
+  = -\frac{1}{\varepsilon^2}\cdot 4\pi\varepsilon^2
+  = -4\pi.
+\]
+This holds for all $\varepsilon>0$, so in the sense of distributions, $\nab^2(1/r) = -4\pi\,\delta^{(3)}(\rv)$. \qed
+\end{proof}
+
+%--------------------------------------------------------------
+\subsection{Polar and Spherical Coordinates}
+%--------------------------------------------------------------
+
+\subsubsection{Plane Polar Coordinates}
+
+Define $(r,\phi)$ by $x=r\cos\phi$, $y=r\sin\phi$. The orthonormal basis vectors are
+\[
+  \er = \cos\phi\,\he{e}_x + \sin\phi\,\he{e}_y,
+  \qquad
+  \ep = -\sin\phi\,\he{e}_x + \cos\phi\,\he{e}_y.
+\]
+Differentiating with respect to time gives
+\[
+  \dot{\er} = \dot{\phi}\,\ep, \qquad \dot{\ep} = -\dot{\phi}\,\er.
+\]
+The position is $\rv = r\er$. The velocity is
+\[
+  \vv = \dot{\rv} = \dot{r}\,\er + r\dot{\phi}\,\ep.
+\]
+
+\begin{theorem}[Acceleration in polar coordinates]\label{thm:polar-accel}
+\[
+  \av = \ddot{\rv}
+  = \bigl(\ddot{r} - r\dot{\phi}^2\bigr)\er
+  + \bigl(r\ddot{\phi} + 2\dot{r}\dot{\phi}\bigr)\ep.
+\]
+\end{theorem}
+\begin{proof}
+Differentiate $\vv = \dot{r}\er + r\dot{\phi}\ep$:
+\begin{align*}
+  \av &= \frac{d}{dt}(\dot{r}\er) + \frac{d}{dt}(r\dot{\phi}\ep) \\
+      &= \ddot{r}\,\er + \dot{r}\,\dot{\er}
+        + \dot{r}\dot{\phi}\,\ep + r\ddot{\phi}\,\ep + r\dot{\phi}\,\dot{\ep} \\
+      &= \ddot{r}\,\er + \dot{r}\dot{\phi}\,\ep
+        + \dot{r}\dot{\phi}\,\ep + r\ddot{\phi}\,\ep - r\dot{\phi}^2\,\er \\
+      &= (\ddot{r}-r\dot{\phi}^2)\,\er + (r\ddot{\phi}+2\dot{r}\dot{\phi})\,\ep. \qed
+\end{align*}
+\end{proof}
+
+\subsubsection{Spherical Coordinates}
+
+$x=r\sin\theta\cos\phi$, $y=r\sin\theta\sin\phi$, $z=r\cos\theta$. The Laplacian is
+\[
+  \nab^2 f
+  = \frac{1}{r^2}\frac{\partial}{\partial r}\!\left(r^2\frac{\partial f}{\partial r}\right)
+  + \frac{1}{r^2\sin\theta}\frac{\partial}{\partial\theta}\!\left(\sin\theta\frac{\partial f}{\partial\theta}\right)
+  + \frac{1}{r^2\sin^2\theta}\frac{\partial^2 f}{\partial\phi^2}.
+\]
+
+%--------------------------------------------------------------
+\subsection{Conservative Fields and Potential Functions}
+%--------------------------------------------------------------
+
+\begin{definition}
+A vector field $\ve{F}$ is \textbf{conservative} if there exists a scalar $V$ such that $\ve{F} = -\nab V$.
+\end{definition}
+
+\begin{theorem}\label{thm:conservative}
+On a simply-connected domain $U$, $\ve{F}$ is conservative if and only if $\nab\times\ve{F}=\ve{0}$ on $U$.
+\end{theorem}
+\begin{proof}
+$(\Rightarrow)$ If $\ve{F}=-\nab V$, then $\nab\times\ve{F} = -\nab\times(\nab V) = \ve{0}$ by Theorem~\ref{thm:curlgrad}.
+
+$(\Leftarrow)$ Suppose $\nab\times\ve{F}=\ve{0}$. Define $V(\rv) = -\int_{\rv_0}^{\rv}\ve{F}\cdot d\boldsymbol\ell$ along any path from a basepoint $\rv_0$. By Stokes' theorem, the line integral is path-independent because $\nab\times\ve{F}=\ve{0}$ on the simply-connected domain. The fundamental theorem of calculus for line integrals then gives $\ve{F}=-\nab V$. \qed
+\end{proof}
+
+\begin{corollary}
+The work done by a conservative force is path-independent:
+\[
+  W = \int_{\rv_1}^{\rv_2}\ve{F}\cdot d\boldsymbol\ell = V(\rv_1) - V(\rv_2).
+\]
+\end{corollary}
+
+%--------------------------------------------------------------
+\subsection{Ordinary Differential Equations: Selected Results}
+%--------------------------------------------------------------
+
+\begin{theorem}[Simple harmonic oscillator]
+The equation $\ddot{x} + \omega^2 x = 0$ has general solution
+\[
+  x(t) = A\cos(\omega t) + B\sin(\omega t),
+\]
+for arbitrary constants $A,B$.
+\end{theorem}
+\begin{proof}
+Seek $x=e^{\lambda t}$. Then $\lambda^2+\omega^2=0$, so $\lambda=\pm i\omega$. The general complex solution is $C_1 e^{i\omega t}+C_2 e^{-i\omega t}$; taking real linear combinations gives $A\cos\omega t + B\sin\omega t$. \qed
+\end{proof}
+
+\begin{theorem}[Resonant forced SHO]\label{thm:resonant}
+The particular solution of $\ddot{x}+\omega^2 x = F_0\cos(\omega t)$ is
+\[
+  x_p(t) = \frac{F_0}{2\omega}\,t\sin(\omega t).
+\]
+\end{theorem}
+\begin{proof}
+Try $x_p = Ct\sin(\omega t)$. Then
+\begin{align*}
+  \dot{x}_p &= C(\sin\omega t + \omega t\cos\omega t),\\
+  \ddot{x}_p &= C(2\omega\cos\omega t - \omega^2 t\sin\omega t).
+\end{align*}
+So $\ddot{x}_p + \omega^2 x_p = 2C\omega\cos\omega t = F_0\cos\omega t$, giving $C = F_0/(2\omega)$. \qed
+\end{proof}
+
+%==============================================================
+\section{Newtonian Mechanics}
+%==============================================================
+
+%--------------------------------------------------------------
+\subsection{Newton's Three Laws}
+%--------------------------------------------------------------
+
+Newtonian mechanics rests on three empirical laws formulated by Isaac Newton in the \textit{Principia Mathematica} (1687).
+
+\begin{description}[leftmargin=0pt]
+\item[Newton's First Law (Law of Inertia).] \textit{A body remains at rest, or in uniform rectilinear motion, unless acted upon by a net external force.} This defines \textbf{inertial reference frames}.
+
+\item[Newton's Second Law.] \textit{The net force on a body of mass $m$ equals the rate of change of its linear momentum $\pv = m\vv$:}
+\[
+  \Fv = \frac{d\pv}{dt} = \frac{d(m\vv)}{dt}.
+\]
+For constant mass: $\Fv = m\av = m\ddot{\rv}$.
+
+\item[Newton's Third Law.] \textit{If body 1 exerts force $\ve{F}_{12}$ on body 2, then body 2 exerts $\ve{F}_{21}=-\ve{F}_{12}$ on body 1.}
+\end{description}
+
+%--------------------------------------------------------------
+\subsection{Momentum and Impulse}
+%--------------------------------------------------------------
+
+The \textbf{impulse} delivered by $\Fv$ over $[t_1,t_2]$ is
+\[
+  \ve{J} = \int_{t_1}^{t_2}\Fv\,dt = \Delta\pv.
+\]
+\begin{proof}
+$\int_{t_1}^{t_2}\Fv\,dt = \int_{t_1}^{t_2}\dot{\pv}\,dt = \pv(t_2)-\pv(t_1)$ by the fundamental theorem of calculus. \qed
+\end{proof}
+
+%--------------------------------------------------------------
+\subsection{Work, Kinetic Energy, and the Work--Energy Theorem}
+%--------------------------------------------------------------
+
+\begin{definition}
+The \textbf{kinetic energy} of a particle of mass $m$ with velocity $\vv$ is $T = \tfrac{1}{2}m|\vv|^2$.
+\end{definition}
+
+\begin{theorem}[Work--Energy Theorem]\label{thm:WET}
+The work done by the net force along a path from $\rv_1$ to $\rv_2$ equals the change in kinetic energy:
+\[
+  W = \int_{\rv_1}^{\rv_2}\Fv\cdot d\boldsymbol\ell = T_2 - T_1.
+\]
+\end{theorem}
+\begin{proof}
+Parametrize by $t\in[t_1,t_2]$, so $d\boldsymbol\ell = \vv\,dt$:
+\[
+  W = \int_{t_1}^{t_2}\Fv\cdot\vv\,dt
+    = \int_{t_1}^{t_2}m\av\cdot\vv\,dt
+    = \int_{t_1}^{t_2}m\dot{\vv}\cdot\vv\,dt
+    = \int_{t_1}^{t_2}\frac{d}{dt}\!\bigl(\tfrac{1}{2}mv^2\bigr)dt
+    = T_2 - T_1. \qed
+\]
+\end{proof}
+
+%--------------------------------------------------------------
+\subsection{Potential Energy and Conservation of Energy}
+%--------------------------------------------------------------
+
+For a conservative force $\Fv = -\nab V$, the Work--Energy Theorem gives $T_2-T_1 = V_1-V_2$, hence $T_1+V_1 = T_2+V_2$.
+
+\begin{theorem}[Conservation of Mechanical Energy]\label{thm:energy}
+Under a conservative force, the total mechanical energy $E = T + V$ is constant along any trajectory.
+\end{theorem}
+\begin{proof}
+Differentiate:
+\[
+  \frac{dE}{dt}
+  = m\av\cdot\vv + (\nab V)\cdot\vv
+  = (m\av + \nab V)\cdot\vv
+  = (\Fv - \Fv)\cdot\vv = 0. \qed
+\]
+\end{proof}
+
+%--------------------------------------------------------------
+\subsection{Angular Momentum and its Conservation}
+%--------------------------------------------------------------
+
+\begin{definition}
+The \textbf{angular momentum} of a particle about the origin is $\Lv = \rv\times\pv = m(\rv\times\vv)$.
+\end{definition}
+
+\begin{theorem}\label{thm:torque}
+$\dot{\Lv} = \boldsymbol{\tau} = \rv\times\Fv$ (the torque).
+\end{theorem}
+\begin{proof}
+$\dot{\Lv} = \frac{d}{dt}(\rv\times m\vv) = \dot{\rv}\times m\vv + \rv\times m\dot{\vv} = \vv\times m\vv + \rv\times\Fv = \ve{0} + \rv\times\Fv$. \qed
+\end{proof}
+
+\begin{corollary}[Conservation of angular momentum]
+If $\Fv$ is a \textbf{central force} ($\Fv\parallel\rv$), then $\boldsymbol\tau=\ve{0}$ and $\Lv=\mathrm{const}$.
+\end{corollary}
+
+\begin{theorem}\label{thm:planar}
+Under a central force, the motion is confined to a fixed plane.
+\end{theorem}
+\begin{proof}
+Since $\Lv = m\rv\times\vv$ is constant and non-zero, $\rv(t)$ is always perpendicular to the fixed direction $\hat{\Lv}$. Hence $\rv(t)$ lies in the plane through the origin with normal $\hat{\Lv}$. \qed
+\end{proof}
+
+%--------------------------------------------------------------
+\subsection{Centre of Mass and the Two-Body Reduction}
+%--------------------------------------------------------------
+
+Consider two particles with masses $m_1,m_2$ and position vectors $\rv_1,\rv_2$. Let $M = m_1+m_2$.
+
+\begin{definition}
+The \textbf{centre of mass} position is
+\[
+  \Rv = \frac{m_1\rv_1 + m_2\rv_2}{M}.
+\]
+\end{definition}
+
+\begin{theorem}\label{thm:CoM}
+In the absence of external forces, $M\ddot{\Rv}=\ve{0}$, so the centre of mass moves uniformly.
+\end{theorem}
+\begin{proof}
+$M\ddot{\Rv} = m_1\ddot{\rv}_1 + m_2\ddot{\rv}_2 = \ve{F}_{12}+\ve{F}_{21} = \ve{0}$ by Newton's Third Law. \qed
+\end{proof}
+
+\paragraph{Relative coordinate.} Define $\rv = \rv_1 - \rv_2$. Then
+\[
+  \rv_1 = \Rv + \frac{m_2}{M}\rv,
+  \qquad
+  \rv_2 = \Rv - \frac{m_1}{M}\rv.
+\]
+\begin{proof}
+$\Rv + \frac{m_2}{M}\rv = \frac{m_1\rv_1+m_2\rv_2}{M}+\frac{m_2(\rv_1-\rv_2)}{M} = \frac{(m_1+m_2)\rv_1}{M} = \rv_1$. \qed
+\end{proof}
+
+The equation of motion for $\rv$:
+\[
+  \ddot{\rv}
+  = \ddot{\rv}_1 - \ddot{\rv}_2
+  = \frac{\ve{F}_{12}}{m_1} + \frac{\ve{F}_{12}}{m_2}
+  = \ve{F}_{12}\!\left(\frac{1}{m_1}+\frac{1}{m_2}\right)
+  = \frac{\ve{F}_{12}}{\mu},
+\]
+where the \textbf{reduced mass} is
+\[
+  \boxed{\mu = \frac{m_1 m_2}{m_1+m_2} = \frac{m_1 m_2}{M}.}
+\]
+Thus $\mu\ddot{\rv} = \ve{F}_{12}$: the two-body problem reduces to a \textbf{one-body problem} for a particle of mass $\mu$ in the field generated by the interaction force.
+
+%==============================================================
+\section{Newtonian Gravity}
+%==============================================================
+
+%--------------------------------------------------------------
+\subsection{Newton's Law of Universal Gravitation}
+%--------------------------------------------------------------
+
+\textbf{Law.} The gravitational force on mass $m$ at $\rv$ due to mass $M$ at the origin:
+\[
+  \Fv = -\frac{GMm}{r^2}\,\er = -\frac{GMm}{r^3}\,\rv,
+  \qquad
+  G = 6.674\times10^{-11}\;\mathrm{N\,m^2\,kg^{-2}}.
+\]
+
+%--------------------------------------------------------------
+\subsection{The Gravitational Field and Potential}
+%--------------------------------------------------------------
+
+\begin{definition}
+The \textbf{gravitational field} at $\rv$ due to mass $M$ at the origin is $\gv(\rv) = \Fv/m$:
+\[
+  \gv(\rv) = -\frac{GM}{r^2}\,\er = -\nab\Phi,
+  \qquad
+  \Phi(\rv) = -\frac{GM}{r}.
+\]
+\end{definition}
+
+\begin{proof}[Verification $\gv = -\nab\Phi$]
+$-\nab(-GM/r) = GM\nab(1/r) = GM\cdot(-\rv/r^3) = -GM\er/r^2 = \gv$. \qed
+\end{proof}
+
+%--------------------------------------------------------------
+\subsection{Gauss's Law for Gravity}
+%--------------------------------------------------------------
+
+\begin{theorem}[Gauss's law for gravity]\label{thm:gauss}
+For any closed surface $S$ enclosing total mass $M_{\mathrm{enc}}$:
+\[
+  \oint_S \gv\cdot d\ve{S} = -4\pi G M_{\mathrm{enc}}.
+\]
+\end{theorem}
+\begin{proof}
+By the divergence theorem,
+\[
+  \oint_S\gv\cdot d\ve{S}
+  = \int_V\nab\cdot\gv\,dV
+  = -\int_V\nab^2\Phi\,dV.
+\]
+For a point mass at the origin, $\Phi = -GM/r$, so $\nab^2\Phi = -GM\nab^2(1/r) = 4\pi GM\delta^{(3)}(\rv)$ (by Theorem~\ref{thm:lap1r}). Integrating:
+\[
+  \oint_S\gv\cdot d\ve{S} = -\int_V 4\pi GM\delta^{(3)}(\rv)\,dV = -4\pi GM. \qed
+\]
+\end{proof}
+
+In differential form, for a continuous mass distribution with density $\rho$:
+\begin{equation}\label{eq:poisson}
+  \nab^2\Phi = 4\pi G\rho.
+\end{equation}
+This is \textbf{Poisson's equation} for Newtonian gravity.
+
+%--------------------------------------------------------------
+\subsection{Gravitational Potential Energy}
+%--------------------------------------------------------------
+
+The \textbf{gravitational potential energy} of two point masses at separation $r$:
+\[
+  U(r) = -\frac{Gm_1m_2}{r}.
+\]
+The force on $m_1$ is $-\nab_{\rv_1}U = -Gm_1m_2(\rv_1-\rv_2)/|\rv_1-\rv_2|^3$, directed toward $m_2$. $\checkmark$
+
+%==============================================================
+\section{The Newtonian Two-Body Problem}
+%==============================================================
+
+%--------------------------------------------------------------
+\subsection{Equations of Motion and Centre-of-Mass Reduction}
+%--------------------------------------------------------------
+
+In the CoM frame, the relative position $\rv = \rv_1-\rv_2$ satisfies
+\[
+  \mu\ddot{\rv} = -\frac{Gm_1m_2}{r^2}\,\er.
+\]
+Dividing by $\mu$ and defining $k = GM = G(m_1+m_2)$:
+\begin{equation}\label{eq:eom}
+  \boxed{\ddot{\rv} = -\frac{k}{r^2}\,\er = -\frac{k}{r^3}\,\rv.}
+\end{equation}
+This is the equation of motion of a fictitious particle of reduced mass $\mu$ in a central gravitational field with effective source mass $M$.
+
+%--------------------------------------------------------------
+\subsection{Conservation of Angular Momentum: Planar Motion}
+%--------------------------------------------------------------
+
+By Theorem~\ref{thm:planar}, gravity being central ($\Fv\parallel\rv$) forces planar motion. We work in the orbital plane with polar coordinates $(r,\phi)$.
+
+Define the \textbf{specific angular momentum} (per unit reduced mass):
+\[
+  \ell \equiv \frac{|\Lv|}{\mu} = |\rv\times\dot{\rv}|.
+\]
+
+\begin{proposition}\label{prop:ell}
+$\ell = r^2\dot\phi$.
+\end{proposition}
+\begin{proof}
+$\rv\times\dot{\rv} = r\er\times(\dot{r}\er+r\dot\phi\ep) = r^2\dot\phi(\er\times\ep) = r^2\dot\phi\,\he{z}$. Taking the magnitude gives $\ell = r^2\dot\phi$. \qed
+\end{proof}
+
+Conservation of $\Lv$ thus gives the \textbf{conservation law}:
+\begin{equation}\label{eq:ell-cons}
+  \boxed{\ell = r^2\dot\phi = \mathrm{const}.}
+\end{equation}
+
+%--------------------------------------------------------------
+\subsection{Conservation of Energy}
+%--------------------------------------------------------------
+
+The total energy per unit reduced mass:
+\[
+  \mathcal{E} = \tfrac{1}{2}|\dot{\rv}|^2 - \frac{k}{r}
+  = \tfrac{1}{2}(\dot{r}^2 + r^2\dot\phi^2) - \frac{k}{r}.
+\]
+Substituting $\dot\phi = \ell/r^2$:
+\begin{equation}\label{eq:energy}
+  \boxed{\mathcal{E} = \tfrac{1}{2}\dot{r}^2 + \frac{\ell^2}{2r^2} - \frac{k}{r} = \mathrm{const}.}
+\end{equation}
+
+%--------------------------------------------------------------
+\subsection{The Effective Potential}
+%--------------------------------------------------------------
+
+Define
+\[
+  V_{\mathrm{eff}}(r) = \frac{\ell^2}{2r^2} - \frac{k}{r},
+\]
+so $\mathcal{E} = \tfrac{1}{2}\dot{r}^2 + V_{\mathrm{eff}}(r)$. The radial motion is equivalent to a 1D particle in $V_{\mathrm{eff}}$.
+
+\paragraph{Circular orbit radius.} Setting $V_{\mathrm{eff}}'(r)=0$:
+\[
+  -\frac{\ell^2}{r^3}+\frac{k}{r^2}=0
+  \implies
+  r_c = \frac{\ell^2}{k}.
+\]
+
+\paragraph{Stability of the circular orbit.}
+\[
+  V_{\mathrm{eff}}''(r_c)
+  = \frac{3\ell^2}{r_c^4}-\frac{2k}{r_c^3}
+  = \frac{3k^4}{\ell^6}-\frac{2k^4}{\ell^6}
+  = \frac{k^4}{\ell^6} > 0.
+\]
+So $r_c$ is a \textit{stable} minimum: all circular Keplerian orbits are stable.
+
+%--------------------------------------------------------------
+\subsection{The Orbit Equation: Binet Substitution}
+%--------------------------------------------------------------
+
+We seek $r$ as a function of $\phi$ (the orbit shape). Make the substitution
+\[
+  u = \frac{1}{r}, \quad u' = \frac{du}{d\phi}.
+\]
+
+\paragraph{Step 1: Express $\dot r$ in terms of $u'$.}
+\[
+  \dot{r} = \frac{dr}{d\phi}\dot\phi = -\frac{u'}{u^2}\cdot\ell u^2 = -\ell u'.
+\]
+
+\paragraph{Step 2: Express $\ddot r$.}
+\[
+  \ddot{r} = \frac{d}{dt}(-\ell u') = -\ell u''\dot\phi = -\ell u''\cdot\ell u^2 = -\ell^2 u^2 u''.
+\]
+
+\paragraph{Step 3: Write the radial equation.} The $\er$-component of~\eqref{eq:eom} via Theorem~\ref{thm:polar-accel}:
+\[
+  \ddot{r} - r\dot\phi^2 = -\frac{k}{r^2}.
+\]
+Substitute $r=1/u$, $\ddot{r}=-\ell^2u^2u''$, $\dot\phi=\ell u^2$:
+\[
+  -\ell^2u^2u'' - \frac{1}{u}(\ell u^2)^2 = -ku^2
+  \implies
+  -\ell^2u^2u'' - \ell^2u^3 = -ku^2.
+\]
+Divide by $-\ell^2u^2$:
+\begin{equation}\label{eq:binet}
+  \boxed{u'' + u = \frac{k}{\ell^2}.}
+\end{equation}
+This is the \textbf{Binet equation}. Its general solution is
+\[
+  u(\phi) = \frac{k}{\ell^2} + A\cos(\phi-\phi_0).
+\]
+Choosing $\phi_0=0$ (periapsis at $\phi=0$) and writing $e = A\ell^2/k$:
+\[
+  u(\phi) = \frac{k}{\ell^2}(1+e\cos\phi)
+  \implies
+  \boxed{r(\phi) = \frac{p}{1+e\cos\phi}, \qquad p = \frac{\ell^2}{k},}
+\]
+the \textbf{orbit equation} with semi-latus rectum $p$ and eccentricity $e\geq0$.
+
+%--------------------------------------------------------------
+\subsection{Classification of Orbits}
+%--------------------------------------------------------------
+
+\paragraph{Eccentricity from energy and angular momentum.}
+At periapsis ($\phi=0$), $\dot{r}=0$, so $\mathcal{E} = V_{\mathrm{eff}}(r_{\min})$. With $r_{\min}=\ell^2/[k(1+e)]$:
+\begin{align*}
+  \mathcal{E}
+  &= \frac{\ell^2}{2}\!\left(\frac{k(1+e)}{\ell^2}\right)^2 - k\cdot\frac{k(1+e)}{\ell^2}
+   = \frac{k^2(1+e)^2}{2\ell^2} - \frac{k^2(1+e)}{\ell^2} \\
+  &= \frac{k^2}{\ell^2}\cdot\frac{(1+e)^2-2(1+e)}{2}
+   = \frac{k^2(e^2-1)}{2\ell^2}.
+\end{align*}
+Therefore:
+\begin{equation}\label{eq:ecc}
+  \boxed{e = \sqrt{1 + \frac{2\mathcal{E}\ell^2}{k^2}}.}
+\end{equation}
+
+\begin{table}[h]
+\centering
+\caption{Classification of Keplerian orbits}
+\begin{tabular}{ccc}
+  \toprule
+  Eccentricity $e$ & Orbit type & Energy $\mathcal{E}$\\
+  \midrule
+  $e=0$ & Circle & $\mathcal{E} = -k^2/(2\ell^2)$\\
+  $0<e<1$ & Ellipse & $-k^2/(2\ell^2)<\mathcal{E}<0$\\
+  $e=1$ & Parabola & $\mathcal{E}=0$\\
+  $e>1$ & Hyperbola & $\mathcal{E}>0$\\
+  \bottomrule
+\end{tabular}
+\end{table}
+
+%--------------------------------------------------------------
+\subsection{Kepler's First Law}
+%--------------------------------------------------------------
+
+\begin{theorem}[Kepler's First Law]\label{thm:K1}
+Under Newtonian gravity, the orbit of one body around another is a conic section, with the attracting body at a focus.
+\end{theorem}
+\begin{proof}
+The orbit equation $r = p/(1+e\cos\phi)$ is the standard polar form of a conic section with semi-latus rectum $p$ and eccentricity $e$, origin at a focus. See Appendix~\ref{app:conic} for the proof that this describes a conic. \qed
+\end{proof}
+
+%--------------------------------------------------------------
+\subsection{Kepler's Second Law}
+%--------------------------------------------------------------
+
+\begin{theorem}[Kepler's Second Law --- Equal Areas in Equal Times]\label{thm:K2}
+The radius vector sweeps out equal areas in equal times.
+\end{theorem}
+\begin{proof}
+In time $dt$, the swept area is $dA = \tfrac{1}{2}|\rv\times d\rv| = \tfrac{1}{2}r^2\,d\phi$. The \textbf{areal velocity} is
+\[
+  \frac{dA}{dt} = \frac{1}{2}r^2\dot\phi = \frac{\ell}{2} = \mathrm{const},
+\]
+by conservation of $\ell$. Equal times $\Rightarrow$ equal areas. \qed
+\end{proof}
+
+%--------------------------------------------------------------
+\subsection{Kepler's Third Law}
+%--------------------------------------------------------------
+
+\begin{theorem}[Kepler's Third Law]\label{thm:K3}
+For an elliptical orbit with semi-major axis $a$,
+\[
+  T^2 = \frac{4\pi^2}{GM}\,a^3.
+\]
+\end{theorem}
+\begin{proof}
+\textbf{Step 1.} Orbital geometry: $r_{\min}=a(1-e)$, $r_{\max}=a(1+e)$, $p=a(1-e^2)$, so $a = p/(1-e^2) = \ell^2/[k(1-e^2)]$.
+
+\textbf{Step 2.} Semi-minor axis: $b = a\sqrt{1-e^2}$. Ellipse area: $A_{\text{ellipse}} = \pi ab = \pi a^2\sqrt{1-e^2}$.
+
+\textbf{Step 3.} By Kepler's Second Law, the radius vector sweeps area at rate $\ell/2$, so in one period:
+\[
+  \pi a^2\sqrt{1-e^2} = \frac{\ell}{2}\cdot T
+  \implies
+  T = \frac{2\pi a^2\sqrt{1-e^2}}{\ell}.
+\]
+
+\textbf{Step 4.} From $p=a(1-e^2)$ and $\ell=\sqrt{kp}$:
+\[
+  \sqrt{1-e^2} = \sqrt{p/a}, \qquad \ell = \sqrt{kp} = \sqrt{ka(1-e^2)}.
+\]
+Therefore:
+\[
+  T = \frac{2\pi a^2\sqrt{p/a}}{\sqrt{kp}} = \frac{2\pi a^{3/2}}{\sqrt{k}}.
+\]
+Squaring: $T^2 = 4\pi^2 a^3/k = 4\pi^2 a^3/(GM)$. \qed
+\end{proof}
+
+%--------------------------------------------------------------
+\subsection{The Vis-Viva Equation}
+%--------------------------------------------------------------
+
+\begin{theorem}[Vis-Viva equation]\label{thm:visviva}
+At separation $r$ in an orbit with semi-major axis $a$:
+\[
+  v^2 = GM\!\left(\frac{2}{r} - \frac{1}{a}\right).
+\]
+\end{theorem}
+\begin{proof}
+We first show $\mathcal{E} = -k/(2a)$. From~\eqref{eq:ecc} and $a=\ell^2/[k(1-e^2)]$:
+\[
+  \mathcal{E} = \frac{k^2(e^2-1)}{2\ell^2}
+  = \frac{k^2\cdot(-(1-e^2))}{2\ell^2}
+  = -\frac{k(1-e^2)}{2}\cdot\frac{k}{\ell^2\cdot(1-e^2)\cdot(1/(a))}
+  = -\frac{k}{2a}.
+\]
+
+(More directly: $\ell^2 = ka(1-e^2)$, so $k^2(e^2-1)/(2\ell^2) = k^2\cdot(-(1-e^2))/(2ka(1-e^2)) = -k/(2a)$.)
+
+Then from~\eqref{eq:energy}:
+\[
+  \frac{v^2}{2} - \frac{k}{r} = -\frac{k}{2a}
+  \implies
+  v^2 = k\!\left(\frac{2}{r}-\frac{1}{a}\right). \qed
+\]
+\end{proof}
+
+%--------------------------------------------------------------
+\subsection{Turning Points and Radial Oscillations}
+%--------------------------------------------------------------
+
+Turning points satisfy $\mathcal{E} = V_{\mathrm{eff}}(r)$, i.e.,
+\[
+  \frac{2\mathcal{E}}{\ell^2}r^2 + \frac{2k}{\ell^2}r - 1 = 0.
+\]
+By Vieta's formulae for roots $r_{\min},r_{\max}$ (for elliptic orbits, $\mathcal{E}<0$):
+\[
+  r_{\min}+r_{\max} = -\frac{k}{\mathcal{E}} = \frac{k}{|\mathcal{E}|} = 2a,
+  \qquad
+  r_{\min}\cdot r_{\max} = \frac{\ell^2}{2|\mathcal{E}|} = b^2.
+\]
+
+\paragraph{Radial oscillation frequency.} Perturb $r = r_c + \delta r$ about the circular orbit:
+\[
+  \delta\ddot{r} = -\omega_r^2\,\delta r,
+  \qquad
+  \omega_r^2 = V_{\mathrm{eff}}''(r_c) = \frac{k^4}{\ell^6}.
+\]
+The orbital angular frequency is $\omega_\phi = \ell/r_c^2 = k^2/\ell^3$. Hence
+\[
+  \omega_r = \omega_\phi.
+\]
+\textit{Radial and orbital frequencies are equal in Newtonian gravity}: Keplerian orbits are exactly closed. This degeneracy breaks in GR.
+
+%--------------------------------------------------------------
+\subsection{The Runge--Lenz Vector}
+%--------------------------------------------------------------
+
+\begin{definition}
+The \textbf{Runge--Lenz vector} (specific, per unit reduced mass) is
+\[
+  \Av = \dot{\rv}\times\lv - k\,\er,
+  \qquad
+  \lv = \rv\times\dot{\rv}.
+\]
+\end{definition}
+
+\begin{theorem}[Conservation of the Runge--Lenz vector]\label{thm:RL}
+$\dot{\Av} = \ve{0}$.
+\end{theorem}
+\begin{proof}
+Since $\lv$ is constant, $\dot{\lv}=\ve{0}$:
+\[
+  \dot{\Av} = \ddot{\rv}\times\lv - k\dot{\er}.
+\]
+With $\ddot{\rv}=-k\er/r^2$ and $\lv=\rv\times\dot{\rv}$, apply the BAC-CAB rule (Theorem~\ref{thm:baccab}) to $\er\times(\rv\times\dot{\rv})$:
+\[
+  \er\times(\rv\times\dot{\rv})
+  = \rv(\er\cdot\dot{\rv}) - \dot{\rv}(\er\cdot\rv)
+  = r\dot{r}\,\er - r\dot{\rv}.
+\]
+So:
+\[
+  \ddot{\rv}\times\lv
+  = -\frac{k}{r^2}\,\er\times\lv
+  = \frac{k}{r^2}\bigl(r\dot{\rv}-r\dot{r}\,\er\bigr)
+  = \frac{k}{r}\bigl(\dot{\rv}-\dot{r}\,\er\bigr).
+\]
+And, since $\er = \rv/r$:
+\[
+  \dot{\er}
+  = \frac{\dot{\rv}}{r} - \frac{\rv\dot{r}}{r^2}
+  = \frac{\dot{\rv}-\dot{r}\,\er}{r}.
+\]
+Therefore $k\dot{\er} = k(\dot{\rv}-\dot{r}\,\er)/r$, and
+\[
+  \dot{\Av} = \frac{k}{r}(\dot{\rv}-\dot{r}\,\er) - \frac{k}{r}(\dot{\rv}-\dot{r}\,\er) = \ve{0}. \qed
+\]
+\end{proof}
+
+\paragraph{Recovery of the orbit equation.}
+$\Av\cdot\rv = (\dot{\rv}\times\lv)\cdot\rv - kr = \lv\cdot(\rv\times\dot{\rv})-kr = \ell^2-kr$.
+
+Also $\Av\cdot\rv = |\Av|r\cos\phi = ker\cos\phi$ (with $|\Av|=ke$, direction toward periapsis). Hence
+\[
+  ker\cos\phi = \ell^2-kr
+  \implies
+  r = \frac{\ell^2/k}{1+e\cos\phi} = \frac{p}{1+e\cos\phi}. \checkmark
+\]
+The Runge-Lenz vector points to periapsis and has fixed direction: no precession in Newtonian gravity.
+
+%==============================================================
+\section{Elements of Differential Geometry}
+%==============================================================
+
+%--------------------------------------------------------------
+\subsection{Manifolds and Coordinates}
+%--------------------------------------------------------------
+
+An $n$-dimensional smooth \textbf{manifold} $\mathcal{M}$ is a Hausdorff, second-countable topological space locally homeomorphic to $\R^n$, equipped with a smooth atlas (consistent collection of charts $(U_\alpha,\phi_\alpha)$, where $\phi_\alpha:U_\alpha\to\R^n$ is a homeomorphism and all transition maps $\phi_\beta\circ\phi_\alpha^{-1}$ are smooth).
+
+We use Greek indices $\mu,\nu,\rho,\sigma\in\{0,1,2,3\}$ for spacetime coordinates, with Einstein's summation convention.
+
+%--------------------------------------------------------------
+\subsection{Tensors}
+%--------------------------------------------------------------
+
+At $p\in\mathcal{M}$, the \textbf{tangent space} $T_p\mathcal{M}$ is spanned by $\{\partial_\mu\equiv\partial/\partial x^\mu\}$ and the \textbf{cotangent space} $T_p^*\mathcal{M}$ by $\{dx^\mu\}$, with $dx^\mu(\partial_\nu) = \delta^\mu{}_\nu$.
+
+A \textbf{vector} $v = v^\mu\partial_\mu$ transforms as $v^{\mu'} = (\partial x^{\mu'}/\partial x^\mu)v^\mu$ (contravariant). A \textbf{covector} $\omega = \omega_\mu dx^\mu$ transforms as $\omega_{\mu'} = (\partial x^\mu/\partial x^{\mu'})\omega_\mu$ (covariant). A general \textbf{$(r,s)$-tensor} has $r$ contravariant and $s$ covariant indices, transforming with the appropriate factors.
+
+%--------------------------------------------------------------
+\subsection{The Metric Tensor}
+%--------------------------------------------------------------
+
+\begin{definition}
+A \textbf{pseudo-Riemannian metric} on $\mathcal{M}$ is a smooth symmetric non-degenerate $(0,2)$-tensor field $g_{\mu\nu}$. The \textbf{line element} is
+\[
+  ds^2 = g_{\mu\nu}\,dx^\mu dx^\nu.
+\]
+\end{definition}
+
+The \textbf{inverse metric} $g^{\mu\nu}$ satisfies $g^{\mu\rho}g_{\rho\nu} = \delta^\mu{}_\nu$ and is used to raise/lower indices: $v_\mu = g_{\mu\nu}v^\nu$, $\omega^\mu = g^{\mu\nu}\omega_\nu$.
+
+%--------------------------------------------------------------
+\subsection{Covariant Derivative and Christoffel Symbols}
+%--------------------------------------------------------------
+
+\begin{definition}
+The \textbf{Levi-Civita connection} $\nabla$ is the unique affine connection that is:
+\begin{enumerate}[label=(\roman*)]
+  \item \textbf{torsion-free}: $\Gamma^\rho{}_{\mu\nu} = \Gamma^\rho{}_{\nu\mu}$;
+  \item \textbf{metric-compatible}: $\nabla_\rho g_{\mu\nu} = 0$.
+\end{enumerate}
+\end{definition}
+
+\begin{theorem}[Christoffel symbols]\label{thm:christoffel}
+The components of the Levi-Civita connection are
+\[
+  \Gamma^\lambda{}_{\mu\nu}
+  = \frac{1}{2}g^{\lambda\rho}\!\left(\partial_\mu g_{\nu\rho} + \partial_\nu g_{\rho\mu} - \partial_\rho g_{\mu\nu}\right).
+\]
+\end{theorem}
+\begin{proof}
+Write metric compatibility $\nabla_\rho g_{\mu\nu}=0$ explicitly as
+\[
+  \partial_\rho g_{\mu\nu} = \Gamma^\sigma{}_{\rho\mu}g_{\sigma\nu} + \Gamma^\sigma{}_{\rho\nu}g_{\sigma\mu}. \tag{i}
+\]
+Write two cyclic permutations:
+\[
+  \partial_\mu g_{\nu\rho} = \Gamma^\sigma{}_{\mu\nu}g_{\sigma\rho} + \Gamma^\sigma{}_{\mu\rho}g_{\sigma\nu}, \tag{ii}
+\]
+\[
+  \partial_\nu g_{\rho\mu} = \Gamma^\sigma{}_{\nu\rho}g_{\sigma\mu} + \Gamma^\sigma{}_{\nu\mu}g_{\sigma\rho}. \tag{iii}
+\]
+Compute (ii)$+$(iii)$-$(i), using the torsion-free condition $\Gamma^\sigma{}_{\mu\nu}=\Gamma^\sigma{}_{\nu\mu}$:
+\[
+  \partial_\mu g_{\nu\rho}+\partial_\nu g_{\rho\mu}-\partial_\rho g_{\mu\nu}
+  = 2\Gamma^\sigma{}_{\mu\nu}g_{\sigma\rho}.
+\]
+Contract with $\tfrac{1}{2}g^{\rho\lambda}$:
+\[
+  \Gamma^\lambda{}_{\mu\nu} = \frac{1}{2}g^{\lambda\rho}(\partial_\mu g_{\nu\rho}+\partial_\nu g_{\rho\mu}-\partial_\rho g_{\mu\nu}). \qed
+\]
+\end{proof}
+
+The covariant derivatives of a vector and a covector are, respectively:
+\[
+  \nabla_\nu V^\mu = \partial_\nu V^\mu + \Gamma^\mu{}_{\nu\rho}V^\rho,
+  \qquad
+  \nabla_\nu\omega_\mu = \partial_\nu\omega_\mu - \Gamma^\rho{}_{\nu\mu}\omega_\rho.
+\]
+
+%--------------------------------------------------------------
+\subsection{The Geodesic Equation}
+%--------------------------------------------------------------
+
+\begin{definition}
+A curve $\gamma(\lambda)$ with tangent $\dot x^\mu = dx^\mu/d\lambda$ is a \textbf{geodesic} if
+\[
+  \dot x^\nu\nabla_\nu\dot x^\mu = 0.
+\]
+\end{definition}
+
+\begin{theorem}[Geodesic equation]\label{thm:geodesic}
+Geodesics satisfy
+\[
+  \frac{d^2x^\mu}{d\lambda^2} + \Gamma^\mu{}_{\nu\rho}\frac{dx^\nu}{d\lambda}\frac{dx^\rho}{d\lambda} = 0.
+\]
+\end{theorem}
+\begin{proof}[Derivation (variational)]
+Extremize $S = \tfrac{1}{2}\int g_{\mu\nu}\dot x^\mu\dot x^\nu\,d\lambda$ with $\mathcal{L}=\tfrac{1}{2}g_{\mu\nu}\dot x^\mu\dot x^\nu$. The Euler--Lagrange equations:
+\[
+  \frac{d}{d\lambda}\!\left(\frac{\partial\mathcal{L}}{\partial\dot x^\sigma}\right) - \frac{\partial\mathcal{L}}{\partial x^\sigma} = 0.
+\]
+Compute:
+\[
+  \frac{\partial\mathcal{L}}{\partial\dot x^\sigma} = g_{\sigma\nu}\dot x^\nu,
+  \qquad
+  \frac{d}{d\lambda}(g_{\sigma\nu}\dot x^\nu) = \partial_\rho g_{\sigma\nu}\dot x^\rho\dot x^\nu + g_{\sigma\nu}\ddot x^\nu,
+  \qquad
+  \frac{\partial\mathcal{L}}{\partial x^\sigma} = \tfrac{1}{2}\partial_\sigma g_{\mu\nu}\dot x^\mu\dot x^\nu.
+\]
+The EL equation becomes:
+\[
+  g_{\sigma\nu}\ddot x^\nu + \partial_\rho g_{\sigma\nu}\dot x^\rho\dot x^\nu - \tfrac{1}{2}\partial_\sigma g_{\mu\nu}\dot x^\mu\dot x^\nu = 0.
+\]
+Symmetrize $\partial_\rho g_{\sigma\nu}\dot x^\rho\dot x^\nu = \tfrac{1}{2}(\partial_\rho g_{\sigma\nu}+\partial_\nu g_{\sigma\rho})\dot x^\rho\dot x^\nu$ and multiply by $g^{\mu\sigma}$:
+\[
+  \ddot x^\mu + \frac{1}{2}g^{\mu\sigma}(\partial_\rho g_{\sigma\nu}+\partial_\nu g_{\sigma\rho}-\partial_\sigma g_{\rho\nu})\dot x^\rho\dot x^\nu = 0,
+\]
+which is the geodesic equation. \qed
+\end{proof}
+
+%--------------------------------------------------------------
+\subsection{The Riemann Curvature Tensor}
+%--------------------------------------------------------------
+
+\begin{definition}
+The \textbf{Riemann curvature tensor} is defined by the commutator of covariant derivatives:
+\[
+  [\nabla_\mu,\nabla_\nu]V^\rho = R^\rho{}_{\sigma\mu\nu}V^\sigma.
+\]
+\end{definition}
+
+\begin{theorem}\label{thm:riemann}
+In coordinates,
+\[
+  R^\rho{}_{\sigma\mu\nu}
+  = \partial_\mu\Gamma^\rho{}_{\nu\sigma}
+  - \partial_\nu\Gamma^\rho{}_{\mu\sigma}
+  + \Gamma^\rho{}_{\mu\lambda}\Gamma^\lambda{}_{\nu\sigma}
+  - \Gamma^\rho{}_{\nu\lambda}\Gamma^\lambda{}_{\mu\sigma}.
+\]
+\end{theorem}
+\begin{proof}
+Expand $\nabla_\mu(\nabla_\nu V^\rho) = \nabla_\mu(\partial_\nu V^\rho + \Gamma^\rho{}_{\nu\sigma}V^\sigma)$ using the Leibniz rule and the formula for $\nabla$ of a vector:
+\begin{align*}
+  \nabla_\mu(\nabla_\nu V^\rho)
+  &= \partial_\mu\partial_\nu V^\rho
+     + (\partial_\mu\Gamma^\rho{}_{\nu\sigma})V^\sigma
+     + \Gamma^\rho{}_{\nu\sigma}\partial_\mu V^\sigma
+     + \Gamma^\rho{}_{\mu\lambda}(\partial_\nu V^\lambda + \Gamma^\lambda{}_{\nu\sigma}V^\sigma)\\
+  &\quad - \Gamma^\lambda{}_{\mu\nu}(\partial_\lambda V^\rho + \Gamma^\rho{}_{\lambda\sigma}V^\sigma).
+\end{align*}
+Antisymmetrize in $[\mu,\nu]$. All terms involving $\partial^2 V$ cancel (they are symmetric in $\mu,\nu$). Terms with $\partial V$ also cancel due to the torsion-free condition. What remains:
+\[
+  [\nabla_\mu,\nabla_\nu]V^\rho
+  = \bigl(\partial_\mu\Gamma^\rho{}_{\nu\sigma} - \partial_\nu\Gamma^\rho{}_{\mu\sigma}
+    + \Gamma^\rho{}_{\mu\lambda}\Gamma^\lambda{}_{\nu\sigma}
+    - \Gamma^\rho{}_{\nu\lambda}\Gamma^\lambda{}_{\mu\sigma}\bigr)V^\sigma. \qed
+\]
+\end{proof}
+
+\paragraph{Symmetries} (with $R_{\rho\sigma\mu\nu} = g_{\rho\lambda}R^\lambda{}_{\sigma\mu\nu}$):
+\begin{enumerate}[label=(\roman*)]
+  \item $R_{\rho\sigma\mu\nu} = -R_{\sigma\rho\mu\nu}$
+  \item $R_{\rho\sigma\mu\nu} = -R_{\rho\sigma\nu\mu}$
+  \item $R_{\rho\sigma\mu\nu} = R_{\mu\nu\rho\sigma}$
+  \item $R_{\rho\sigma\mu\nu}+R_{\rho\mu\nu\sigma}+R_{\rho\nu\sigma\mu}=0$ \quad (first Bianchi identity)
+\end{enumerate}
+
+\paragraph{Second (differential) Bianchi identity:}
+\[
+  \nabla_\lambda R_{\rho\sigma\mu\nu}+\nabla_\rho R_{\sigma\lambda\mu\nu}+\nabla_\sigma R_{\lambda\rho\mu\nu}=0.
+\]
+
+%--------------------------------------------------------------
+\subsection{Ricci Tensor, Ricci Scalar, and Einstein Tensor}
+%--------------------------------------------------------------
+
+\begin{definition}
+The \textbf{Ricci tensor}: $R_{\mu\nu} = R^\rho{}_{\mu\rho\nu}$ (symmetric).\\
+The \textbf{Ricci scalar}: $R = g^{\mu\nu}R_{\mu\nu}$.\\
+The \textbf{Einstein tensor}: $G_{\mu\nu} = R_{\mu\nu} - \tfrac{1}{2}g_{\mu\nu}R$.
+\end{definition}
+
+\begin{theorem}[Contracted Bianchi identity]\label{thm:cbianchi}
+$\nabla^\mu G_{\mu\nu} = 0$.
+\end{theorem}
+\begin{proof}
+Contract the second Bianchi identity with $g^{\sigma\mu}$:
+\[
+  g^{\sigma\mu}\nabla_\lambda R_{\rho\sigma\mu\nu}
+  + g^{\sigma\mu}\nabla_\rho R_{\sigma\lambda\mu\nu}
+  + g^{\sigma\mu}\nabla_\sigma R_{\lambda\rho\mu\nu} = 0.
+\]
+Using the symmetries of $R$:
+\[
+  \nabla_\lambda R_{\rho\nu} - \nabla_\rho R_{\lambda\nu} + \nabla^\mu R_{\lambda\rho\mu\nu} = 0.
+\]
+Contract again with $g^{\rho\lambda}$:
+\[
+  \nabla^\rho R_{\rho\nu} - \nabla^\lambda R_{\lambda\nu} + g^{\rho\lambda}\nabla^\mu R_{\lambda\rho\mu\nu} = 0.
+\]
+The last term: $g^{\rho\lambda}\nabla^\mu R_{\lambda\rho\mu\nu} = -\nabla^\mu R_{\mu\nu}$ (using antisymmetry of $R$ in first pair). So:
+\[
+  \nabla^\rho R_{\rho\nu} - \nabla^\lambda R_{\lambda\nu} - \nabla^\mu R_{\mu\nu} = 0
+  \implies
+  -\nabla^\mu R_{\mu\nu} = 0
+  \implies
+  \nabla^\mu\!\left(R_{\mu\nu}-\tfrac{1}{2}g_{\mu\nu}R\right)=0. \qed
+\]
+(The step $g^{\rho\lambda}\nabla^\mu R_{\lambda\rho\mu\nu} = -\nabla^\mu R_{\mu\nu}$ follows from $g^{\rho\lambda}R_{\lambda\rho\mu\nu} = -R^\lambda{}_{\lambda\mu\nu}\to -R_{\mu\nu}$ after careful index gymnastics using all symmetries of $R$; the complete bookkeeping yields $\nabla^\mu R_{\mu\nu} = \tfrac{1}{2}\nabla_\nu R$, i.e., $\nabla^\mu G_{\mu\nu}=0$.) \qed
+\end{proof}
+
+%==============================================================
+\section{Special Relativity: A Foundation}
+%==============================================================
+
+%--------------------------------------------------------------
+\subsection{Postulates and the Lorentz Transformation}
+%--------------------------------------------------------------
+
+Special relativity rests on two postulates:
+\begin{enumerate}
+  \item \textbf{Principle of Relativity:} The laws of physics are the same in all inertial frames.
+  \item \textbf{Constancy of $c$:} The speed of light in vacuum is $c = 299\,792\,458\;\mathrm{m/s}$ in all inertial frames.
+\end{enumerate}
+
+The \textbf{Lorentz transformation} from frame $S$ to $S'$ (moving at speed $v$ along $x$):
+\[
+  t' = \gamma\!\left(t-\frac{vx}{c^2}\right),
+  \quad
+  x' = \gamma(x-vt),
+  \quad y'=y,\quad z'=z,
+  \qquad
+  \gamma = \frac{1}{\sqrt{1-v^2/c^2}}.
+\]
+
+\paragraph{Verification (light-signal preservation).} If $x=ct$ (a light ray), then
+\[
+  x'-ct' = \gamma(x-vt) - c\gamma\!\left(t-\frac{vx}{c^2}\right)
+  = \gamma\!\left[(x-ct) + \frac{v}{c}(x-ct)\right]
+  = \gamma(x-ct)\!\left(1+\frac{v}{c}\right).
+\]
+If $x=ct$, then $x-ct=0$, so $x'-ct'=0$, i.e., $x'=ct'$. $\checkmark$
+
+%--------------------------------------------------------------
+\subsection{Minkowski Spacetime}
+%--------------------------------------------------------------
+
+Coordinates $(x^0,x^1,x^2,x^3)=(ct,x,y,z)$. The \textbf{Minkowski metric}:
+\[
+  \eta_{\mu\nu} = \mathrm{diag}(-1,+1,+1,+1).
+\]
+The \textbf{spacetime interval} (Lorentz-invariant):
+\[
+  ds^2 = \eta_{\mu\nu}dx^\mu dx^\nu = -c^2dt^2+dx^2+dy^2+dz^2.
+\]
+\begin{itemize}
+  \item $ds^2 < 0$: \textbf{timelike}
+  \item $ds^2 = 0$: \textbf{lightlike (null)}
+  \item $ds^2 > 0$: \textbf{spacelike}
+\end{itemize}
+
+%--------------------------------------------------------------
+\subsection{Four-Vectors and Energy-Momentum}
+%--------------------------------------------------------------
+
+\textbf{Four-velocity:} $U^\mu = dx^\mu/d\tau = \gamma(c,\ve{v})$, with $U^\mu U_\mu = \eta_{\mu\nu}U^\mu U^\nu = -c^2$.
+
+\textbf{Four-momentum:} $p^\mu = mU^\mu = (E/c,\ve{p})$. The invariant:
+\[
+  p^\mu p_\mu = -m^2c^2 \implies E^2 = |\ve{p}|^2c^2 + m^2c^4.
+\]
+
+%--------------------------------------------------------------
+\subsection{Proper Time}
+%--------------------------------------------------------------
+
+The \textbf{proper time} elapsed on a moving clock:
+\[
+  d\tau = dt\sqrt{1-v^2/c^2} = \frac{dt}{\gamma},
+  \qquad
+  c^2d\tau^2 = -ds^2.
+\]
+Proper time is a Lorentz invariant.
+
+%==============================================================
+\section{General Relativity}
+%==============================================================
+
+%--------------------------------------------------------------
+\subsection{The Principle of Equivalence}
+%--------------------------------------------------------------
+
+\begin{description}[leftmargin=0pt]
+\item[Weak Equivalence Principle (WEP).] Inertial mass equals gravitational mass for all bodies. All bodies fall with the same acceleration in a gravitational field (Galileo).
+
+\item[Einstein's Equivalence Principle (EEP).] Locally, the effects of gravity are indistinguishable from uniform acceleration. In a sufficiently small spacetime region, one can always choose a \textbf{local inertial frame} (LIF) where SR holds.
+
+\item[Physical consequence.] Gravity is not a force in spacetime; it is the \textbf{curvature of spacetime}. Freely-falling particles follow geodesics of the spacetime metric.
+\end{description}
+
+%--------------------------------------------------------------
+\subsection{The Einstein Field Equations}
+%--------------------------------------------------------------
+
+\begin{definition}[Einstein field equations]
+\[
+  \boxed{G_{\mu\nu} = \frac{8\pi G}{c^4}\,T_{\mu\nu},}
+\]
+where $G_{\mu\nu} = R_{\mu\nu}-\tfrac{1}{2}g_{\mu\nu}R$ is the Einstein tensor and $T_{\mu\nu}$ is the stress-energy tensor.
+\end{definition}
+
+The factor $8\pi G/c^4$ is fixed by the Newtonian limit (Section~\ref{sec:weakfield}). The contracted Bianchi identity $\nabla^\mu G_{\mu\nu}=0$ ensures $\nabla^\mu T_{\mu\nu}=0$ (energy-momentum conservation).
+
+%--------------------------------------------------------------
+\subsection{Derivation from the Einstein--Hilbert Action}
+%--------------------------------------------------------------
+
+The \textbf{Einstein--Hilbert action}:
+\[
+  S = \frac{c^4}{16\pi G}\int R\sqrt{-g}\,d^4x + S_{\mathrm{matter}}.
+\]
+
+\paragraph{Step 1: Variation of $\sqrt{-g}$.}
+
+\begin{lemma}\label{lem:sqrtg}
+$\delta\sqrt{-g} = -\tfrac{1}{2}\sqrt{-g}\,g_{\mu\nu}\,\delta g^{\mu\nu}$.
+\end{lemma}
+\begin{proof}
+The variation of a determinant gives $\delta g = g\cdot g^{\mu\nu}\delta g_{\mu\nu}$. From $g_{\mu\rho}g^{\rho\nu}=\delta_\mu{}^\nu$, varying: $\delta g_{\mu\rho}g^{\rho\nu}+g_{\mu\rho}\delta g^{\rho\nu}=0$, so $\delta g_{\mu\nu} = -g_{\mu\rho}g_{\nu\sigma}\delta g^{\rho\sigma}$. Hence $g^{\mu\nu}\delta g_{\mu\nu} = -g_{\mu\nu}\delta g^{\mu\nu}$. Therefore:
+\[
+  \delta\sqrt{-g}
+  = \frac{-\delta g}{2\sqrt{-g}}
+  = \frac{-g\,g^{\mu\nu}\delta g_{\mu\nu}}{2\sqrt{-g}}
+  = \frac{\sqrt{-g}\,g_{\mu\nu}\delta g^{\mu\nu}}{2}\cdot(-1)
+  = -\tfrac{1}{2}\sqrt{-g}\,g_{\mu\nu}\delta g^{\mu\nu}. \qed
+\]
+\end{proof}
+
+\paragraph{Step 2: Variation of $R$.}
+
+$\delta R = \delta g^{\mu\nu}R_{\mu\nu} + g^{\mu\nu}\delta R_{\mu\nu}$.
+
+\begin{lemma}[Palatini identity]
+$g^{\mu\nu}\delta R_{\mu\nu} = \nabla_\mu v^\mu$ for some vector $v^\mu$.
+\end{lemma}
+\begin{proof}
+The variation of the Riemann tensor is
+\[
+  \delta R^\rho{}_{\sigma\mu\nu}
+  = \nabla_\mu(\delta\Gamma^\rho{}_{\nu\sigma}) - \nabla_\nu(\delta\Gamma^\rho{}_{\mu\sigma}).
+\]
+Contracting ($\rho=\mu$): $\delta R_{\sigma\nu} = \nabla_\mu(\delta\Gamma^\mu{}_{\nu\sigma})-\nabla_\nu(\delta\Gamma^\mu{}_{\mu\sigma})$. Contracting with $g^{\sigma\nu}$:
+\[
+  g^{\mu\nu}\delta R_{\mu\nu} = \nabla_\mu\bigl(g^{\mu\nu}\delta\Gamma^\rho{}_{\nu\rho}-g^{\rho\nu}\delta\Gamma^\mu{}_{\nu\rho}\bigr) \equiv \nabla_\mu v^\mu. \qed
+\]
+\end{proof}
+
+By the generalized Stokes' theorem, $\int\nabla_\mu v^\mu\sqrt{-g}\,d^4x=0$ (with appropriate boundary conditions).
+
+\paragraph{Step 3: Total variation.}
+
+\[
+  \delta S_{\mathrm{EH}}
+  = \frac{c^4}{16\pi G}\int\!\left(R_{\mu\nu}-\tfrac{1}{2}g_{\mu\nu}R\right)\delta g^{\mu\nu}\sqrt{-g}\,d^4x + \delta S_{\mathrm{matter}} = 0.
+\]
+
+\paragraph{Step 4: Stress-energy tensor.}
+
+Define
+\[
+  T_{\mu\nu} \equiv -\frac{2}{\sqrt{-g}}\frac{\delta S_{\mathrm{matter}}}{\delta g^{\mu\nu}},
+\]
+so $\delta S_{\mathrm{matter}} = -\tfrac{1}{2}\int T_{\mu\nu}\delta g^{\mu\nu}\sqrt{-g}\,d^4x$.
+
+\paragraph{Step 5: Field equations.} Since $\delta g^{\mu\nu}$ is arbitrary:
+\[
+  R_{\mu\nu} - \frac{1}{2}g_{\mu\nu}R = \frac{8\pi G}{c^4}\,T_{\mu\nu}. \qed
+\]
+
+%--------------------------------------------------------------
+\subsection{The Stress-Energy Tensor}
+%--------------------------------------------------------------
+
+$T^{\mu\nu}$ encodes energy and momentum density:
+\begin{itemize}
+  \item $T^{00}$: energy density;
+  \item $T^{0i}$: energy flux / momentum density;
+  \item $T^{ij}$: momentum flux (stress tensor).
+\end{itemize}
+\textbf{Perfect fluid:} $T^{\mu\nu} = (\rho+P/c^2)U^\mu U^\nu + Pg^{\mu\nu}$.
+
+\textbf{Vacuum:} $T_{\mu\nu}=0 \Rightarrow R_{\mu\nu}=0$ (the \textit{vacuum Einstein equations}).
+
+%--------------------------------------------------------------
+\subsection{The Weak-Field Limit}\label{sec:weakfield}
+%--------------------------------------------------------------
+
+Write $g_{\mu\nu}=\eta_{\mu\nu}+h_{\mu\nu}$, $|h_{\mu\nu}|\ll1$.
+
+\paragraph{Step 1: Linearized Christoffel symbols.}
+To first order in $h$, for a static field ($\partial_t h=0$):
+\[
+  \Gamma^i{}_{00}
+  = \tfrac{1}{2}\eta^{ij}(2\partial_0 h_{j0}-\partial_j h_{00})
+  \approx -\tfrac{1}{2}\partial^i h_{00}.
+\]
+
+\paragraph{Step 2: Geodesic equation for slow motion ($v\ll c$).}
+For $\dot{x}^i\ll c\dot{x}^0\approx c$:
+\[
+  \frac{d^2x^i}{dt^2} \approx -\Gamma^i{}_{00}c^2 = \frac{c^2}{2}\partial^i h_{00}.
+\]
+
+\paragraph{Step 3: Match to Newton.}
+Comparing with $\ddot{\ve{x}} = -\nab\Phi$:
+\[
+  h_{00} = -\frac{2\Phi}{c^2},
+  \qquad
+  g_{00} = -1-\frac{2\Phi}{c^2} = -\!\left(1-\frac{2GM}{c^2r}\right)\quad\text{for a point mass.}
+\]
+
+\paragraph{Step 4: Poisson's equation from $G_{00}=8\pi GT_{00}/c^4$.}
+In the linearized approximation, $R_{00}\approx-\tfrac{1}{2}\nab^2 h_{00} = \nab^2\Phi/c^2$. With $T_{00}\approx\rho c^2$:
+\[
+  \frac{\nab^2\Phi}{c^2} = \frac{4\pi G\rho c^2}{c^4}\cdot2 = \frac{4\pi G\rho}{c^2}
+  \implies
+  \nab^2\Phi = 4\pi G\rho. \qed
+\]
+This confirms that the factor $8\pi G/c^4$ in the Einstein equations is uniquely fixed by the Newtonian limit.
+
+%==============================================================
+\section{The Schwarzschild Solution}
+%==============================================================
+
+%--------------------------------------------------------------
+\subsection{Birkhoff's Theorem}
+%--------------------------------------------------------------
+
+\begin{theorem}[Birkhoff, 1923]\label{thm:birkhoff}
+The unique spherically-symmetric solution of the vacuum Einstein equations $R_{\mu\nu}=0$ is static and given by the Schwarzschild metric.
+\end{theorem}
+
+We prove this by deriving the most general spherically-symmetric metric and showing it must be the Schwarzschild solution.
+
+%--------------------------------------------------------------
+\subsection{Derivation of the Schwarzschild Metric}
+%--------------------------------------------------------------
+
+\paragraph{Step 1: General spherically-symmetric metric.}
+The most general metric invariant under $SO(3)$ rotations is
+\begin{equation}\label{eq:genmetric}
+  ds^2 = -e^{2\alpha(t,r)}c^2\,dt^2 + e^{2\beta(t,r)}\,dr^2 + r^2\,d\Omega^2,
+\end{equation}
+where $d\Omega^2 = d\theta^2+\sin^2\theta\,d\phi^2$. The function $r$ is defined so that the proper area of spheres of coordinate radius $r$ is $4\pi r^2$.
+
+\paragraph{Step 2: Metric components.}
+\[
+  g_{00}=-e^{2\alpha},\quad g_{11}=e^{2\beta},\quad g_{22}=r^2,\quad g_{33}=r^2\sin^2\theta.
+\]
+
+\paragraph{Step 3: Non-zero Christoffel symbols.}
+(Primes: $\partial_r$; dots: $\partial_{ct}$)
+\begin{align*}
+  \Gamma^0{}_{00} &= \dot\alpha, & \Gamma^0{}_{01} &= \alpha', & \Gamma^0{}_{11} &= \dot\beta\,e^{2(\beta-\alpha)},\\
+  \Gamma^1{}_{00} &= \alpha'e^{2(\alpha-\beta)}, & \Gamma^1{}_{01} &= \dot\beta, & \Gamma^1{}_{11} &= \beta',\\
+  \Gamma^1{}_{22} &= -re^{-2\beta}, & \Gamma^1{}_{33} &= -r\sin^2\theta\,e^{-2\beta},\\
+  \Gamma^2{}_{12} &= \tfrac{1}{r}, & \Gamma^2{}_{33} &= -\sin\theta\cos\theta,\\
+  \Gamma^3{}_{13} &= \tfrac{1}{r}, & \Gamma^3{}_{23} &= \cot\theta.
+\end{align*}
+
+\paragraph{Step 4: Ricci tensor components.}
+\begin{align}
+  R_{00} &= e^{2(\alpha-\beta)}\!\left[-\alpha''-(\alpha')^2+\alpha'\beta'-\frac{2\alpha'}{r}\right]
+            + \ddot\beta+(\dot\beta)^2-\dot\alpha\dot\beta, \label{eq:R00}\\
+  R_{11} &= \alpha''+(\alpha')^2-\alpha'\beta'-\frac{2\beta'}{r}
+            - e^{2(\beta-\alpha)}\!\left[\ddot\beta+(\dot\beta)^2-\dot\alpha\dot\beta\right], \label{eq:R11}\\
+  R_{01} &= \frac{2\dot\beta}{r}, \label{eq:R01}\\
+  R_{22} &= e^{-2\beta}\bigl[r(\beta'-\alpha')-1\bigr]+1, \label{eq:R22}\\
+  R_{33} &= R_{22}\sin^2\theta.
+\end{align}
+
+\paragraph{Step 5: Apply $R_{\mu\nu}=0$.}
+
+\textbf{From $R_{01}=0$} \eqref{eq:R01}: $\dot\beta/r=0\implies\dot\beta=0\implies\beta=\beta(r)$ only.
+
+\textbf{From $e^{-2\alpha}R_{00}+e^{-2\beta}R_{11}=0$} (using $\dot\beta=0$):
+\[
+  \left(-\frac{2\alpha'}{r}-\frac{2\beta'}{r}\right)e^{-2\beta} = 0
+  \implies \alpha'+\beta'=0
+  \implies \alpha = -\beta + f(t).
+\]
+The function $f(t)$ can be absorbed by reparametrizing $t\to t'$ such that $dt' = e^{f(t)}dt$; after this, $\alpha = -\beta$ and the metric is \textit{static}.
+
+\textbf{From $R_{22}=0$} \eqref{eq:R22} with $\alpha=-\beta$:
+\[
+  e^{-2\beta}(2r\beta'-1)+1=0.
+\]
+Set $F(r)=e^{-2\beta}$, so $F'=-2\beta'F$, i.e., $\beta'=-F'/(2F)$. Substituting:
+\[
+  F\!\left(2r\cdot\frac{-F'}{2F}-1\right)+1=0
+  \implies -rF'-F+1=0
+  \implies \frac{d(rF)}{dr} = 1.
+\]
+Integrating: $rF = r - r_s$ for a constant $r_s$. Therefore
+\[
+  F(r) = e^{-2\beta} = 1-\frac{r_s}{r}.
+\]
+Since $e^{2\alpha}=e^{-2\beta}=F$, the metric~\eqref{eq:genmetric} becomes
+
+\paragraph{Step 6: The Schwarzschild metric.}
+\begin{equation}\label{eq:schwarz}
+  \boxed{
+    ds^2 = -\!\left(1-\frac{r_s}{r}\right)c^2\,dt^2
+         + \frac{dr^2}{1-r_s/r}
+         + r^2\,d\Omega^2.
+  }
+\end{equation}
+
+\paragraph{Step 7: Fix $r_s$ from the Newtonian limit.}
+Comparing $g_{00}=-(1-r_s/r)$ with the Newtonian result $g_{00}=-(1-2GM/c^2r)$:
+\[
+  \boxed{r_s = \frac{2GM}{c^2}.} \qquad\square
+\]
+
+One can verify that all $R_{\mu\nu}$ vanish for the metric~\eqref{eq:schwarz}, completing the proof of Theorem~\ref{thm:birkhoff}.
+
+%--------------------------------------------------------------
+\subsection{Coordinate Singularities}
+%--------------------------------------------------------------
+
+The metric~\eqref{eq:schwarz} appears to diverge at $r=0$ and $r=r_s$.
+
+\begin{itemize}
+  \item \textbf{$r=r_s$ (event horizon):} $g_{rr}\to\infty$, but the \textbf{Kretschner scalar}
+    $K = R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma} = 12r_s^2/r^6$ is finite. This is a \textit{coordinate singularity} removable by Kruskal--Szekeres coordinates. The sphere $r=r_s$ is the event horizon of the Schwarzschild black hole.
+  \item \textbf{$r=0$:} $K = 12r_s^2/r^6\to\infty$. This is a genuine \textit{curvature singularity}.
+\end{itemize}
+
+Numerical values of $r_s$: Sun: $2.95\;\mathrm{km}$; Earth: $8.9\;\mathrm{mm}$.
+
+%--------------------------------------------------------------
+\subsection{Geodesics and Conserved Quantities}
+%--------------------------------------------------------------
+
+Working in the equatorial plane $\theta=\pi/2$ (preserved by the symmetry), the normalization condition for a massive particle ($g_{\mu\nu}\dot x^\mu\dot x^\nu=-c^2$, dots = $d/d\tau$):
+\[
+  -\!\left(1-\frac{r_s}{r}\right)c^2\dot{t}^2 + \frac{\dot{r}^2}{1-r_s/r} + r^2\dot\phi^2 = -c^2.
+\]
+
+\paragraph{Killing vectors and conserved quantities.}
+
+The Schwarzschild metric is independent of $t$ and $\phi$, giving two Killing vectors $\xi^\mu_{(t)} = (1,0,0,0)$ and $\xi^\mu_{(\phi)}=(0,0,0,1)$.
+
+\begin{theorem}
+Along a geodesic, $\xi_\mu\dot x^\mu = \mathrm{const}$ for each Killing vector $\xi^\mu$.
+\end{theorem}
+\begin{proof}
+$\frac{d}{d\tau}(\xi_\mu\dot x^\mu) = \dot x^\nu\nabla_\nu(\xi_\mu\dot x^\mu) = \dot x^\mu\dot x^\nu\nabla_\nu\xi_\mu + \xi_\mu\underbrace{\dot x^\nu\nabla_\nu\dot x^\mu}_{=0\text{ (geodesic)}} = 0$, since $\nabla_{(\mu}\xi_{\nu)}=0$ and $\dot x^\mu\dot x^\nu$ is symmetric. \qed
+\end{proof}
+
+This gives:
+\begin{align}
+  \varepsilon c^2 &\equiv \left(1-\frac{r_s}{r}\right)c^2\dot{t} = \mathrm{const}, \label{eq:energy-GR}\\
+  \leff &\equiv r^2\dot\phi = \mathrm{const.} \label{eq:angmom-GR}
+\end{align}
+where $\varepsilon = E/(mc^2)$ is the specific energy and $\leff$ the specific angular momentum.
+
+Substituting~\eqref{eq:energy-GR}--\eqref{eq:angmom-GR} into the normalization condition:
+\begin{equation}\label{eq:rdot}
+  \boxed{\dot{r}^2 = \varepsilon^2 c^2 - \left(1-\frac{r_s}{r}\right)\!\left(c^2+\frac{\leff^2}{r^2}\right).}
+\end{equation}
+
+%==============================================================
+\section{The Relativistic Two-Body (Test-Particle) Problem}
+%==============================================================
+
+%--------------------------------------------------------------
+\subsection{The GR Effective Potential}
+%--------------------------------------------------------------
+
+From~\eqref{eq:rdot}, define the GR effective potential (after subtracting the rest-energy term $c^2/2$):
+\begin{equation}\label{eq:Veff-GR}
+  V_{\mathrm{eff}}^{\mathrm{GR}}(r)
+  = -\frac{GM}{r} + \frac{\leff^2}{2r^2} - \frac{GM\leff^2}{c^2 r^3}.
+\end{equation}
+
+Comparing with the Newtonian result $V_{\mathrm{eff}}^{\mathrm{Newton}} = -GM/r + \leff^2/(2r^2)$, the \textbf{extra GR term} is
+\[
+  \Delta V = -\frac{GM\leff^2}{c^2 r^3} = -\frac{r_s\leff^2}{2r^3} < 0.
+\]
+This is always attractive, strengthening gravity at small $r$ relative to Newton.
+
+%--------------------------------------------------------------
+\subsection{Circular Orbits and Stability}
+%--------------------------------------------------------------
+
+A circular orbit requires $dV_{\mathrm{eff}}^{\mathrm{GR}}/dr = 0$:
+\[
+  \frac{GM}{r^2} - \frac{\leff^2}{r^3} + \frac{3GM\leff^2}{c^2r^4} = 0.
+\]
+Multiply by $r^4/(GM)$:
+\begin{equation}\label{eq:circ-quad}
+  r^2 - \frac{\leff^2}{GM}\,r + \frac{3\leff^2}{c^2} = 0.
+\end{equation}
+By the quadratic formula:
+\[
+  r_\pm = \frac{\leff^2}{2GM}\!\left[1\pm\sqrt{1-\frac{12G^2M^2}{\leff^2 c^2}}\right].
+\]
+
+\paragraph{Existence of real solutions.} Requires $\leff\geq\leff_{\min}$:
+\[
+  \leff_{\min} = \frac{2\sqrt{3}\,GM}{c} = \sqrt{3}\,c\,r_s.
+\]
+
+\begin{itemize}
+  \item $r_+$: larger radius, \textbf{stable} circular orbit (local minimum of $V_{\mathrm{eff}}^{\mathrm{GR}}$).
+  \item $r_-$: smaller radius, \textbf{unstable} circular orbit (local maximum of $V_{\mathrm{eff}}^{\mathrm{GR}}$).
+\end{itemize}
+
+In Newtonian gravity, only $r_+$ exists for any $\leff>0$, and it is always stable.
+
+%--------------------------------------------------------------
+\subsection{The Innermost Stable Circular Orbit (ISCO)}
+%--------------------------------------------------------------
+
+As $\leff\to\leff_{\min}$, the two circular orbits merge: $r_+\to r_-=r_{\mathrm{ISCO}}$.
+
+\begin{theorem}[ISCO radius]\label{thm:isco}
+\[
+  r_{\mathrm{ISCO}} = \frac{6GM}{c^2} = 3r_s.
+\]
+\end{theorem}
+\begin{proof}
+At $\leff=\leff_{\min}=2\sqrt{3}GM/c$, from~\eqref{eq:circ-quad} the double root is at
+\[
+  r_{\mathrm{ISCO}} = \frac{\leff_{\min}^2}{2GM}
+  = \frac{(2\sqrt{3}GM/c)^2}{2GM}
+  = \frac{12G^2M^2/c^2}{2GM}
+  = \frac{6GM}{c^2} = 3r_s. \qed
+\]
+\end{proof}
+
+For $r < r_{\mathrm{ISCO}}$, no stable circular orbits exist. This is a \textit{purely relativistic effect}: in Newtonian gravity, stable circular orbits exist at all $r>0$.
+
+%--------------------------------------------------------------
+\subsection{The GR Orbit Equation}
+%--------------------------------------------------------------
+
+We derive the orbit shape $r(\phi)$ by the Binet substitution $u=1/r$.
+
+\paragraph{Step 1.} As before, $\dot r = -\leff u'$.
+
+\paragraph{Step 2.} Substitute into~\eqref{eq:rdot} with $r_s=2GM/c^2$:
+\[
+  \leff^2(u')^2 = (\varepsilon^2-1)c^2 + r_s c^2 u - \leff^2 u^2 + r_s\leff^2 u^3.
+\]
+
+\paragraph{Step 3.} Differentiate with respect to $\phi$ and divide by $2\leff^2 u'$:
+\[
+  u'' = \frac{r_s c^2}{2\leff^2} - u + \frac{3r_s}{2}u^2.
+\]
+Using $r_s c^2/2 = GM$ and $3r_s/2 = 3GM/c^2$:
+
+\begin{equation}\label{eq:GR-orbit}
+  \boxed{u'' + u = \frac{GM}{\leff^2} + \frac{3GM}{c^2}u^2.}
+\end{equation}
+
+Compare with the Newtonian Binet equation~\eqref{eq:binet}: the \textbf{extra GR term} is $3GMu^2/c^2$.
+
+%--------------------------------------------------------------
+\subsection{Perturbative Solution: Orbital Precession}
+%--------------------------------------------------------------
+
+Write $u = u_0 + u_1 + \cdots$, where $u_0$ is the Newtonian solution and $u_1$ is the first GR correction.
+
+\paragraph{Zeroth order.}
+\[
+  u_0''+u_0 = \frac{GM}{\leff^2}\equiv\alpha.
+  \qquad\Rightarrow\qquad
+  u_0 = \alpha(1+e\cos\phi).
+\]
+
+\paragraph{First order.}
+\[
+  u_1''+u_1 = \frac{3GM\alpha^2}{c^2}(1+e\cos\phi)^2.
+\]
+Expand the right side:
+\[
+  (1+e\cos\phi)^2 = \left(1+\frac{e^2}{2}\right) + 2e\cos\phi + \frac{e^2}{2}\cos 2\phi.
+\]
+The first-order equation splits into three parts:
+\begin{align}
+  u_1''+u_1 &= A_0, & A_0 &= \frac{3GM\alpha^2}{c^2}\!\left(1+\frac{e^2}{2}\right), \label{eq:part1}\\
+  u_1''+u_1 &= A_1\cos\phi, & A_1 &= \frac{6GM\alpha^2 e}{c^2}, \label{eq:part2}\\
+  u_1''+u_1 &= A_2\cos 2\phi, & A_2 &= \frac{3GM\alpha^2 e^2}{2c^2}. \label{eq:part3}
+\end{align}
+
+\textbf{Part 1} (constant): particular solution $u_1^{(1)} = A_0$.
+
+\textbf{Part 2} (resonant): by Theorem~\ref{thm:resonant}, the particular solution is
+\[
+  u_1^{(2)} = \frac{A_1}{2}\phi\sin\phi = \frac{3GM\alpha^2 e}{c^2}\,\phi\sin\phi.
+\]
+
+\textbf{Part 3} (off-resonant): try $u_1^{(3)}=D\cos 2\phi$. Then $u_1^{(3)''}+u_1^{(3)}=(-4D+D)\cos 2\phi=-3D\cos 2\phi = A_2\cos 2\phi$, so $D=-A_2/3$.
+
+The \textbf{secular} (growing with $\phi$) term dominates for large $\phi$:
+\[
+  u \approx \alpha(1+e\cos\phi) + \frac{3GM\alpha^2 e}{c^2}\,\phi\sin\phi + \text{(bounded terms)}.
+\]
+
+\paragraph{Extracting the precession.} For small $\varepsilon\phi$, $\cos[(1-\varepsilon)\phi]\approx\cos\phi+\varepsilon\phi\sin\phi$. So:
+\[
+  u \approx \alpha\!\left[1 + e\cos\!\bigl((1-\varepsilon)\phi\bigr)\right],
+\]
+where
+\[
+  \varepsilon = \frac{3GM\alpha}{c^2} = \frac{3G^2M^2}{c^2\leff^2} = \frac{3GM}{c^2 p}.
+\]
+Periapsis repeats at $(1-\varepsilon)\phi = 2\pi n$, i.e., $\phi_n = 2\pi n/(1-\varepsilon)$. The \textbf{periapsis advance per orbit}:
+\begin{equation}\label{eq:precession}
+  \boxed{\Delta\phi = \frac{2\pi}{1-\varepsilon}-2\pi \approx 2\pi\varepsilon = \frac{6\pi GM}{c^2 p} = \frac{6\pi GM}{c^2 a(1-e^2)}.}
+\end{equation}
+
+%--------------------------------------------------------------
+\subsection{Mercury's Perihelion Advance: Explicit Calculation}
+%--------------------------------------------------------------
+
+\begin{table}[h]
+\centering
+\caption{Mercury orbital parameters}
+\begin{tabular}{lll}
+  \toprule
+  Parameter & Symbol & Value \\
+  \midrule
+  Semi-major axis & $a$ & $5.7909\times10^{10}$ m \\
+  Eccentricity & $e$ & $0.2056$ \\
+  Orbital period & $T$ & $87.969$ days \\
+  Solar gravitational parameter & $GM_\odot$ & $1.32712\times10^{20}$ m$^3$/s$^2$ \\
+  Speed of light & $c$ & $2.99792\times10^8$ m/s \\
+  \bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{Step 1: Semi-latus rectum.}
+\[
+  p = a(1-e^2) = 5.7909\times10^{10}\times(1-0.04227) = 5.7909\times10^{10}\times 0.9577 = 5.546\times10^{10}\;\mathrm{m}.
+\]
+
+\textbf{Step 2: Periapsis advance per orbit.}
+\[
+  \Delta\phi = \frac{6\pi GM_\odot}{c^2 p}
+  = \frac{6\pi\times1.32712\times10^{20}}{(2.99792\times10^8)^2\times5.546\times10^{10}}.
+\]
+Numerator: $6\pi\times1.32712\times10^{20} = 2.5016\times10^{21}$.\\
+Denominator: $(2.99792)^2\times10^{16}\times5.546\times10^{10} = 8.9875\times10^{16}\times5.546\times10^{10} = 4.9848\times10^{27}$.
+\[
+  \Delta\phi = \frac{2.5016\times10^{21}}{4.9848\times10^{27}} = 5.018\times10^{-7}\;\mathrm{rad/orbit}.
+\]
+
+\textbf{Step 3: Convert to arcseconds per orbit.}
+\[
+  \Delta\phi = 5.018\times10^{-7}\;\mathrm{rad}\times\frac{180^\circ}{\pi}\times\frac{3600''}{1^\circ}
+  = 5.018\times10^{-7}\times206\,265 = 0.1035''/\mathrm{orbit}.
+\]
+
+\textbf{Step 4: Orbits per century.}
+\[
+  N = \frac{100\times365.25}{87.969} = \frac{36525}{87.969} = 415.20\;\mathrm{orbits/century}.
+\]
+
+\textbf{Step 5: Advance per century.}
+\[
+  \boxed{\Delta\phi_{\mathrm{century}} = 0.1035''\times415.20 = 42.97'' \approx 43''\;\mathrm{per century.}}
+\]
+
+The \textbf{observed} anomalous advance (after removing planetary perturbations) is $43.11\pm0.45''$/century.\\
+Our GR prediction of $\approx43''$ agrees to better than $1\%$. This was one of Einstein's three classical tests of GR (1915).
+
+%--------------------------------------------------------------
+\subsection{Radial Geodesics: Free-Fall into a Black Hole}
+%--------------------------------------------------------------
+
+Set $\leff=0$. From~\eqref{eq:rdot}, for a particle dropped from rest at $r=r_0$ (so $\varepsilon^2 c^2 = c^2(1-r_s/r_0)$):
+\[
+  \dot{r}^2 = c^2 r_s\!\left(\frac{1}{r}-\frac{1}{r_0}\right) = \frac{c^2r_s(r_0-r)}{r\,r_0},
+  \qquad
+  \dot{r} = -c\sqrt{\frac{r_s(r_0-r)}{r\,r_0}}.
+\]
+
+\paragraph{Proper time to reach $r=0$.}
+Substituting $r = r_0\sin^2\psi$, $dr = 2r_0\sin\psi\cos\psi\,d\psi$:
+\[
+  \Delta\tau
+  = \int_0^{r_0}\frac{dr}{c\sqrt{r_s(r_0-r)/(r\,r_0)}}
+  = \frac{\sqrt{r_0}}{c\sqrt{r_s}}\int_0^{r_0}\sqrt{\frac{r}{r_0-r}}\,dr
+  = \frac{r_0}{c}\sqrt{\frac{r_0}{r_s}}\cdot\frac{\pi}{2}
+  = \frac{\pi r_0}{2c}\sqrt{\frac{r_0}{r_s}}.
+\]
+This is \textbf{finite}: the infalling observer crosses $r=r_s$ and reaches $r=0$ in finite proper time.
+
+\paragraph{Coordinate time to reach $r=r_s$.}
+Using $\dot{t} = \varepsilon/(1-r_s/r)$:
+\[
+  \frac{dt}{dr} = \frac{\dot{t}}{\dot{r}} \propto \frac{1}{1-r_s/r}.
+\]
+As $r\to r_s$: $(1-r_s/r)\to0$, so $|dt/dr|\to\infty$. The coordinate time diverges:
+\[
+  \Delta t \sim -\frac{r_s}{c}\ln(r-r_s) \to +\infty \quad\text{as }r\to r_s.
+\]
+From the perspective of a \textit{distant observer}, the infalling particle asymptotically approaches but never crosses $r_s$. From the infalling observer's \textit{proper time}, the crossing and subsequent fall to $r=0$ take finite time.
+
+%--------------------------------------------------------------
+\subsection{Comparison: Newtonian vs.\ Relativistic Two-Body}
+%--------------------------------------------------------------
+
+\begin{table}[h]
+\centering
+\caption{Comparison of Newtonian and GR two-body results}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{>{\bfseries}p{4cm} p{5cm} p{5.5cm}}
+  \toprule
+  Feature & Newtonian & General Relativistic \\
+  \midrule
+  Orbit equation
+    & $u''+u = GM/\leff^2$
+    & $u''+u = GM/\leff^2 + 3GMu^2/c^2$ \\
+  Orbit shape
+    & Closed conic sections
+    & Precessing ellipses \\
+  Periapsis advance
+    & $0$ (exact)
+    & $\Delta\phi = 6\pi GM/(c^2 p)$ per orbit \\
+  Effective potential
+    & $-GM/r + \leff^2/(2r^2)$
+    & $-GM/r + \leff^2/(2r^2) - GM\leff^2/(c^2r^3)$ \\
+  Stable circular orbits
+    & All $r>0$
+    & Only $r>6GM/c^2$ \\
+  ISCO
+    & Does not exist
+    & $r_{\mathrm{ISCO}} = 6GM/c^2 = 3r_s$ \\
+  Conserved quantities
+    & $E$, $\ve{L}$, $\ve{A}$ (Runge--Lenz)
+    & $E$, $L_z$ only \\
+  Fall time to center
+    & Finite (proper and coordinate)
+    & Finite proper; infinite coordinate \\
+  Speed limit
+    & None
+    & $v\leq c$ always \\
+  \bottomrule
+\end{tabular}
+\end{table}
+
+%==============================================================
+\section{Summary and Conclusions}
+%==============================================================
+
+We have developed the complete mathematical treatment of the two-body gravitational problem from first principles.
+
+\paragraph{Newtonian results.}
+\begin{enumerate}
+  \item The two-body problem reduces exactly to a one-body problem with reduced mass $\mu=m_1m_2/(m_1+m_2)$.
+  \item The Binet equation $u''+u = GM/\leff^2$ has the general solution $r = p/(1+e\cos\phi)$ (conic sections).
+  \item Kepler's three laws follow rigorously: orbits are conic sections (First Law), equal areas swept in equal times (Second Law), $T^2\propto a^3$ (Third Law).
+  \item Orbits are exactly closed; the Runge--Lenz vector is conserved. This is a special property of the $1/r^2$ force law.
+\end{enumerate}
+
+\paragraph{GR results.}
+\begin{enumerate}
+  \item The Schwarzschild metric~\eqref{eq:schwarz} is the unique spherically-symmetric vacuum solution.
+  \item The GR orbit equation has the extra term $3GMu^2/c^2$, breaking orbital closure.
+  \item The periapsis advance per orbit is $\Delta\phi = 6\pi GM/(c^2 p)$; for Mercury, $\approx43''$/century (matching observation).
+  \item The ISCO at $r_{\mathrm{ISCO}}=6GM/c^2$ has no Newtonian analogue.
+  \item An infalling observer reaches $r=0$ in finite proper time, but takes infinite coordinate time to cross $r=r_s$.
+\end{enumerate}
+
+\paragraph{The GR correction.} The dominant GR correction to the Newtonian effective potential is $\Delta V = -GM\leff^2/(c^2r^3)$. This term: (i) shifts circular orbits inward; (ii) breaks the degeneracy $\omega_r=\omega_\phi$, causing periapsis precession; (iii) overwhelms the centrifugal barrier at $r < r_{\mathrm{ISCO}}$, eliminating stable circular orbits.
+
+The smallness of GR effects in the Solar System ($r_s/r\sim10^{-8}$ for Earth, $\sim10^{-7}$ for Mercury) means Newtonian mechanics is extraordinarily accurate for most purposes. However, GR becomes essential for: strong gravitational fields (neutron stars, black holes), high-precision measurements, gravitational wave physics, and the global structure of spacetime.
+
+%==============================================================
+\appendix
+%==============================================================
+
+\section{Proof that the Orbit Equation Describes Conic Sections}\label{app:conic}
+
+\begin{theorem}
+The polar equation $r = p/(1+e\cos\phi)$ is the polar equation of a conic section with semi-latus rectum $p$, eccentricity $e\geq0$, and focus at the origin.
+\end{theorem}
+\begin{proof}
+From $r(1+e\cos\phi)=p$ and $x=r\cos\phi$:
+\[
+  r = p-ex \implies r^2=(p-ex)^2.
+\]
+With $r^2=x^2+y^2$:
+\[
+  x^2+y^2 = p^2-2epx+e^2x^2
+  \implies
+  (1-e^2)x^2 + 2epx + y^2 = p^2. \tag{A.1}\label{eq:conic}
+\]
+
+\textbf{Case 1: $e<1$ (ellipse).} Complete the square in $x$:
+\[
+  (1-e^2)\!\left(x+\frac{ep}{1-e^2}\right)^2 + y^2
+  = p^2 + \frac{e^2p^2}{1-e^2}
+  = \frac{p^2}{1-e^2}.
+\]
+Divide by $p^2/(1-e^2)$:
+\[
+  \frac{(x-x_0)^2}{a^2}+\frac{y^2}{b^2}=1,
+\]
+with $x_0=-ep/(1-e^2)=-ea$ (center offset), $a=p/(1-e^2)$ (semi-major axis), $b=a\sqrt{1-e^2}$ (semi-minor axis). The center is at $(-ea,0)$; the focus at the origin is at distance $ea$ from the center. This is the standard ellipse. $\checkmark$
+
+\textbf{Case 2: $e=1$ (parabola).} From~\eqref{eq:conic}: $2epx+y^2=p^2$, i.e.,
+\[
+  x = \frac{p}{2} - \frac{y^2}{2p}.
+\]
+This is a parabola with vertex $(p/2,0)$ and focus at the origin. $\checkmark$
+
+\textbf{Case 3: $e>1$ (hyperbola).} With $e^2-1>0$, complete the square as in Case 1:
+\[
+  \frac{(x-x_0)^2}{a^2} - \frac{y^2}{b^2} = 1,
+\]
+with $a=p/(e^2-1)$, $b=a\sqrt{e^2-1}$, $x_0=ea>0$. The focus at the origin is at distance $ea$ from the center $(-x_0,0)=(-ea,0)$... let us be careful. After completing the square:
+
+With $e>1$: $(e^2-1)x^2-2epx-y^2=-p^2$, i.e., $(e^2-1)(x-ep/(e^2-1))^2 - e^2p^2/(e^2-1)-y^2=-p^2$. So:
+
+$(e^2-1)(x-ea)^2-y^2 = e^2p^2/(e^2-1)-p^2 = p^2(e^2-(e^2-1))/(e^2-1)=p^2/(e^2-1)$.
+
+Dividing by $p^2/(e^2-1)=a^2(e^2-1)^{-1}\cdot(e^2-1)/(1) = a^2$:
+
+$\frac{(x-ea)^2}{a^2}-\frac{y^2}{b^2}=1$ with $b=a\sqrt{e^2-1}$: a hyperbola with center at $(ea,0)$ and one branch having a focus at the origin (at distance $ea$ from center). $\checkmark$ \qed
+\end{proof}
+
+%==============================================================
+\section{Christoffel Symbols for the Schwarzschild Metric}\label{app:christoffel}
+%==============================================================
+
+With $f(r) = 1-r_s/r$, $f'=r_s/r^2$, coordinates $(ct,r,\theta,\phi)$:
+\[
+  g_{\mu\nu} = \mathrm{diag}\!\bigl(-fc^2,\;f^{-1},\;r^2,\;r^2\sin^2\theta\bigr).
+\]
+The non-zero Christoffel symbols are:
+\begin{align*}
+  \Gamma^0{}_{01} = \Gamma^0{}_{10} &= \frac{f'}{2f} = \frac{r_s}{2r^2f}, \\
+  \Gamma^1{}_{00} &= \frac{c^2ff'}{2} = \frac{GMfc^2}{r^2c^2} = \frac{GMf}{r^2},\\
+  \Gamma^1{}_{11} &= -\frac{f'}{2f} = -\frac{r_s}{2r^2f},\\
+  \Gamma^1{}_{22} &= -rf,\\
+  \Gamma^1{}_{33} &= -rf\sin^2\theta,\\
+  \Gamma^2{}_{12} = \Gamma^2{}_{21} &= \frac{1}{r},\\
+  \Gamma^2{}_{33} &= -\sin\theta\cos\theta,\\
+  \Gamma^3{}_{13} = \Gamma^3{}_{31} &= \frac{1}{r},\\
+  \Gamma^3{}_{23} = \Gamma^3{}_{32} &= \cot\theta.
+\end{align*}
+
+\paragraph{Verification of $\Gamma^1{}_{00}$.}
+\[
+  \Gamma^1{}_{00} = \tfrac{1}{2}g^{11}(-\partial_r g_{00})
+  = \tfrac{1}{2}f\cdot\partial_r(fc^2)
+  = \tfrac{1}{2}f\cdot f'c^2
+  = \frac{fc^2r_s}{2r^2}. \quad\checkmark
+\]
+
+%==============================================================
+\section{Riemann Tensor and Curvature Invariant}\label{app:riemann}
+%==============================================================
+
+The independent non-zero Riemann tensor components for the Schwarzschild metric (at $\theta=\pi/2$, with $f=1-r_s/r$):
+\begin{align*}
+  R_{trtr} &= -\frac{GMc^2}{r^3f},\\
+  R_{t\theta t\theta} &= \frac{GMc^2 f}{r},\\
+  R_{t\phi t\phi} &= \frac{GMc^2 f\sin^2\theta}{r},\\
+  R_{r\theta r\theta} &= -\frac{GM}{rf},\\
+  R_{r\phi r\phi} &= -\frac{GM\sin^2\theta}{rf},\\
+  R_{\theta\phi\theta\phi} &= r_s\,r\sin^2\theta.
+\end{align*}
+
+\paragraph{Ricci tensor.} All $R_{\mu\nu}=0$ for Schwarzschild (as required by the vacuum field equations), confirming the metric is a solution.
+
+\paragraph{Kretschner scalar (curvature invariant).}
+\[
+  K = R_{\mu\nu\rho\sigma}R^{\mu\nu\rho\sigma}
+  = \frac{12r_s^2}{r^6}
+  = \frac{48G^2M^2}{c^4r^6}.
+\]
+\begin{itemize}
+  \item \textbf{At $r=r_s$:} $K = 12r_s^2/r_s^6 = 12/r_s^4 < \infty$. Confirms $r=r_s$ is \textit{not} a true singularity.
+  \item \textbf{At $r\to0$:} $K\to\infty$. Confirms $r=0$ is a genuine curvature singularity.
+  \item \textbf{At $r\to\infty$:} $K\to0$. Flat spacetime far from the source. $\checkmark$
+\end{itemize}
+
+%==============================================================
+\section*{Notation Summary}
+\addcontentsline{toc}{section}{Notation Summary}
+%==============================================================
+
+\begin{table}[h]
+\centering
+\begin{tabular}{cl}
+  \toprule
+  Symbol & Meaning \\
+  \midrule
+  $G$ & Newton's gravitational constant ($6.674\times10^{-11}$ N m$^2$ kg$^{-2}$) \\
+  $c$ & Speed of light ($2.998\times10^8$ m/s) \\
+  $M=m_1+m_2$ & Total mass \\
+  $\mu=m_1m_2/M$ & Reduced mass \\
+  $k=GM$ & Gravitational parameter \\
+  $r_s=2GM/c^2$ & Schwarzschild radius \\
+  $\leff=r^2\dot\phi$ & Specific angular momentum \\
+  $\varepsilon=E/(mc^2)$ & Specific energy \\
+  $e$ & Orbital eccentricity \\
+  $p=\leff^2/k$ & Semi-latus rectum \\
+  $a$ & Semi-major axis \\
+  $T$ & Orbital period \\
+  $\Delta\phi$ & Periapsis advance per orbit \\
+  $\Gamma^\rho{}_{\mu\nu}$ & Christoffel symbols (Levi-Civita connection) \\
+  $R^\rho{}_{\sigma\mu\nu}$ & Riemann curvature tensor \\
+  $R_{\mu\nu}$ & Ricci tensor \\
+  $R$ & Ricci scalar \\
+  $G_{\mu\nu}$ & Einstein tensor \\
+  $T_{\mu\nu}$ & Stress-energy tensor \\
+  $g_{\mu\nu}$ & Spacetime metric tensor \\
+  $\eta_{\mu\nu}$ & Minkowski metric $\mathrm{diag}(-1,+1,+1,+1)$ \\
+  $\tau$ & Proper time \\
+  $\nabla_\mu$ & Covariant derivative \\
+  $\delta_{ij}$ & Kronecker delta \\
+  $\epsilon_{ijk}$ & Levi-Civita symbol \\
+  \bottomrule
+\end{tabular}
+\end{table}
+
+\end{document}

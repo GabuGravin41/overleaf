@@ -1,0 +1,127 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{amsmath}
+
+\definecolor{primary}{RGB}{37, 99, 235}
+\definecolor{darkgray}{RGB}{31, 41, 55}
+\definecolor{lightgray}{RGB}{243, 244, 246}
+\definecolor{accent}{RGB}{16, 185, 129}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primary,
+    urlcolor=primary
+}
+
+\titleformat{\section}{\large\bfseries\color{primary}}{}{0em}{}[\titlerule]
+\titleformat{\subsection}{\normalfont\bfseries\color{darkgray}}{}{0em}{}
+
+\begin{document}
+
+\begin{center}
+    {\Huge \bfseries \color{primary} HOMEBASE} \\[0.5em]
+    {\Large \bfseries Financial Budget, Unit Economics \& 24-Month Forecasts} \\[0.25em]
+    {\small Rigorous Data-Backed Financial Modeling for Student Housing Infrastructure} \\[0.5em]
+    \rule{\textwidth}{1pt}
+\end{center}
+
+\vspace{1em}
+
+\section{Market Data \& Baseline Assumptions}
+
+The financial model is constructed using empirical data from the \textbf{Commission for University Education (CUE)} and \textbf{Kenya National Bureau of Statistics (KNBS)}:
+
+\begin{itemize}[noitemsep]
+    \item \textbf{Total Enrolled University Students in Kenya}: 560,000 students.
+    \item \textbf{Off-Campus Student Housing Deficit}: 82\% (460,000 students).
+    \item \textbf{Average Monthly Rent per Student Room}: KSh 8,500.
+    \item \textbf{Average Building Capacity}: 12 room units per landlord property.
+    \item \textbf{Average Room Occupancy Rate}: 85\% (accounting for semester turnarounds).
+\end{itemize}
+
+---
+
+\section{Unit Economics \& Margin Matrix}
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{X r r r r}
+\toprule
+\textbf{Transaction Type} & \textbf{Price Charged} & \textbf{Direct Cost} & \textbf{Net Profit} & \textbf{Margin \%} \\
+\midrule
+Unverified Contact Unlock & KSh 99 & KSh 1.49 & KSh 97.51 & 98.5\% \\
+Verified Contact Unlock & KSh 199 & KSh 2.99 & KSh 196.01 & 98.5\% \\
+Escrow Rent Booking (KSh 8,500) & KSh 8,500 (3\%) & KSh 127.50 & KSh 127.50 & 50.0\% \\
+Standard Tier Upgrade & KSh 499 / mo & KSh 7.49 & KSh 491.51 & 98.5\% \\
+Premium Tier Upgrade & KSh 1,499 / mo & KSh 22.49 & KSh 1,476.51 & 98.5\% \\
+Enterprise Tier Upgrade & KSh 3,499 / mo & KSh 52.49 & KSh 3,446.51 & 98.5\% \\
+Physical Verification Audit & KSh 1,500 & KSh 500.00 & KSh 1,000.00 & 66.7\% \\
+\bottomrule
+\end{tabularx}
+\caption{HomeBase Revenue Streams Unit Economics}
+\end{table}
+
+---
+
+\section{Operational Expense Budget (OPEX)}
+
+Monthly operating expenditure required to deploy and maintain HomeBase infrastructure:
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{X X r r}
+\toprule
+\textbf{Expense Category} & \textbf{Description} & \textbf{Initial Phase (KSh)} & \textbf{Scale Phase (KSh)} \\
+\midrule
+Cloud Hosting & Vercel, PostgreSQL, Domain & 3,500 & 15,000 \\
+Ambassador Bounties & KSh 200 per verified hostel & 10,000 & 35,000 \\
+Marketing \& Badges & Vinyl Gate Badges + Flyers & 5,000 & 20,000 \\
+Support \& Infrastructure & SMS API, M-Pesa B2C Payouts & 4,000 & 15,000 \\
+Legal \& Administrative & Compliance \& Registration & 2,500 & 10,000 \\
+\midrule
+\textbf{TOTAL MONTHLY OPEX} & & \textbf{KSh 25,000 / mo} & \textbf{KSh 95,000 / mo} \\
+\bottomrule
+\end{tabularx}
+\caption{Monthly Operating Budget Breakdown}
+\end{table}
+
+---
+
+\section{Multi-Horizon Financial Forecasts (6 Months, 1 Year, 2 Years)}
+
+\begin{table}[h]
+\centering
+\begin{tabularx}{\textwidth}{X r r r r}
+\toprule
+\textbf{Metric / Indicator} & \textbf{Launch (Mo 1-3)} & \textbf{6-Month Horizon} & \textbf{1-Year Horizon} & \textbf{2-Year Horizon} \\
+\midrule
+\textbf{Active Landlords} & 30 & \textbf{150} & \textbf{600} & \textbf{2,500} \\
+\textbf{Total Managed Rooms} & 350 & \textbf{1,850} & \textbf{7,800} & \textbf{35,000} \\
+\textbf{Active Student Users} & 300 & \textbf{2,500} & \textbf{12,000} & \textbf{65,000} \\
+\midrule
+Monthly Escrow Volume & KSh 637,500 & KSh 3,931,250 & KSh 19,890,000 & KSh 111,562,500 \\
+\midrule
+Escrow Net Margin (1.5\%) & KSh 9,563 & KSh 58,969 & KSh 298,350 & KSh 1,673,438 \\
+Student Micro-Unlocks & KSh 14,900 & KSh 59,600 & KSh 223,500 & KSh 894,000 \\
+Landlord Upgrades \& Audits & KSh 7,491 & KSh 34,455 & KSh 127,320 & KSh 499,250 \\
+\midrule
+\textbf{GROSS MONTHLY REVENUE} & \textbf{KSh 31,954} & \textbf{KSh 153,024} & \textbf{KSh 649,170} & \textbf{KSh 3,066,688} \\
+Less: Monthly OPEX & (KSh 25,000) & (KSh 35,000) & (KSh 75,000) & (KSh 185,000) \\
+\midrule
+\textbf{NET MONTHLY PROFIT} & \textbf{KSh 6,954} & \textbf{KSh 118,024} & \textbf{KSh 574,170} & \textbf{KSh 2,881,688} \\
+\textbf{ANNUAL PROFIT RUN-RATE} & \textbf{KSh 83,448} & \textbf{KSh 1.41M} & \textbf{KSh 6.89M} & \textbf{KSh 34.58M} \\
+\bottomrule
+\end{tabularx}
+\caption{24-Month Financial Projections (in KSh)}
+\end{table}
+
+\end{document}

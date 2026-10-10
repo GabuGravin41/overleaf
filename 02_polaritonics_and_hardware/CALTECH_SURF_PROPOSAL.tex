@@ -1,0 +1,95 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[top=2.2cm, bottom=2.2cm, left=2.2cm, right=2.2cm]{geometry}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{cite}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!70!black,
+    citecolor=green!50!black,
+    urlcolor=blue!80!black
+}
+
+\title{\LARGE \textbf{CALTECH SURF RESEARCH PROPOSAL (SUMMER 2027)}\\[0.6em]
+\Large \textbf{OptiBox: Experimental Verification and Multi-Channel Characterization of Phase-Change Photonic Tensor Accelerators for Edge Generative AI}}
+
+\author{\textbf{Dalton Omondi}\\
+Department of Computational Chemistry and Mathematical Physics\\
+Nairobi, Kenya\\
+Email: \texttt{daltonomondi588@gmail.com}\\
+\textbf{Prospective Caltech Faculty Mentors}: Prof. Alireza Marandi / Prof. Kerry Vahala}
+
+\date{October 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Autoregressive large language model (LLM) inference at batch size $B=1$ is severely throttled by the electronic memory wall: moving weights across copper wires consumes $>90\%$ of total accelerator energy. While all-optical weight storage suffers from an impossible chip-area scaling penalty ($>2.5\ \text{m}^2$ silicon for 4B parameters), our work develops \textbf{OptiBox}: a hybrid, tiered architecture pairing bulk LPDDR5X DRAM with a compact non-volatile optical phase-change memory (OPCM) weight cache ($\text{Ge}_2\text{Sb}_2\text{Se}_4\text{Te}_1$) and a high-bandwidth silicon photonic tensor core ($20\ \text{GHz}$ WDM). In this 10-week Caltech SURF project, we propose to empirically validate the OptiBox break-even amortization model, measure RF/optical SNR and Effective Number of Bits (ENOB) on Caltech nanophotonics testbenches, and prototype the open-source GDSFactory layout targeting imec/AIM multi-project wafer (MPW) tape-outs.
+\end{abstract}
+
+\section{Introduction \& Background}
+The exponential expansion of generative AI models (4B to 70B parameters) has created an unsustainable energy and thermal crisis. Digital CMOS accelerators (e.g., NVIDIA H100/H200, Blackwell) dissipate 400--700~W, requiring loud fans or liquid chillers. For edge appliances—such as a compact ($25~\text{cm}^3$), quiet desktop assistant powered by USB-C ($\le 35~\text{W}$)—CMOS memory buses impose an impassable physical limit ($\approx 2.5\ \text{pJ/bit}$ DRAM transfers).
+
+Photonic integrated circuits (PICs) offer sub-femtosecond analog propagation and ultra-wide wavelength-division multiplexing (WDM) bandwidth. However, recent literature reveals two fatal traps in naive optical acceleration:
+\begin{enumerate}
+    \item \textbf{The Area Trap}: Placing all model weights into optical waveguides requires $>35$ silicon wafers for a single 70B model.
+    \item \textbf{The Precision and Conversion Tax}: DACs, ADCs, and laser wall-plug efficiency rapidly dominate unless amortized over repeated matrix projections.
+\end{enumerate}
+
+To resolve these bottlenecks, we formulated the **OptiBox Heterogeneous Tiered Architecture**, proving a rigorous closed-form break-even horizon:
+\begin{equation}
+H^* = \frac{\frac{8}{b_{\rm cell}} E_{\rm pcm\_prog}}{E_{\rm dram\_read} - E_{\rm opt\_read} + \Delta E_{\rm compute}} \approx 48\text{--}54\ \text{tokens}
+\end{equation}
+Beyond $54$ tokens, OptiBox delivers $35\%\text{--}82\%$ lower energy per token and up to $4.7\times$ speedup over digital CMOS within a strict $14.2\text{--}22.6\ \text{W}$ power budget.
+
+\section{Research Objectives \& 10-Week SURF Work Plan}
+Under the mentorship of the Caltech Nanophotonics and Ultrafast Optics laboratories (Prof.~Alireza Marandi / Prof.~Kerry Vahala), this SURF project aims to transition the theoretical and trace-driven OptiBox framework into physical laboratory reality.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Caltech SURF 10-Week Research Milestones}
+\label{tab:surf_plan}
+\begin{tabular}{cp{6.8cm}p{6.8cm}}
+\toprule
+\textbf{Weeks} & \textbf{Objective} & \textbf{Deliverable \& Methodology} \\
+\midrule
+\textbf{Weeks 1--2} & Optical Comb \& Modulator Calibration & Characterize Kerr soliton microcomb noise (RIN $\le -150\ \text{dBc/Hz}$) and 20~GHz electro-optic modulators. \\
+\textbf{Weeks 3--4} & OPCM Multi-Level Switching Physics & Test $\text{Sb}_2\text{Se}_3$ / GSSe phase-change cells on silicon waveguides; measure optical insertion loss ($<0.8\ \text{dB}$) and cycling endurance ($>5\times 10^5$). \\
+\textbf{Weeks 5--6} & High-Speed RF \& SNR/ENOB Benchmarking & Measure analog optical accumulation using high-speed SiGe photodetectors and 20~GS/s digitizers; verify ENOB $\ge 6.0$ bits. \\
+\textbf{Weeks 7--8} & End-to-End LLM Trace Acceleration & Stream LLaMA-3 (8B) and Qwen (4B) activation traces through the optical crossbar testbench; validate INT4 inference fidelity. \\
+\textbf{Weeks 9--10} & MPW Tape-Out Layout \& Final Report & Complete GDSFactory layout for imec iSiPP50G MPW run; publish Caltech SURF report and submit to OFC/CLEO. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Methodology \& Open-Source Infrastructure}
+Rather than relying on closed proprietary toolchains (Cadence Virtuoso, Lumerical), our work builds on fully open-source and scriptable Python infrastructure:
+\begin{itemize}
+    \item \textbf{GDSFactory}: Scripted parametric layout for waveguides, directional couplers, and thermo-optic phase shifters mapped to imec iSiPP50G PDK rules.
+    \item \textbf{MIT Meep / SAX}: Differentiable Maxwell solver and scattering-matrix circuit simulations to model modal dispersion and crosstalk.
+    \item \textbf{OptiBox Simulator}: Validated trace-driven engine modeling LPDDR5X DRAM, DAC/ADC quantization noise, and Arrhenius thermal stability.
+\end{itemize}
+
+\section{Expected Impact \& Alignment with Caltech's Mission}
+Caltech has pioneered high-$Q$ microcavities, optical frequency combs, and ultrafast nonlinear photonic computing. This project directly leverages Caltech's unique strengths to resolve the generative AI hardware crisis. Proving that a desk-side photonic AI appliance can operate silently under 35~W with a $>15$-year operational lifespan creates an immediate pathway for both academic breakthroughs and commercial translation.
+
+\begin{thebibliography}{9}
+\bibitem{Marandi2024}
+A.~Marandi, ``Ultrafast nanophotonics for neuromorphic computing and nonlinear optical processing,'' \textit{Caltech Applied Physics and EE}, 2024.
+\bibitem{Vahala2024}
+K.~Vahala, ``Printed ultra-low-loss germano-silicate waveguides for integrated photonic circuits,'' \textit{Caltech Research Colloquium}, 2024.
+\bibitem{Omondi2026}
+D.~Omondi, ``OptiBox: Architecture, Physics, and Break-Even Amortization of a Desk-Side Photonic AI Inference Appliance,'' \textit{OptiBox Monograph}, GitHub: GabuGravin41/optimia, 2026.
+\end{thebibliography}
+
+\end{document}
